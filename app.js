@@ -1597,6 +1597,39 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize first calculation
     calculateCost();
 
+    // Dynamic Calculator Layout Arranger (Mobile vs Desktop)
+    function arrangeMobileCalculator() {
+        const isMobile = window.innerWidth <= 768;
+        const calcGroups = document.querySelectorAll('.calc-group');
+        const resultsCard = document.querySelector('.results-card');
+        const calcForm = document.querySelector('.calculator-form');
+        const resultsTitle = document.querySelector('.results-title');
+
+        if (!resultsCard || !calcForm || calcGroups.length === 0) return;
+
+        if (isMobile) {
+            // Move calcGroups inside resultsCard, right after the title
+            let lastInserted = resultsTitle;
+            calcGroups.forEach(group => {
+                if (lastInserted) {
+                    lastInserted.after(group);
+                } else {
+                    resultsCard.appendChild(group);
+                }
+                lastInserted = group;
+            });
+        } else {
+            // Move calcGroups back to calcForm
+            calcGroups.forEach(group => {
+                calcForm.appendChild(group);
+            });
+        }
+    }
+
+    // Call layout arranger on resize and load
+    window.addEventListener('resize', arrangeMobileCalculator);
+    arrangeMobileCalculator();
+
     // Interactive Calculator Accordion on Mobile (Collapse/Expand)
     document.querySelectorAll('.calc-group').forEach((group) => {
         const label = group.querySelector('.calc-label');
@@ -2546,6 +2579,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Make the entire portfolio card clickable on mobile to discuss the project
+    document.querySelectorAll('.portfolio-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (e.target.closest('[data-i18n="portfolio.hover.discuss"]')) return;
+                
+                const titleEl = card.querySelector('h3');
+                const projectTitle = titleEl ? titleEl.textContent.trim() : '';
+                
+                if (typeof smoothScrollTo === 'function') {
+                    smoothScrollTo('#contacts', 800);
+                } else {
+                    document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' });
+                }
+                
+                const messageArea = document.getElementById('form-message');
+                if (messageArea) {
+                    const templates = {
+                        ru: `Здравствуйте! Хочу обсудить проект, похожий на "${projectTitle}".`,
+                        en: `Hello! I would like to discuss a project similar to "${projectTitle}".`,
+                        ro: `Bună ziua! Aș dori să discut despre un proiect similar cu "${projectTitle}".`
+                    };
+                    messageArea.value = templates[currentLang] || templates.ru;
+                    messageArea.focus();
+                    messageArea.dispatchEvent(new Event('input'));
+                }
+            }
+        });
+    });
+
     // ==========================================
     // Custom Scrollbar for Vibe Coding Terminal
     // ==========================================
@@ -2719,52 +2782,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     })();
 
-    // =========================================================================
-    // Mobile Cost Calculator & Portfolio Cards Enhancements
-    // =========================================================================
-    function arrangeMobileCalculator() {
-        const isMobile = window.innerWidth <= 768;
-        const calcGroups = document.querySelectorAll('.calc-group');
-        const resultsCard = document.querySelector('.results-card');
-        const calcForm = document.querySelector('.calculator-form');
-        const resultsTitle = document.querySelector('.results-title');
-
-        if (!resultsCard || !calcForm || calcGroups.length === 0) return;
-
-        if (isMobile) {
-            // Move calcGroups inside resultsCard, right after the title
-            let lastInserted = resultsTitle;
-            calcGroups.forEach(group => {
-                if (lastInserted) {
-                    lastInserted.after(group);
-                    lastInserted = group;
-                }
-            });
-        } else {
-            // Move calcGroups back to calcForm
-            calcGroups.forEach(group => {
-                calcForm.appendChild(group);
-            });
-        }
-    }
-
-    // Run arrangeMobileCalculator on load and resize
-    window.addEventListener('resize', arrangeMobileCalculator);
-    arrangeMobileCalculator();
-
-    // Mobile click behavior for portfolio cards
-    document.querySelectorAll('.portfolio-card').forEach(card => {
-        card.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                if (!e.target.closest('.btn, button, a')) {
-                    const discussBtn = card.querySelector('[data-i18n="portfolio.hover.discuss"]');
-                    if (discussBtn) {
-                        discussBtn.click();
-                    }
-                }
-            }
-        });
-    });
-
 });
-

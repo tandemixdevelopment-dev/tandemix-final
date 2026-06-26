@@ -3201,6 +3201,7 @@ a * {
     
     .results-card {
         padding: 2rem 1.5rem;
+        gap: 1.25rem !important;
     }
     
     .contact-form-pane {
@@ -3251,16 +3252,13 @@ a * {
     .calculator-form {
         display: none !important;
     }
-    .results-card {
-        gap: 1.25rem !important;
-    }
     .calc-group {
         display: flex !important;
         flex-direction: column !important;
         gap: 0 !important;
         border: 1px solid var(--border-color);
         border-radius: 8px;
-        margin-bottom: 0 !important; /* Spacing handled by results-card gap */
+        margin-bottom: 0 !important;
         background: rgba(255, 255, 255, 0.01);
         transition: border-color 0.3s ease, background-color 0.3s ease;
         overflow: hidden;
@@ -4097,47 +4095,32 @@ body.menu-open {
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 0.75rem !important;
     }
-    
+
     .portfolio-card {
         border-radius: 8px !important;
     }
-    
-    .portfolio-card:hover {
-        transform: none !important;
-        box-shadow: none !important;
-        border-color: var(--border-color) !important;
-    }
-    
+
     .portfolio-img-wrapper {
         height: 120px !important;
-        border-bottom: 1px solid var(--border-color) !important;
     }
-    
-    .portfolio-mockup {
-        width: 170% !important;
-        height: 170% !important;
-        transform: scale(0.588) !important;
-        transform-origin: top left !important;
-    }
-    
+
     .portfolio-details {
-        padding: 0.75rem !important;
+        padding: 1rem !important;
         gap: 0.25rem !important;
     }
-    
+
+    .portfolio-details h3 {
+        font-size: 0.95rem !important;
+        line-height: 1.25 !important;
+        margin: 0.15rem 0 !important;
+    }
+
+    .portfolio-details p {
+        display: none !important;
+    }
+
     .portfolio-tag {
         font-size: 0.65rem !important;
-    }
-    
-    .portfolio-details h3 {
-        font-size: 0.9rem !important;
-        line-height: 1.25 !important;
-        margin-bottom: 0.25rem !important;
-    }
-    
-    .portfolio-details p {
-        font-size: 0.7rem !important;
-        line-height: 1.35 !important;
     }
     
     .service-card {
