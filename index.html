@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tandemix Development — премиальная веб-студия будущего. Разработка сайтов через Vibe Coding: лендинги, интернет-магазины, корпоративные сайты и интеграция AI. Быстро, качественно, технологично.">
+    <meta name="keywords" content="веб-программирование, vibe coding, создание сайтов, Tandemix Development, разработка лендингов, веб-студия, заказать сайт, IT компания">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tandemix.dev/">
+    <meta property="og:title" content="Tandemix Development | Веб-разработка нового поколения (Vibe Coding)">
+    <meta property="og:description" content="Создаем потрясающие сайты быстрее и качественнее с помощью передовых AI-технологий и опытных инженеров. Лендинги, магазины, интеграции.">
+    <meta property="og:image" content="assets/logo.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Tandemix Development | Веб-разработка нового поколения">
+    <meta property="twitter:description" content="Создаем потрясающие сайты быстрее и качественнее с помощью передовых AI-технологий и опытных инженеров.">
+    <meta property="twitter:image" content="assets/logo.jpg">
+
+    <title>Tandemix Development | Веб-разработка нового поколения (Vibe Coding)</title>
+
+    <!-- Google Fonts & CDN Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="assets/logo_square.jpg">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- EmailJS Integration -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
+</head>
+<body>
+
+    <!-- Page Preloader -->
+    <div class="page-preloader" id="page-preloader">
+      <div class="preloader-logo"><span class="preloader-d">T</span><span>andemix Development</span></div>
+      <div class="preloader-bar"><div class="preloader-fill" id="preloader-fill"></div></div>
+    </div>
+
+    <!-- Header / Navigation -->
+    <header class="main-header">
+        <div class="container header-container">
+            <a href="#" class="logo-link" id="logo-nav">
+                <img src="assets/logo_square.jpg" alt="Tandemix Development Logo" class="logo-img">
+                <span class="logo-text">Tandemix <span class="logo-accent">Development</span></span>
+            </a>
+            
+            <nav class="main-nav" id="main-nav-menu" aria-label="Основная навигация">
+                <ul>
+                    <li><a href="#concept" class="nav-link" data-i18n="nav.concept">Концепция</a></li>
+                    <li><a href="#services" class="nav-link" data-i18n="nav.services">Услуги</a></li>
+                    <li><a href="#process" class="nav-link" data-i18n="nav.process">Процесс</a></li>
+                    <li><a href="#calculator" class="nav-link" data-i18n="nav.calculator">Калькулятор</a></li>
+                    <li><a href="#portfolio" class="nav-link" data-i18n="nav.portfolio">Портфолио</a></li>
+                    <li><a href="#contacts" class="nav-link" data-i18n="nav.contacts">Контакты</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <div class="lang-switcher" id="lang-switcher">
+                    <button class="lang-btn active" data-lang="ru">RU</button>
+                    <span class="lang-sep">|</span>
+                    <button class="lang-btn" data-lang="ro">RO</button>
+                    <span class="lang-sep">|</span>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                </div>
+                <a href="#contacts" class="btn btn-glow" data-i18n="nav.btn.contact">Связаться</a>
+                <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Открыть меню" aria-expanded="false">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero" aria-labelledby="hero-title">
+        <canvas id="hero-canvas"></canvas>
+        <div class="ambient-glow bg-glow-1"></div>
+        <div class="ambient-glow bg-glow-2"></div>
+        
+        <!-- Ambient Floating Elements -->
+        <div class="floating-element fe-1">AI</div>
+        <div class="floating-element fe-2">&lt;/&gt;</div>
+        <div class="floating-element fe-3">⚡</div>
+
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="badge fade-in">
+                    <span class="badge-dot"></span>
+                    <span data-i18n="hero.badge">Эра Vibe Coding наступила</span>
+                </div>
+                <h1 class="hero-title fade-in" id="hero-title" data-i18n="hero.title">
+                    Создаем сайты будущего через <span class="gradient-text">Vibe Coding</span>
+                </h1>
+                <p class="hero-description fade-in" data-i18n="hero.description">
+                    Tandemix Development объединяет передовые AI-системы и глубокую инженерную экспертизу для создания <span class="rotating-word" id="rotating-word">лендингов</span>, SaaS-платформ и корпоративных экосистем — в 5 раз быстрее традиционных студий.
+                </p>
+                <div class="hero-actions fade-in">
+                    <a href="#contacts" class="btn btn-primary" data-i18n="hero.btn.start">Начать проект</a>
+                    <a href="#calculator" class="btn btn-outline" data-i18n="hero.btn.calc">Рассчитать стоимость</a>
+                </div>
+                
+                <div class="hero-metrics fade-in">
+                    <div class="metric-item">
+                        <span class="metric-val" data-count-to="5" data-suffix="x">5x</span>
+                        <span class="metric-lbl" data-i18n="metric.speed">Скорость запуска</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-val" data-count-to="100" data-suffix="%">100%</span>
+                        <span class="metric-lbl" data-i18n="metric.design">Уникальный дизайн</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-val" data-count-to="15" data-suffix="+">15+</span>
+                        <span class="metric-lbl" data-i18n="metric.solutions">Готовых решений</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-val" data-count-to="24" data-suffix="/7">24/7</span>
+                        <span class="metric-lbl" data-i18n="metric.support">Поддержка</span>
+                    </div>
+                </div>
+
+                <div class="tech-stack-badges fade-in">
+                    <span class="tech-badge">HTML5</span>
+                    <span class="tech-badge">CSS3</span>
+                    <span class="tech-badge">JS ES2024</span>
+                    <span class="tech-badge">Node.js</span>
+                    <span class="tech-badge">PostgreSQL</span>
+                    <span class="tech-badge">AI APIs</span>
+                </div>
+            </div>
+
+            <!-- Interactive Vibe Coding Terminal -->
+            <div class="hero-terminal-container fade-in">
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <div class="terminal-title">tandemix-studio ~ vibe-coding.js</div>
+                        <div class="terminal-actions">
+                            <span class="terminal-badge">AI Active</span>
+                        </div>
+                    </div>
+                    <div class="terminal-body-container">
+                        <div class="terminal-body">
+                            <div class="code-lines" id="editor-code">
+                                <!-- Typing text animation injected via JS -->
+                            </div>
+                        </div>
+                        <div class="terminal-scrollbar-track">
+                            <div class="terminal-scrollbar-thumb"></div>
+                        </div>
+                    </div>
+                    <div class="terminal-preview-pane">
+                        <div class="preview-header">
+                            <span class="preview-dot"></span>
+                            <span class="preview-url">tandemix.dev/live-preview</span>
+                        </div>
+                        <div class="preview-content" id="terminal-live-preview">
+                            <div class="preview-placeholder">Ожидание компиляции кода...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar Section (C4) -->
+    <div class="stats-bar-section">
+        <div class="container">
+            <div class="stats-bar-inner">
+                <div class="stats-item">
+                    <span class="stats-val" data-i18n="stats.projects.val">15+</span>
+                    <span class="stats-lbl" data-i18n="stats.projects.lbl">выполненных проектов</span>
+                </div>
+                <div class="stats-divider"></div>
+                <div class="stats-item">
+                    <span class="stats-val" data-i18n="stats.countries.val">3</span>
+                    <span class="stats-lbl" data-i18n="stats.countries.lbl">страны присутствия</span>
+                </div>
+                <div class="stats-divider"></div>
+                <div class="stats-item">
+                    <span class="stats-val" data-i18n="stats.satisfaction.val">99%</span>
+                    <span class="stats-lbl" data-i18n="stats.satisfaction.lbl">довольных клиентов</span>
+                </div>
+                <div class="stats-divider"></div>
+                <div class="stats-item">
+                    <span class="stats-val" data-i18n="stats.delivery.val">7 дней</span>
+                    <span class="stats-lbl" data-i18n="stats.delivery.lbl">средний срок запуска</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Concept Section -->
+    <section class="concept-section" id="concept" aria-labelledby="concept-title">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" id="concept-title" data-i18n="concept.title">Что такое <span class="gradient-text">Vibe Coding</span>?</h2>
+                <p class="section-subtitle" data-i18n="concept.subtitle">Новая парадигма веб-разработки: вы говорите, что хотите увидеть, AI генерирует архитектуру, а инженеры настраивают идеальный UI/UX.</p>
+            </div>
+
+            <div class="concept-grid reveal-group" data-reveal-delay="100">
+                <div class="concept-card card-glow-cyan reveal-item reveal-left">
+                    <div class="card-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-16h-9l1-4z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title" data-i18n="concept.card1.title">Ураганная скорость</h3>
+                    <p class="card-text" data-i18n="concept.card1.text">
+                        Использование AI-ассистентов позволяет генерировать чистый код со скоростью мысли. Запуск лендинга занимает от 1 до 3 дней, полноценного сервиса — от недели.
+                    </p>
+                </div>
+
+                <div class="concept-card card-glow-purple reveal-item reveal-bottom">
+                    <div class="card-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title" data-i18n="concept.card2.title">Чистота и безопасность</h3>
+                    <p class="card-text" data-i18n="concept.card2.text">
+                        AI-модели моментально находят уязвимости и оптимизируют производительность. На выходе получается семантически чистый код, летающий на любых устройствах.
+                    </p>
+                </div>
+
+                <div class="concept-card card-glow-blue reveal-item reveal-right">
+                    <div class="card-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                            <line x1="9" y1="9" x2="9.01" y2="9"/>
+                            <line x1="15" y1="9" x2="15.01" y2="9"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title" data-i18n="concept.card3.title">Фокус на дизайне и юзабилити</h3>
+                    <p class="card-text" data-i18n="concept.card3.text">
+                        Освободив время от рутинного написания шаблонного кода, мы фокусируемся на том, что действительно важно: визуальный восторг, анимации, маркетинг и удобство пользователя.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="comparison-container">
+                <h3 class="comparison-title" data-i18n="comparison.title">Почему Tandemix Development выигрывает?</h3>
+                <div class="comparison-table-wrapper">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="comparison.th.criteria">Критерий сравнения</th>
+                                <th class="highlight-col" data-i18n="comparison.th.tandemix">Tandemix (Vibe Coding)</th>
+                                <th data-i18n="comparison.th.agency">Обычная веб-студия</th>
+                                <th data-i18n="comparison.th.builders">Конструкторы сайтов (Tilda/Wix)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="criteria-name" data-i18n="comparison.row1.name">Сроки разработки</td>
+                                <td class="highlight-col val-positive"><span class="tbl-good" data-i18n="comparison.row1.tandemix">2–7 дней</span></td>
+                                <td class="val-negative"><span class="tbl-bad" data-i18n="comparison.row1.agency">3–6 недель</span></td>
+                                <td class="val-positive"><span class="tbl-good" data-i18n="comparison.row1.builders">1–3 дня</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criteria-name" data-i18n="comparison.row2.name">Уникальность дизайна</td>
+                                <td class="highlight-col val-positive"><span class="tbl-good" data-i18n="comparison.row2.tandemix">100% кастомный CSS</span></td>
+                                <td class="val-positive"><span class="tbl-good" data-i18n="comparison.row2.agency">Высокая</span></td>
+                                <td class="val-negative"><span class="tbl-bad" data-i18n="comparison.row2.builders">Шаблоны / Ограничения</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criteria-name" data-i18n="comparison.row3.name">Стоимость разработки</td>
+                                <td class="highlight-col val-positive"><span class="tbl-good" data-i18n="comparison.row3.tandemix">Оптимальная (без переплат за рутину)</span></td>
+                                <td class="val-negative"><span class="tbl-bad" data-i18n="comparison.row3.agency">Очень высокая</span></td>
+                                <td class="val-positive"><span class="tbl-good" data-i18n="comparison.row3.builders">Низкая</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criteria-name" data-i18n="comparison.row4.name">SEO и Скорость (PageSpeed)</td>
+                                <td class="highlight-col val-positive"><span class="tbl-good" data-i18n="comparison.row4.tandemix">95-100% (чистый код)</span></td>
+                                <td class="val-positive"><span class="tbl-good" data-i18n="comparison.row4.agency">Высокая</span></td>
+                                <td class="val-negative"><span class="tbl-bad" data-i18n="comparison.row4.builders">Средняя (куча лишнего JS)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="criteria-name" data-i18n="comparison.row5.name">Масштабируемость</td>
+                                <td class="highlight-col val-positive"><span class="tbl-good" data-i18n="comparison.row5.tandemix">Безграничная (любые API, базы данных)</span></td>
+                                <td class="val-positive"><span class="tbl-good" data-i18n="comparison.row5.agency">Безграничная</span></td>
+                                <td class="val-negative"><span class="tbl-bad" data-i18n="comparison.row5.builders">Ограничена платформой</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wave divider between concept and services -->
+    <div class="section-wave wave-down">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+            <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="rgba(2,6,15,0.4)"/>
+        </svg>
+    </div>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services" aria-labelledby="services-title">
+        <div class="ambient-glow bg-glow-3"></div>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" id="services-title" data-i18n="services.title">Наши <span class="gradient-text">Услуги</span></h2>
+                <p class="section-subtitle" data-i18n="services.subtitle">Мы реализуем проекты любой сложности, от сочных промо-страниц до сложных цифровых экосистем.</p>
+            </div>
+
+            <div class="services-grid reveal-group" data-reveal-delay="80">
+                <div class="service-card reveal-item reveal-bottom">
+                    <div class="service-decor"></div>
+                    <span class="service-number">01</span>
+                    <div class="service-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                            <line x1="8" y1="21" x2="16" y2="21"/>
+                            <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                    </div>
+                    <span class="service-complexity service-complexity--low" data-i18n="services.complexity.low">Базовый</span>
+                    <h3 data-i18n="services.card1.title">Landing Page</h3>
+                    <p data-i18n="services.card1.desc">Продающие одностраничные сайты с высокой конверсией, WOW-эффектами и безупречной адаптивностью под мобильные устройства.</p>
+                    <ul class="service-features">
+                        <li data-i18n="services.card1.f1">Адаптивная вёрстка (Mobile First)</li>
+                        <li data-i18n="services.card1.f2">SEO-оптимизация с оценкой 95+</li>
+                        <li data-i18n="services.card1.f3">Подключение аналитики</li>
+                    </ul>
+                    <span class="service-price" data-i18n="services.card1.price">от $300</span>
+                </div>
+
+                <div class="service-card reveal-item reveal-bottom">
+                    <div class="service-decor"></div>
+                    <span class="service-number">02</span>
+                    <div class="service-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                        </svg>
+                    </div>
+                    <span class="service-complexity service-complexity--medium" data-i18n="services.complexity.medium">Средний</span>
+                    <h3 data-i18n="services.card2.title">Многостраничные сайты</h3>
+                    <p data-i18n="services.card2.desc">Корпоративные сайты для компаний. Продуманная структура, интеграция CMS для управления контентом, SEO-оптимизированный код.</p>
+                    <ul class="service-features">
+                        <li data-i18n="services.card2.f1">Кастомная CMS (Wordpress/Directus)</li>
+                        <li data-i18n="services.card2.f2">Многостраничная SEO архитектура</li>
+                        <li data-i18n="services.card2.f3">Интеграция CRM-систем</li>
+                    </ul>
+                    <span class="service-price" data-i18n="services.card2.price">от $600</span>
+                </div>
+
+                <div class="service-card reveal-item reveal-bottom">
+                    <div class="service-decor"></div>
+                    <span class="service-number">03</span>
+                    <div class="service-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"/>
+                            <circle cx="20" cy="21" r="1"/>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                        </svg>
+                    </div>
+                    <span class="service-complexity service-complexity--medium" data-i18n="services.complexity.medium">Средний</span>
+                    <h3 data-i18n="services.card3.title">Интернет-магазины</h3>
+                    <p data-i18n="services.card3.desc">Современные e-commerce решения. Быстрый поиск, удобная корзина, интеграция платежных систем, управление заказами и складом.</p>
+                    <ul class="service-features">
+                        <li data-i18n="services.card3.f1">Интеграция платежей (Stripe/Card)</li>
+                        <li data-i18n="services.card3.f2">Управление заказами & корзиной</li>
+                        <li data-i18n="services.card3.f3">Импорт/экспорт товаров</li>
+                    </ul>
+                    <span class="service-price" data-i18n="services.card3.price">от $900</span>
+                </div>
+
+                <div class="service-card reveal-item reveal-bottom">
+                    <div class="service-decor"></div>
+                    <span class="service-number">04</span>
+                    <div class="service-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <span class="service-complexity service-complexity--high" data-i18n="services.complexity.high">Сложный</span>
+                    <h3 data-i18n="services.card4.title">Web-сервисы и SaaS</h3>
+                    <p data-i18n="services.card4.desc">Индивидуальные веб-приложения со сложной бизнес-логикой: личные кабинеты, дашборды, CRM-системы, интеграции баз данных.</p>
+                    <ul class="service-features">
+                        <li data-i18n="services.card4.f1">Базы данных (PostgreSQL/MongoDB)</li>
+                        <li data-i18n="services.card4.f2">Личный кабинет & Роли</li>
+                        <li data-i18n="services.card4.f3">Защищенный API & Авторизация</li>
+                    </ul>
+                    <span class="service-price" data-i18n="services.card4.price">от $1500</span>
+                </div>
+
+                <div class="service-card reveal-item reveal-bottom">
+                    <div class="service-decor"></div>
+                    <span class="service-number">05</span>
+                    <div class="service-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                            <line x1="12" y1="22.08" x2="12" y2="12"/>
+                        </svg>
+                    </div>
+                    <span class="service-complexity service-complexity--high" data-i18n="services.complexity.high">Сложный</span>
+                    <h3 data-i18n="services.card5.title">Интеграция AI решений</h3>
+                    <p data-i18n="services.card5.desc">Подключение нейросетей в ваш бизнес. Чат-боты поддержки на базе ChatGPT, генераторы контента, системы классификации данных.</p>
+                    <ul class="service-features">
+                        <li data-i18n="services.card5.f1">Подключение GPT-4/Claude API</li>
+                        <li data-i18n="services.card5.f2">Кастомные AI Чат-боты поддержки</li>
+                        <li data-i18n="services.card5.f3">Автоматизация парсинга & контента</li>
+                    </ul>
+                    <span class="service-price" data-i18n="services.card5.price">от $500</span>
+                </div>
+
+                <div class="service-card reveal-item reveal-bottom">
+                    <div class="service-decor"></div>
+                    <span class="service-number">06</span>
+                    <div class="service-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 20h9"/>
+                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                        </svg>
+                    </div>
+                    <span class="service-complexity service-complexity--low" data-i18n="services.complexity.low">Базовый</span>
+                    <h3 data-i18n="services.card6.title">Редизайн и Оптимизация</h3>
+                    <p data-i18n="services.card6.desc">Превратим ваш устаревший сайт в стильный, адаптивный веб-интерфейс с ускорением загрузки и адаптацией под современные стандарты.</p>
+                    <ul class="service-features">
+                        <li data-i18n="services.card6.f1">Редизайн UI/UX по Awwwards style</li>
+                        <li data-i18n="services.card6.f2">Ускорение загрузки (Lighthouse 95+)</li>
+                        <li data-i18n="services.card6.f3">Оптимизация под мобильные устройства</li>
+                    </ul>
+                    <span class="service-price" data-i18n="services.card6.price">от $250</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- [V10] СЕКЦИЯ СОЦИАЛЬНОГО ДОВЕРИЯ ("Process / Почему нам доверяют") -->
+    <section class="process-section" id="process" aria-labelledby="process-title">
+        <div class="ambient-glow bg-glow-5"></div>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" id="process-title" data-i18n="process.title">Как мы <span class="gradient-text">работаем</span></h2>
+                <p class="section-subtitle" data-i18n="process.subtitle">Прозрачный процесс от идеи до запуска и реальные отзывы наших клиентов.</p>
+            </div>
+            
+            <!-- Process Steps -->
+            <div class="process-steps reveal-group" data-reveal-delay="120">
+                <div class="process-line-container">
+                    <svg class="process-line-svg" viewBox="0 0 1000 20" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="var(--accent-cyan)" />
+                                <stop offset="100%" stop-color="var(--accent-purple)" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M 0 10 L 1000 10" class="process-line-path" />
+                    </svg>
+                </div>
+                <div class="process-step reveal-item reveal-bottom">
+                    <div class="step-number">1</div>
+                    <h4 data-i18n="process.step1.title">Бриф и ТЗ</h4>
+                    <p data-i18n="process.step1.desc">Обсуждаем ваши цели, анализируем нишу, формируем требования и детальное техническое задание.</p>
+                </div>
+                <div class="process-step reveal-item reveal-bottom">
+                    <div class="step-number">2</div>
+                    <h4 data-i18n="process.step2.title">Дизайн и прототип</h4>
+                    <p data-i18n="process.step2.desc">Создаем интерактивный прототип и прорабатываем визуальный стиль с учетом UI/UX трендов.</p>
+                </div>
+                <div class="process-step reveal-item reveal-bottom">
+                    <div class="step-number">3</div>
+                    <h4 data-i18n="process.step3.title">Vibe Coding — разработка</h4>
+                    <p data-i18n="process.step3.desc">Пишем чистый, быстрый и адаптивный код, интегрируем необходимые сервисы, базы данных и AI.</p>
+                </div>
+                <div class="process-step reveal-item reveal-bottom">
+                    <div class="step-number">4</div>
+                    <h4 data-i18n="process.step4.title">Тесты и запуск</h4>
+                    <p data-i18n="process.step4.desc">Проводим нагрузочное и кросс-браузерное тестирование, подключаем домен и запускаем проект.</p>
+                </div>
+            </div>
+            
+            <!-- Testimonials -->
+            <div class="testimonials-container">
+                <h3 class="testimonials-title" data-i18n="testimonials.title">Отзывы клиентов</h3>
+                <div class="testimonials-slider" id="testimonials-slider">
+                    <div class="testimonials-track" id="testimonials-track">
+                        <div class="testimonial-card">
+                            <div class="testimonial-header">
+                                <div class="testimonial-avatar avatar-ak">АК</div>
+                                <div class="testimonial-meta">
+                                    <h4 data-i18n="testimonials.t1.author">Александр К.</h4>
+                                    <span data-i18n="testimonials.t1.role">CEO стартапа HealthFlow</span>
+                                </div>
+                                <div class="testimonial-stars">
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                </div>
+                            </div>
+                            <p class="testimonial-text" data-i18n="testimonials.t1.text">"Tandemix Development сделали наш лендинг за 3 дня. Результат превзошел ожидания — конверсия выросла на 40% в первый месяц."</p>
+                        </div>
+                        
+                        <div class="testimonial-card">
+                            <div class="testimonial-header">
+                                <div class="testimonial-avatar avatar-mv">МВ</div>
+                                <div class="testimonial-meta">
+                                    <h4 data-i18n="testimonials.t2.author">Мария В.</h4>
+                                    <span data-i18n="testimonials.t2.role">Основатель NovaMark Agency</span>
+                                </div>
+                                <div class="testimonial-stars">
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                </div>
+                            </div>
+                            <p class="testimonial-text" data-i18n="testimonials.t2.text">"Команда профессионалов. Все задачи выполнялись четко и в срок. Особенно порадовал живой дизайн и техническая грамотность кода."</p>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="testimonial-header">
+                                <div class="testimonial-avatar avatar-dk">ДК</div>
+                                <div class="testimonial-meta">
+                                    <h4 data-i18n="testimonials.t3.author">Дмитрий К.</h4>
+                                    <span data-i18n="testimonials.t3.role">Product Manager, TechFlow SaaS</span>
+                                </div>
+                                <div class="testimonial-stars">
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                </div>
+                            </div>
+                            <p class="testimonial-text" data-i18n="testimonials.t3.text">"Невероятная скорость работы. Полноценный SaaS MVP был готов за 10 дней. Код чистый, логика понятная, поддержка всегда на связи."</p>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="testimonial-header">
+                                <div class="testimonial-avatar avatar-er">ЕР</div>
+                                <div class="testimonial-meta">
+                                    <h4 data-i18n="testimonials.t4.author">Елена Р.</h4>
+                                    <span data-i18n="testimonials.t4.role">HR Director, InvestUnion</span>
+                                </div>
+                                <div class="testimonial-stars">
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    <svg class="star-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                </div>
+                            </div>
+                            <p class="testimonial-text" data-i18n="testimonials.t4.text">"Провели полный редизайн нашего корпоративного портала и ускорили его загрузку в 3 раза. Наша команда в восторге от новой скорости и удобства!"</p>
+                        </div>
+                    </div>
+                    <div class="testimonials-controls">
+                        <button class="testimonial-prev" id="t-prev" aria-label="Предыдущий отзыв">←</button>
+                        <div class="testimonial-dots" id="t-dots"></div>
+                        <button class="testimonial-next" id="t-next" aria-label="Следующий отзыв">→</button>
+                    </div>
+                </div>
+                <div class="testimonials-action">
+                    <div class="cta-btn-wrapper">
+                        <a href="https://t.me/tandemix_dev" target="_blank" class="btn btn-primary btn-shimmer" data-i18n="testimonials.btn.leave">Оставить отзыв</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="calculator-section" id="calculator" aria-labelledby="calculator-title">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" id="calculator-title" data-i18n="calculator.title">Интерактивный <span class="gradient-text">Калькулятор</span></h2>
+                <p class="section-subtitle" data-i18n="calculator.subtitle">Выберите ключевые параметры, чтобы оценить предварительную стоимость и время реализации проекта.</p>
+            </div>
+
+            <div class="calculator-wrapper">
+                <div class="calculator-form">
+                    
+                    <!-- Parameter 1: Project Type -->
+                    <div class="calc-group">
+                        <label class="calc-label" data-i18n="calculator.labels.type">Тип проекта</label>
+                        <div class="calc-options grid-2">
+                            <div class="calc-option active" data-type="landing" data-base-price="300" data-base-days="3">
+                                <span data-i18n="calculator.options.landing.title">Landing Page</span>
+                                <small data-i18n="calculator.options.landing.desc">Одностраничник</small>
+                            </div>
+                            <div class="calc-option" data-type="corporate" data-base-price="600" data-base-days="7">
+                                <span data-i18n="calculator.options.corporate.title">Corporate</span>
+                                <small data-i18n="calculator.options.corporate.desc">Многостраничник</small>
+                            </div>
+                            <div class="calc-option" data-type="shop" data-base-price="900" data-base-days="12">
+                                <span data-i18n="calculator.options.shop.title">Интернет-магазин</span>
+                                <small data-i18n="calculator.options.shop.desc">E-commerce</small>
+                            </div>
+                            <div class="calc-option" data-type="saas" data-base-price="1500" data-base-days="20">
+                                <span data-i18n="calculator.options.saas.title">Веб-сервис / SaaS</span>
+                                <small data-i18n="calculator.options.saas.desc">Индивидуальная логика</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Parameter 2: Design Option -->
+                    <div class="calc-group">
+                        <label class="calc-label" data-i18n="calculator.labels.style">Стиль и дизайн</label>
+                        <div class="calc-options grid-3">
+                            <div class="calc-option active" data-design="standard" data-multiplier="1.0">
+                                <span data-i18n="calculator.options.style1.title">Минимализм</span>
+                                <small data-i18n="calculator.options.style1.desc">Строго и чисто</small>
+                            </div>
+                            <div class="calc-option" data-design="premium" data-multiplier="1.25">
+                                <span data-i18n="calculator.options.style2.title">Премиальный</span>
+                                <small data-i18n="calculator.options.style2.desc">Кастомные детали</small>
+                            </div>
+                            <div class="calc-option" data-design="wow" data-multiplier="1.5">
+                                <span data-i18n="calculator.options.style3.title">WOW-эффекты</span>
+                                <small data-i18n="calculator.options.style3.desc">Сложные 3D/анимации</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Parameter 3: Integrations (Checkbox list) -->
+                    <div class="calc-group">
+                        <label class="calc-label" data-i18n="calculator.labels.extra">Дополнительные опции</label>
+                        <div class="calc-checkboxes">
+                            <label class="calc-checkbox-item">
+                                <input type="checkbox" value="150" class="calc-feature" data-days="2">
+                                <span class="checkbox-box"></span>
+                                <div class="checkbox-text">
+                                    <span data-i18n="calculator.features.crm.title">Интеграция CRM & Аналитики</span>
+                                    <small data-i18n="calculator.features.crm.desc">Сбор лидов, AmoCRM/Bitrix, Google Analytics</small>
+                                </div>
+                            </label>
+                            
+                            <label class="calc-checkbox-item">
+                                <input type="checkbox" value="250" class="calc-feature" data-days="3">
+                                <span class="checkbox-box"></span>
+                                <div class="checkbox-text">
+                                    <span data-i18n="calculator.features.pay.title">Интеграция платежных систем</span>
+                                    <small data-i18n="calculator.features.pay.desc">Онлайн-оплата картами, Apple Pay, криптовалютой</small>
+                                </div>
+                            </label>
+
+                            <label class="calc-checkbox-item">
+                                <input type="checkbox" value="300" class="calc-feature" data-days="4">
+                                <span class="checkbox-box"></span>
+                                <div class="checkbox-text">
+                                    <span data-i18n="calculator.features.ai.title">AI Ассистент / Чат-бот</span>
+                                    <small data-i18n="calculator.features.ai.desc">Интеграция модели поддержки клиентов 24/7</small>
+                                </div>
+                            </label>
+
+                            <label class="calc-checkbox-item">
+                                <input type="checkbox" value="100" class="calc-feature" data-days="1">
+                                <span class="checkbox-box"></span>
+                                <div class="checkbox-text">
+                                    <span data-i18n="calculator.features.lang.title">Мультиязычность</span>
+                                    <small data-i18n="calculator.features.lang.desc">Перевод сайта на дополнительный язык (RU/EN/RO)</small>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calculator Results View -->
+                <div class="calculator-results">
+                    <div class="results-card">
+                        <h3 class="results-title" data-i18n="calculator.results.title">Оценка вашего проекта</h3>
+                        
+                        <div class="results-grid">
+                            <div class="result-box">
+                                <span class="result-lbl" data-i18n="calculator.results.budget_lbl">Ориентировочный бюджет</span>
+                                <span class="result-val gradient-text" id="calc-price-range">$300 - $450</span>
+                            </div>
+                            <div class="result-box">
+                                <span class="result-lbl" data-i18n="calculator.results.time_lbl">Срок разработки</span>
+                                <span class="result-val" id="calc-time">3-5 дней</span>
+                            </div>
+                        </div>
+
+                        <!-- Complexity Progress Bar -->
+                        <div class="complexity-progress-wrapper">
+                            <span class="complexity-lbl" data-i18n="calculator.results.complexity_lbl">Сложность проекта</span>
+                            <div class="complexity-progress-bar">
+                                <div class="complexity-progress-fill" id="complexity-progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="results-info">
+                            <p data-i18n="calculator.results.info">За счет технологии <strong>Vibe Coding</strong> мы минимизируем рутину, что делает эти сроки реальными, а стоимость сбалансированной.</p>
+                        </div>
+
+                        <div class="results-alert">
+                            <span class="alert-icon">⚠️</span>
+                            <span class="alert-text" data-i18n="calculator.results.alert">Оценка стоимости является предварительной, так как каждый проект уникален. Итоговая стоимость рассчитывается индивидуально после обсуждения всех деталей и составления ТЗ.</span>
+                        </div>
+
+                        <button class="btn btn-primary btn-block" id="btn-order-calc" data-i18n="calculator.results.order">Заказать по этой оценке</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio-section" id="portfolio" aria-labelledby="portfolio-title">
+        <div class="ambient-glow bg-glow-4"></div>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" id="portfolio-title" data-i18n="portfolio.title">Примеры наших <span class="gradient-text">работ</span></h2>
+                <p class="section-subtitle" data-i18n="portfolio.subtitle">Проекты, спроектированные и закодированные нашей командой с фокусом на результат и эстетику.</p>
+            </div>
+
+            <div class="portfolio-filters" id="portfolio-filters">
+                <button class="filter-btn active" data-filter="all" data-i18n="portfolio.filters.all">Все</button>
+                <button class="filter-btn" data-filter="fintech" data-i18n="portfolio.filters.fintech">Fintech</button>
+                <button class="filter-btn" data-filter="ai" data-i18n="portfolio.filters.ai">AI / SaaS</button>
+                <button class="filter-btn" data-filter="ecom" data-i18n="portfolio.filters.ecom">E-Commerce</button>
+            </div>
+
+            <div class="portfolio-grid">
+                <!-- Portfolio Card 1 -->
+                <div class="portfolio-card" data-category="fintech">
+                    <div class="portfolio-img-wrapper">
+                        <div class="portfolio-mockup mockup-crypto">
+                            <div class="browser-bar">
+                                <div class="browser-controls">
+                                    <span class="bc red"></span><span class="bc yellow"></span><span class="bc green"></span>
+                                </div>
+                                <div class="browser-url-bar">
+                                    <span class="lock-icon">🔒</span>
+                                    <span class="url-text">apexcrypto.io</span>
+                                </div>
+                            </div>
+                            <div class="mockup-content">
+                                <div class="mockup-header-site">
+                                    <div class="mockup-logo-site">ApexCrypto</div>
+                                    <div class="mockup-menu-site">
+                                        <span data-i18n="portfolio.card1.mockup.menu1">Dashboard</span>
+                                        <span data-i18n="portfolio.card1.mockup.menu2">Markets</span>
+                                    </div>
+                                </div>
+                                <div class="mockup-hero-site">
+                                    <h4 data-i18n="portfolio.card1.mockup.title">Decentralized Finance</h4>
+                                    <p data-i18n="portfolio.card1.mockup.desc">Trade assets with ease</p>
+                                    <div class="mockup-btns-site">
+                                        <span class="m-btn m-btn-primary" data-i18n="portfolio.card1.mockup.btn">Buy Crypto</span>
+                                    </div>
+                                </div>
+                                <div class="mockup-chart-container">
+                                    <svg viewBox="0 0 300 80" class="mockup-svg-chart">
+                                        <path d="M0,60 Q30,20 60,40 T120,10 T180,35 T240,5 T300,20" fill="none" stroke="url(#cyan-purple)" stroke-width="2.5" />
+                                        <defs>
+                                            <linearGradient id="cyan-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#00d4ff" />
+                                                <stop offset="100%" stop-color="#8a2be2" />
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-hover-info">
+                            <div class="hover-content">
+                                <div class="hover-tags">
+                                    <span class="tech-tag">HTML5</span>
+                                    <span class="tech-tag">CSS3</span>
+                                    <span class="tech-tag">JavaScript</span>
+                                    <span class="tech-tag">SVG Chart</span>
+                                </div>
+                                <span class="btn btn-sm btn-glow" data-i18n="portfolio.hover.discuss">Обсудить похожий проект</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-details">
+                        <span class="portfolio-tag" data-i18n="portfolio.card1.tag">Fintech / WebApp</span>
+                        <h3>ApexCrypto Landing Page</h3>
+                        <p data-i18n="portfolio.card1.desc">Высокотехнологичный лендинг криптовалютного кошелька с 3D-анимациями и выводом графиков курсов валют в реальном времени.</p>
+                    </div>
+                </div>
+
+                <!-- Portfolio Card 2 -->
+                <div class="portfolio-card" data-category="ai">
+                    <div class="portfolio-img-wrapper">
+                        <div class="portfolio-mockup mockup-ai">
+                            <div class="browser-bar">
+                                <div class="browser-controls">
+                                    <span class="bc red"></span><span class="bc yellow"></span><span class="bc green"></span>
+                                </div>
+                                <div class="browser-url-bar">
+                                    <span class="lock-icon">🔒</span>
+                                    <span class="url-text">neuralwrite.ai</span>
+                                </div>
+                            </div>
+                            <div class="mockup-content">
+                                <div class="mockup-header-site">
+                                    <div class="mockup-logo-site">NeuralWrite</div>
+                                </div>
+                                <div class="mockup-chat-ui">
+                                    <div class="mockup-chat-bubble ai" data-i18n="portfolio.card2.mockup.bubble1">Привет! Чем я могу помочь?</div>
+                                    <div class="mockup-chat-bubble user" data-i18n="portfolio.card2.mockup.bubble2">Напиши код формы...</div>
+                                    <div class="mockup-chat-bubble ai pulse" data-i18n="portfolio.card2.mockup.bubble3">Генерирую код...</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-hover-info">
+                            <div class="hover-content">
+                                <div class="hover-tags">
+                                    <span class="tech-tag">HTML5</span>
+                                    <span class="tech-tag">CSS3</span>
+                                    <span class="tech-tag">JavaScript</span>
+                                    <span class="tech-tag">AI API</span>
+                                </div>
+                                <span class="btn btn-sm btn-glow" data-i18n="portfolio.hover.discuss">Обсудить похожий проект</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-details">
+                        <span class="portfolio-tag" data-i18n="portfolio.card2.tag">AI / SaaS</span>
+                        <h3>NeuralWrite Interface</h3>
+                        <p data-i18n="portfolio.card2.desc">Интерфейс AI-копирайтера со встроенным чатом, историей генераций и возможностью мгновенного экспорта документов.</p>
+                    </div>
+                </div>
+
+                <!-- Portfolio Card 3 -->
+                <div class="portfolio-card" data-category="ecom">
+                    <div class="portfolio-img-wrapper">
+                        <div class="portfolio-mockup mockup-ecom">
+                            <div class="browser-bar">
+                                <div class="browser-controls">
+                                    <span class="bc red"></span><span class="bc yellow"></span><span class="bc green"></span>
+                                </div>
+                                <div class="browser-url-bar">
+                                    <span class="lock-icon">🔒</span>
+                                    <span class="url-text">aura.store</span>
+                                </div>
+                            </div>
+                            <div class="mockup-content">
+                                <div class="mockup-header-site">
+                                    <div class="mockup-logo-site">AURA</div>
+                                    <div class="mockup-bag-site">🛒 (2)</div>
+                                </div>
+                                <div class="mockup-product-grid">
+                                    <div class="mockup-product-item">
+                                        <div class="mockup-product-circle"></div>
+                                        <span class="mockup-product-name" data-i18n="portfolio.card3.mockup.p1">Aura Headset</span>
+                                        <span class="mockup-product-price">$299</span>
+                                    </div>
+                                    <div class="mockup-product-item">
+                                        <div class="mockup-product-circle purple"></div>
+                                        <span class="mockup-product-name" data-i18n="portfolio.card3.mockup.p2">Aura Watch</span>
+                                        <span class="mockup-product-price">$399</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-hover-info">
+                            <div class="hover-content">
+                                <div class="hover-tags">
+                                    <span class="tech-tag">HTML5</span>
+                                    <span class="tech-tag">CSS3</span>
+                                    <span class="tech-tag">JavaScript</span>
+                                    <span class="tech-tag">Stripe</span>
+                                </div>
+                                <span class="btn btn-sm btn-glow" data-i18n="portfolio.hover.discuss">Обсудить похожий проект</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-details">
+                        <span class="portfolio-tag" data-i18n="portfolio.card3.tag">E-Commerce</span>
+                        <h3>Aura Premium Watch Store</h3>
+                        <p data-i18n="portfolio.card3.desc">Современный интернет-магазин носимой электроники премиум-класса. Интеграция с Stripe, Apple Pay и гибкой админ-панелью.</p>
+                    </div>
+                </div>
+
+                <!-- Portfolio Card 4 -->
+                <div class="portfolio-card" data-category="ai">
+                    <div class="portfolio-img-wrapper">
+                        <div class="portfolio-mockup mockup-dashboard">
+                            <div class="browser-bar">
+                                <div class="browser-controls">
+                                    <span class="bc red"></span><span class="bc yellow"></span><span class="bc green"></span>
+                                </div>
+                                <div class="browser-url-bar">
+                                    <span class="lock-icon">🔒</span>
+                                    <span class="url-text">dataflow.tandemix.io</span>
+                                </div>
+                            </div>
+                            <div class="mockup-content">
+                                <div class="mockup-header-site">
+                                    <div class="mockup-logo-site">DataFlow</div>
+                                    <div class="mockup-menu-site">
+                                        <span data-i18n="portfolio.card4.mockup.menu">Analytics</span>
+                                    </div>
+                                </div>
+                                <div class="mockup-dashboard-widgets">
+                                    <div class="dashboard-widget">
+                                        <span class="widget-title" data-i18n="portfolio.card4.mockup.w1">Users</span>
+                                        <span class="widget-value">12.4k</span>
+                                    </div>
+                                    <div class="dashboard-widget">
+                                        <span class="widget-title" data-i18n="portfolio.card4.mockup.w2">Sales</span>
+                                        <span class="widget-value">$48.2k</span>
+                                    </div>
+                                </div>
+                                <div class="mockup-chart-container bar-charts">
+                                    <svg viewBox="0 0 300 80" class="mockup-svg-chart">
+                                        <rect x="25" y="45" width="12" height="25" rx="2" fill="url(#cyan-grad)" />
+                                        <rect x="55" y="25" width="12" height="45" rx="2" fill="url(#cyan-grad)" />
+                                        <rect x="85" y="35" width="12" height="35" rx="2" fill="url(#cyan-grad)" />
+                                        <rect x="115" y="15" width="12" height="55" rx="2" fill="url(#purple-grad)" />
+                                        <rect x="145" y="10" width="12" height="60" rx="2" fill="url(#purple-grad)" />
+                                        <rect x="175" y="30" width="12" height="40" rx="2" fill="url(#cyan-grad)" />
+                                        <rect x="205" y="20" width="12" height="50" rx="2" fill="url(#cyan-grad)" />
+                                        <rect x="235" y="15" width="12" height="55" rx="2" fill="url(#purple-grad)" />
+                                        <rect x="265" y="25" width="12" height="45" rx="2" fill="url(#purple-grad)" />
+                                        <defs>
+                                            <linearGradient id="cyan-grad" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="0%" stop-color="#00d4ff" />
+                                                <stop offset="100%" stop-color="#005b82" />
+                                            </linearGradient>
+                                            <linearGradient id="purple-grad" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="0%" stop-color="#8a2be2" />
+                                                <stop offset="100%" stop-color="#3d0075" />
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-hover-info">
+                            <div class="hover-content">
+                                <div class="hover-tags">
+                                    <span class="tech-tag">HTML5</span>
+                                    <span class="tech-tag">CSS3</span>
+                                    <span class="tech-tag">JavaScript</span>
+                                    <span class="tech-tag">SVG Charts</span>
+                                </div>
+                                <span class="btn btn-sm btn-glow" data-i18n="portfolio.hover.discuss">Обсудить похожий проект</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-details">
+                        <span class="portfolio-tag" data-i18n="portfolio.card4.tag">AI / SaaS</span>
+                        <h3>DataFlow Analytics Dashboard</h3>
+                        <p data-i18n="portfolio.card4.desc">Панель управления аналитикой данных в реальном времени с интерактивными графиками и прогнозированием на базе ИИ.</p>
+                    </div>
+                </div>
+
+                <!-- Portfolio Card 5 -->
+                <div class="portfolio-card" data-category="fintech">
+                    <div class="portfolio-img-wrapper">
+                        <div class="portfolio-mockup mockup-fintech">
+                            <div class="browser-bar">
+                                <div class="browser-controls">
+                                    <span class="bc red"></span><span class="bc yellow"></span><span class="bc green"></span>
+                                </div>
+                                <div class="browser-url-bar">
+                                    <span class="lock-icon">🔒</span>
+                                    <span class="url-text">novapay.io</span>
+                                </div>
+                            </div>
+                            <div class="mockup-content">
+                                <div class="mockup-header-site">
+                                    <div class="mockup-logo-site">NovaPay</div>
+                                    <div class="mockup-status-site">Active</div>
+                                </div>
+                                <div class="mockup-pay-form">
+                                    <div class="mockup-pay-row">
+                                        <span class="mockup-pay-lbl" data-i18n="portfolio.card5.mockup.number">Номер карты</span>
+                                        <span class="mockup-pay-val">•••• •••• •••• 4820</span>
+                                    </div>
+                                    <div class="mockup-pay-row-split">
+                                        <div class="mockup-pay-col">
+                                            <span class="mockup-pay-lbl" data-i18n="portfolio.card5.mockup.date">Срок</span>
+                                            <span class="mockup-pay-val">12 / 29</span>
+                                        </div>
+                                        <div class="mockup-pay-col">
+                                            <span class="mockup-pay-lbl">CVC</span>
+                                            <span class="mockup-pay-val">•••</span>
+                                        </div>
+                                    </div>
+                                    <div class="mockup-pay-btn" data-i18n="portfolio.card5.mockup.paybtn">Оплатить $120.00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-hover-info">
+                            <div class="hover-content">
+                                <div class="hover-tags">
+                                    <span class="tech-tag">HTML5</span>
+                                    <span class="tech-tag">CSS3</span>
+                                    <span class="tech-tag">JavaScript</span>
+                                    <span class="tech-tag">Stripe API</span>
+                                </div>
+                                <span class="btn btn-sm btn-glow" data-i18n="portfolio.hover.discuss">Обсудить похожий проект</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-details">
+                        <span class="portfolio-tag" data-i18n="portfolio.card5.tag">Fintech / E-Commerce</span>
+                        <h3 data-i18n="portfolio.card5.title">NovaPay Billing Suite</h3>
+                        <p data-i18n="portfolio.card5.desc">Интеграция платежного шлюза с автоматической конверсией валют, выставлением счетов и фискализацией чеков.</p>
+                    </div>
+                </div>
+
+                <!-- Portfolio Card 6 -->
+                <div class="portfolio-card" data-category="ai">
+                    <div class="portfolio-img-wrapper">
+                        <div class="portfolio-mockup mockup-iot">
+                            <div class="browser-bar">
+                                <div class="browser-controls">
+                                    <span class="bc red"></span><span class="bc yellow"></span><span class="bc green"></span>
+                                </div>
+                                <div class="browser-url-bar">
+                                    <span class="lock-icon">🔒</span>
+                                    <span class="url-text">luminasmart.io</span>
+                                </div>
+                            </div>
+                            <div class="mockup-content">
+                                <div class="mockup-header-site">
+                                    <div class="mockup-logo-site">Lumina</div>
+                                    <div class="mockup-temp-site">22.5°C</div>
+                                </div>
+                                <div class="mockup-iot-controls">
+                                    <div class="mockup-iot-item">
+                                        <span class="iot-name" data-i18n="portfolio.card6.mockup.livingroom">Гостиная</span>
+                                        <span class="iot-status active" data-i18n="portfolio.card6.mockup.on">Вкл</span>
+                                    </div>
+                                    <div class="mockup-iot-item">
+                                        <span class="iot-name" data-i18n="portfolio.card6.mockup.bedroom">Спальня</span>
+                                        <span class="iot-status" data-i18n="portfolio.card6.mockup.off">Выкл</span>
+                                    </div>
+                                </div>
+                                <div class="mockup-energy-chart">
+                                    <div class="energy-bar bar-1"></div>
+                                    <div class="energy-bar bar-2"></div>
+                                    <div class="energy-bar bar-3"></div>
+                                    <div class="energy-bar bar-4"></div>
+                                    <div class="energy-bar bar-5"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-hover-info">
+                            <div class="hover-content">
+                                <div class="hover-tags">
+                                    <span class="tech-tag">HTML5</span>
+                                    <span class="tech-tag">CSS3</span>
+                                    <span class="tech-tag">JavaScript</span>
+                                    <span class="tech-tag">IoT WebSockets</span>
+                                </div>
+                                <span class="btn btn-sm btn-glow" data-i18n="portfolio.hover.discuss">Обсудить похожий проект</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-details">
+                        <span class="portfolio-tag" data-i18n="portfolio.card6.tag">AI / Smart IoT</span>
+                        <h3 data-i18n="portfolio.card6.title">Lumina IoT Dashboard</h3>
+                        <p data-i18n="portfolio.card6.desc">Интерфейс управления умным домом с ИИ-предсказанием энергопотребления, адаптивным расписанием и контролем датчиков.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wave divider between portfolio and contacts -->
+    <div class="section-wave wave-up">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+            <path d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z" fill="rgba(2,6,15,0.4)"/>
+        </svg>
+    </div>
+
+    <!-- Contacts & Owners Section -->
+    <section class="contacts-section" id="contacts" aria-labelledby="contacts-title">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" id="contacts-title" data-i18n="contacts.title">Давайте создадим что-то <span class="gradient-text">великое</span></h2>
+                <p class="section-subtitle" data-i18n="contacts.subtitle">Свяжитесь с нами напрямую или заполните форму, и мы ответим в течение 1 часа.</p>
+            </div>
+
+            <div class="contacts-wrapper">
+                
+                <!-- Contact info and owners card -->
+                <div class="contacts-info-pane">
+                    
+                    <div class="company-brand-card">
+                        <img src="assets/logo.jpg" loading="lazy" alt="Tandemix Development Banner" class="info-banner-img">
+                        <p class="info-brand-desc" data-i18n="contacts.brand_desc">
+                            Мы строим веб-архитектуру будущего, помогая молодым проектам и опытному бизнесу запускать стильные и функциональные цифровые продукты.
+                        </p>
+                    </div>
+
+                    <!-- Owners Contact Cards -->
+                    <div class="owners-grid">
+                        
+                        <!-- Owner 1: Maxim -->
+                        <div class="owner-card">
+                            <div class="owner-avatar">
+                                <span>М</span>
+                                <span class="owner-status-dot"></span>
+                            </div>
+                            <div class="owner-info">
+                                <h4 class="owner-name" data-i18n="contacts.owner1.name">Максим</h4>
+                                <span class="owner-role" data-i18n="contacts.role.maxim">Co-Founder & Tech Lead</span>
+                                <div class="owner-links">
+                                    <a href="tel:069251502" class="owner-link-item">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                        </svg>
+                                        069251502
+                                    </a>
+                                    <a href="mailto:untilamaximworkmail@gmail.com" class="owner-link-item">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                            <polyline points="22,6 12,13 2,6"/>
+                                        </svg>
+                                        untilamaximworkmail@gmail.com
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Owner 2: Vitya -->
+                        <div class="owner-card">
+                            <div class="owner-avatar">
+                                <span>В</span>
+                                <span class="owner-status-dot"></span>
+                            </div>
+                            <div class="owner-info">
+                                <h4 class="owner-name" data-i18n="contacts.owner2.name">Виктор</h4>
+                                <span class="owner-role" data-i18n="contacts.role.vitya">Co-Founder & UI/UX Director</span>
+                                <div class="owner-links">
+                                    <a href="tel:068796105" class="owner-link-item">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                        </svg>
+                                        068796105
+                                    </a>
+                                    <a href="mailto:victorcirboba@gmail.com" class="owner-link-item">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                            <polyline points="22,6 12,13 2,6"/>
+                                        </svg>
+                                        victorcirboba@gmail.com
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Company general contact -->
+                    <div class="company-general-contacts">
+                        <div class="contact-general-item">
+                            <span class="icon">✉️</span>
+                            <div>
+                                <span class="lbl" data-i18n="contacts.email_lbl">Почта компании</span>
+                                <a href="mailto:tandemixdevelopment@gmail.com" class="val">tandemixdevelopment@gmail.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form Card -->
+                <div class="contact-form-pane">
+                    <form class="contact-form" id="tandemix-contact-form">
+                        <h3 class="form-title" data-i18n="contacts.form.title">Заявка на проект</h3>
+                        <p class="form-desc" data-i18n="contacts.form.desc">Заполните поля, и мы свяжемся с вами для составления первичного технического задания.</p>
+                        
+                        <div class="form-group">
+                            <div class="form-field">
+                                <input type="text" id="form-name" name="name" class="form-input" placeholder=" " required>
+                                <label for="form-name" class="form-floating-label" data-i18n="contacts.form.name_label">Ваше имя / Компания</label>
+                            </div>
+                            <span class="field-hint" data-i18n="contacts.form.name_hint">Пожалуйста, укажите ваше имя или название компании</span>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-field">
+                                <input type="text" id="form-contact" name="contact" class="form-input" placeholder=" " required>
+                                <label for="form-contact" class="form-floating-label" data-i18n="contacts.form.contact_label">Контактные данные (Telegram / Phone / Email)</label>
+                            </div>
+                            <span class="field-hint" data-i18n="contacts.form.contact_hint">Укажите способ связи с вами</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="contacts.form.type_label">Тип проекта</label>
+                            <div class="custom-select" id="custom-project-type">
+                                <div class="custom-select-trigger">
+                                    <span data-i18n="contacts.form.select.landing">Landing Page (Одностраничник)</span>
+                                    <svg class="arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M6 9l6 6 6-6"/>
+                                    </svg>
+                                </div>
+                                <div class="custom-options">
+                                    <div class="custom-option selected" data-value="landing" data-i18n="contacts.form.select.landing">Landing Page (Одностраничник)</div>
+                                    <div class="custom-option" data-value="corporate" data-i18n="contacts.form.select.corporate">Корпоративный многостраничный сайт</div>
+                                    <div class="custom-option" data-value="shop" data-i18n="contacts.form.select.shop">Интернет-магазин</div>
+                                    <div class="custom-option" data-value="saas" data-i18n="contacts.form.select.saas">Web-сервис / SaaS</div>
+                                    <div class="custom-option" data-value="other" data-i18n="contacts.form.select.other">Другое (Редизайн, AI интеграция)</div>
+                                </div>
+                                <input type="hidden" id="form-type" name="project_type" value="landing">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-field">
+                                <textarea id="form-message" name="message" class="form-input form-textarea" placeholder=" "></textarea>
+                                <label for="form-message" class="form-floating-label" data-i18n="contacts.form.message_label">Расскажите о вашей задаче (необязательно)</label>
+                                <div class="textarea-resizer" id="textarea-resizer"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-status" id="form-status-msg" aria-live="polite"></div>
+
+                        <button type="submit" class="btn btn-primary btn-block" data-i18n="contacts.form.submit">Отправить заявку</button>
+                        <p class="form-alt-contact">
+                            <span data-i18n="contacts.form.alt_prefix">Или напишите нам напрямую в</span> 
+                            <a href="https://t.me/tandemix_dev" target="_blank" class="form-tg-link">Telegram</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section (C3) -->
+    <section class="faq-section" id="faq" aria-labelledby="faq-title">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" id="faq-title" data-i18n="faq.title">Часто задаваемые вопросы</h2>
+                <p class="section-subtitle" data-i18n="faq.subtitle">Ответы на популярные вопросы о процессе разработки, стоимости и наших гарантиях.</p>
+            </div>
+            <div class="faq-accordion">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item active">
+                    <button class="faq-trigger" aria-expanded="true">
+                        <span class="faq-question" data-i18n="faq.q1">Сколько стоит разработка?</span>
+                        <span class="faq-icon-arrow"></span>
+                    </button>
+                    <div class="faq-content">
+                        <div class="faq-content-inner">
+                            <p data-i18n="faq.a1">Стоимость рассчитывается индивидуально. Вы можете использовать наш интерактивный калькулятор для предварительной оценки — проекты начинаются от $250.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ Item 2 -->
+                <div class="faq-item">
+                    <button class="faq-trigger" aria-expanded="false">
+                        <span class="faq-question" data-i18n="faq.q2">Какие гарантии вы предоставляете?</span>
+                        <span class="faq-icon-arrow"></span>
+                    </button>
+                    <div class="faq-content">
+                        <div class="faq-content-inner">
+                            <p data-i18n="faq.a2">Мы гарантируем высокое качество кода и предоставляем 30 дней бесплатной технической поддержки после запуска проекта.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ Item 3 -->
+                <div class="faq-item">
+                    <button class="faq-trigger" aria-expanded="false">
+                        <span class="faq-question" data-i18n="faq.q3">Работаете ли вы с иностранными клиентами?</span>
+                        <span class="faq-icon-arrow"></span>
+                    </button>
+                    <div class="faq-content">
+                        <div class="faq-content-inner">
+                            <p data-i18n="faq.a3">Да, мы работаем удаленно с клиентами по всему миру. Все коммуникации и договоры могут быть оформлены на русском, румынском или английском языках.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ Item 4 -->
+                <div class="faq-item">
+                    <button class="faq-trigger" aria-expanded="false">
+                        <span class="faq-question" data-i18n="faq.q4">Как происходит оплата?</span>
+                        <span class="faq-icon-arrow"></span>
+                    </button>
+                    <div class="faq-content">
+                        <div class="faq-content-inner">
+                            <p data-i18n="faq.a4">Обычно мы работаем по схеме: 50% предоплата перед началом проектирования и дизайна, и оставшиеся 50% после полной сдачи и тестирования проекта.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ Item 5 -->
+                <div class="faq-item">
+                    <button class="faq-trigger" aria-expanded="false">
+                        <span class="faq-question" data-i18n="faq.q5">Что такое Vibe Coding?</span>
+                        <span class="faq-icon-arrow"></span>
+                    </button>
+                    <div class="faq-content">
+                        <div class="faq-content-inner">
+                            <p data-i18n="faq.a5">Vibe Coding — это современный метод разработки, сочетающий мощь искусственного интеллекта и экспертизу опытного инженера. Мы формулируем требования голосом или текстом, AI генерирует чистый код, а разработчик дорабатывает интерфейс до идеала.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pre-footer CTA Band -->
+    <div class="pre-footer-cta">
+        <div class="cta-blobs">
+            <div class="cta-blob cta-blob-1"></div>
+            <div class="cta-blob cta-blob-2"></div>
+            <div class="cta-blob cta-blob-3"></div>
+        </div>
+        <div class="container">
+            <h2 data-i18n="pre_footer.title">Готовы запустить проект <span class="gradient-text">прямо сейчас?</span></h2>
+            <p data-i18n="pre_footer.subtitle">Мы доступны 24/7. Первичная консультация — бесплатно.</p>
+            <div class="cta-btn-wrapper">
+                <a href="#contacts" class="btn btn-primary btn-shimmer" data-i18n="pre_footer.btn">Получить бесплатную консультацию</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="footer-divider"></div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <a href="#" class="logo-link">
+                    <img src="assets/logo_square.jpg" loading="lazy" alt="Tandemix Development Logo" class="logo-img">
+                    <span class="logo-text">Tandemix <span class="logo-accent">Development</span></span>
+                </a>
+                <p class="footer-copy" data-i18n="footer.copy">© <span id="footer-year">2026</span> Tandemix Development.<br>Студия веб-разработки премиум-класса.</p>
+                <div class="footer-socials">
+                    <a href="https://t.me/tandemix_dev" target="_blank" class="social-link" aria-label="Telegram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m22 2-7 20-4-9-9-4Z"/>
+                            <path d="M22 2 11 13"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                            <line x1="17.5" y1="6.5" y2="6.5"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="GitHub">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                            <path d="M9 18c-4.51 2-5-2-7-2"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-nav">
+                <h4 data-i18n="footer.nav_title">Навигация</h4>
+                <ul>
+                    <li><a href="#concept" data-i18n="nav.concept">Концепция</a></li>
+                    <li><a href="#services" data-i18n="nav.services">Услуги</a></li>
+                    <li><a href="#process" data-i18n="nav.process">Процесс</a></li>
+                    <li><a href="#calculator" data-i18n="nav.calculator">Калькулятор</a></li>
+                    <li><a href="#portfolio" data-i18n="nav.portfolio">Портфолио</a></li>
+                    <li><a href="#contacts" data-i18n="nav.contacts">Контакты</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contacts">
+                <h4 data-i18n="footer.contacts_title">Контакты</h4>
+                <p>Email: <a href="mailto:tandemixdevelopment@gmail.com">tandemixdevelopment@gmail.com</a></p>
+                <p>Максим: <a href="tel:069251502">069251502</a></p>
+                <p>Виктор: <a href="tel:068796105">068796105</a></p>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="footer-bottom-bar">
+                <span data-i18n="footer.bottom.copy">© <span id="footer-year-bottom">2026</span> Tandemix Development. Все права защищены.</span>
+                <span class="vibe-badge" data-i18n="footer.badge">Сделано с ❤️ и Vibe Coding</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll To Top Button -->
+    <button class="scroll-top-btn" id="scroll-top" aria-label="Наверх">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"/>
+        </svg>
+    </button>
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="custom-cursor"></div>
+    <div class="custom-cursor-trail" id="cursor-trail"></div>
+
+    <!-- Custom Main Scrollbar -->
+    <div class="main-scrollbar-track">
+        <div class="main-scrollbar-thumb"></div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="app.js" defer></script>
+</body>
+</html>

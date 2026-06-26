@@ -1,0 +1,93 @@
+
+==================== c:/Work/Dualis Digital Company/index.html ====================
+6: <meta name="description" content="Dualis Digital Team — премиальная веб-студия будущего. Разработка сайтов через Vibe Coding: лендинги, интернет-магазины, корпоративные сайты и интеграция AI. Быстро, качественно, технологично.">
+7: <meta name="keywords" content="веб-программирование, vibe coding, создание сайтов, Dualis Digital, разработка лендингов, веб-студия, заказать сайт, IT компания">
+11: <meta property="og:url" content="https://dualis.digital/">
+12: <meta property="og:title" content="Dualis Digital Team | Веб-разработка нового поколения (Vibe Coding)">
+18: <meta property="twitter:title" content="Dualis Digital Team | Веб-разработка нового поколения">
+22: <title>Dualis Digital Team | Веб-разработка нового поколения (Vibe Coding)</title>
+43: <div class="preloader-logo"><span class="preloader-d">D</span><span>ualis Digital</span></div>
+51: <img src="assets/logo_square.jpg" alt="Dualis Digital Logo" class="logo-img">
+52: <span class="logo-text">Dualis <span class="logo-accent">Digital</span></span>
+108: Dualis Digital Team объединяет передовые AI-системы и глубокую инженерную экспертизу для создания <span class="rotating-word" id="rotating-word">лендингов</span>, SaaS-платформ и корпоративных экосистем — в 5 раз быстрее традиционных студий.
+153: <div class="terminal-title">dualis-studio ~ vibe-coding.js</div>
+166: <span class="preview-url">dualis.digital/live-preview</span>
+255: <h3 class="comparison-title" data-i18n="comparison.title">Почему Dualis Digital Team выигрывает?</h3>
+261: <th class="highlight-col" data-i18n="comparison.th.dualis">Dualis (Vibe Coding)</th>
+269: <td class="highlight-col val-positive"><span class="tbl-good" data-i18n="comparison.row1.dualis">2–7 дней</span></td>
+275: <td class="highlight-col val-positive"><span class="tbl-good" data-i18n="comparison.row2.dualis">100% кастомный CSS</span></td>
+281: <td class="highlight-col val-positive"><span class="tbl-good" data-i18n="comparison.row3.dualis">Оптимальная (без переплат за рутину)</span></td>
+287: <td class="highlight-col val-positive"><span class="tbl-good" data-i18n="comparison.row4.dualis">95-100% (чистый код)</span></td>
+293: <td class="highlight-col val-positive"><span class="tbl-good" data-i18n="comparison.row5.dualis">Безграничная (любые API, базы данных)</span></td>
+512: <p class="testimonial-text" data-i18n="testimonials.t1.text">"Dualis Digital Team сделали наш лендинг за 3 дня. Результат превзошел ожидания — конверсия выросла на 40% в первый месяц."</p>
+577: <a href="https://t.me/dualisdigital" target="_blank" class="btn btn-primary btn-shimmer" data-i18n="testimonials.btn.leave">Оставить отзыв</a>
+901: <span class="url-text">dataflow.dualis.io</span>
+1101: <img src="assets/logo.jpg" loading="lazy" alt="Dualis Digital Banner" class="info-banner-img">
+1172: <a href="mailto:dualisdigitalteam@gmail.com" class="val">dualisdigitalteam@gmail.com</a>
+1180: <form class="contact-form" id="dualis-contact-form">
+1232: <a href="https://t.me/dualisdigital" target="_blank" class="form-tg-link">Telegram</a>
+1336: <img src="assets/logo_square.jpg" loading="lazy" alt="Dualis Digital Logo" class="logo-img">
+1337: <span class="logo-text">Dualis <span class="logo-accent">Digital</span></span>
+1339: <p class="footer-copy" data-i18n="footer.copy">© <span id="footer-year">2026</span> Dualis Digital Team.<br>Студия веб-разработки премиум-класса.</p>
+1341: <a href="https://t.me/dualisdigital" target="_blank" class="social-link" aria-label="Telegram">
+1377: <p>Email: <a href="mailto:dualisdigitalteam@gmail.com">dualisdigitalteam@gmail.com</a></p>
+1385: <span data-i18n="footer.bottom.copy">© <span id="footer-year-bottom">2026</span> Dualis Digital Team. Все права защищены.</span>
+
+==================== c:/Work/Dualis Digital Company/style.css ====================
+2: Dualis Digital Team - Custom Premium Stylesheet (Oceanic & Violet Theme)
+
+==================== c:/Work/Dualis Digital Company/app.js ====================
+2: * Dualis Digital Team — Main Application Script
+17: "hero.description": "Dualis Digital Team объединяет передовые AI-системы и глубокую инженерную экспертизу для создания <span class=\"rotating-word\" id=\"rotating-word\">лендингов</span>, SaaS-платформ и корпоративных экосистем — в 5 раз быстрее традиционных студий.",
+32: "comparison.title": "Почему Dualis Digital Team выигрывает?",
+34: "comparison.th.dualis": "Dualis (Vibe Coding)",
+38: "comparison.row1.dualis": "2–7 дней",
+42: "comparison.row2.dualis": "100% кастомный CSS",
+46: "comparison.row3.dualis": "Оптимальная (без переплат за рутину)",
+50: "comparison.row4.dualis": "95-100% (чистый код)",
+54: "comparison.row5.dualis": "Безграничная (любые API, базы данных)",
+112: "testimonials.t1.text": "\"Dualis Digital Team сделали наш лендинг за 3 дня. Результат превзошел ожидания — конверсия выросла на 40% в первый месяц.\"",
+204: "footer.copy": "© 2026 Dualis Digital Team.<br>Студия веб-разработки премиум-класса.",
+207: "footer.bottom.copy": "© 2026 Dualis Digital Team. Все права защищены.",
+215: "js.terminal.comments.init": "// Инициализация проекта Dualis Digital...",
+273: "hero.description": "Dualis Digital Team combines advanced AI systems and deep engineering expertise to build <span class=\"rotating-word\" id=\"rotating-word\">landing pages</span>, SaaS platforms, and corporate ecosystems — 5x faster than traditional agencies.",
+288: "comparison.title": "Why Dualis Digital Team Wins?",
+290: "comparison.th.dualis": "Dualis (Vibe Coding)",
+294: "comparison.row1.dualis": "2–7 days",
+298: "comparison.row2.dualis": "100% custom CSS",
+302: "comparison.row3.dualis": "Optimal (no payment for routine)",
+306: "comparison.row4.dualis": "95-100% (clean code)",
+310: "comparison.row5.dualis": "Limitless (any APIs, databases)",
+314: "services.subtitle": "We implement projects of any complexity, from juicy promo pages to complex digital ecosystems.",
+368: "testimonials.t1.text": "\"Dualis Digital Team completed our landing page in 3 days. The result exceeded expectations — conversions rose by 40% in the first month.\"",
+436: "contacts.brand_desc": "We build the web architecture of the future, helping startups and established businesses launch stylish and functional digital products.",
+460: "footer.copy": "© 2026 Dualis Digital Team.<br>Premium web development studio.",
+463: "footer.bottom.copy": "© 2026 Dualis Digital Team. All rights reserved.",
+471: "js.terminal.comments.init": "// Initializing Dualis Digital project...",
+529: "hero.description": "Dualis Digital Team îmbină sisteme AI avansate și expertiză inginerească profundă pentru a crea <span class=\"rotating-word\" id=\"rotating-word\">landing page-uri</span>, platforme SaaS și ecosisteme corporative — de 5 ori mai rapid decât agențiile tradiționale.",
+544: "comparison.title": "De ce câștigă Dualis Digital Team?",
+546: "comparison.th.dualis": "Dualis (Vibe Coding)",
+550: "comparison.row1.dualis": "2–7 zile",
+554: "comparison.row2.dualis": "100% CSS personalizat",
+558: "comparison.row3.dualis": "Optim (fără plată pentru rutină)",
+562: "comparison.row4.dualis": "95-100% (cod curat)",
+566: "comparison.row5.dualis": "Nelimitată (orice API, baze de date)",
+570: "services.subtitle": "Implementăm proiecte de orice complexitate, de la pagini promoționale suculente până la ecosisteme digitale complexe.",
+624: "testimonials.t1.text": "\"Echipa Dualis Digital a realizat landing page-ul nostru în 3 zile. Rezultatul a depășit așteptările — conversiile au crescut cu 40% în prima lună.\"",
+692: "contacts.brand_desc": "Construim arhitectura web a viitorului, ajutând startup-urile și afacerile stabilite să lanseze produse digitale elegante și funcționale.",
+716: "footer.copy": "© 2026 Dualis Digital Team.<br>Studio de dezvoltare web premium.",
+719: "footer.bottom.copy": "© 2026 Dualis Digital Team. Toate drepturile rezervate.",
+727: "js.terminal.comments.init": "// Inițializare proiect Dualis Digital...",
+780: const savedLang = localStorage.getItem('dualis_lang');
+797: localStorage.setItem('dualis_lang', lang);
+847: const isVisited = sessionStorage.getItem('dualis_visited');
+851: sessionStorage.setItem('dualis_visited', 'true');
+1415: localStorage.setItem('dualis_calc_state', JSON.stringify(state));
+1419: const saved = localStorage.getItem('dualis_calc_state');
+1657: init: '// Инициализация проекта Dualis Digital...',
+1663: init: '// Inițializare proiect Dualis Digital...',
+1669: init: '// Initializing Dualis Digital project...',
+1678: { text: 'const studio = new DualisStudio("Dualis Digital Team");', isCode: true },
+1778: .replace(/(console\.log|DualisStudio|createProject|renderLivePreview)/g, '<span class="code-func">$1</span>')
+1791: <div class="live-site-logo">Dualis Digital</div>
+1858: const contactForm = document.getElementById('dualis-contact-form');
