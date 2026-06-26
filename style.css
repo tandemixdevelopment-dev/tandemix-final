@@ -1084,6 +1084,10 @@ p {
     color: var(--text-white);
 }
 
+.calc-preview {
+    display: none;
+}
+
 .calc-options {
     display: grid;
     gap: 1rem;
@@ -3241,6 +3245,83 @@ a * {
     }
     .pre-footer-cta h2 {
         font-size: 1.8rem;
+    }
+
+    /* Calculator mobile accordion styling */
+    .calc-group {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        margin-bottom: 1.25rem;
+        background: rgba(255, 255, 255, 0.01);
+        transition: border-color 0.3s ease, background-color 0.3s ease;
+        overflow: hidden;
+    }
+    
+    .calc-group.expanded {
+        border-color: rgba(0, 212, 255, 0.3);
+        background: rgba(0, 212, 255, 0.02);
+    }
+    
+    .calc-label {
+        margin-bottom: 0 !important;
+        padding: 1rem 1.25rem !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        cursor: pointer !important;
+        user-select: none;
+        font-size: 0.95rem !important;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.3s ease;
+    }
+    
+    .calc-group.expanded .calc-label {
+        border-color: rgba(0, 212, 255, 0.15);
+    }
+    
+    .calc-label::after {
+        content: '▼';
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        transition: transform 0.3s ease;
+        margin-left: auto;
+        padding-left: 1rem;
+    }
+    
+    .calc-group.expanded .calc-label::after {
+        transform: rotate(180deg);
+        color: var(--accent-cyan);
+    }
+    
+    .calc-options, .calc-checkboxes {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease, opacity 0.3s ease;
+        padding: 0 1.25rem !important;
+        margin: 0 !important;
+        opacity: 0;
+    }
+    
+    .calc-group.expanded .calc-options,
+    .calc-group.expanded .calc-checkboxes {
+        max-height: 800px;
+        padding: 1.25rem !important;
+        opacity: 1;
+    }
+
+    .calc-preview {
+        font-size: 0.8rem;
+        color: var(--accent-cyan);
+        font-weight: 500;
+        margin-left: 0.5rem;
+        display: inline-block;
+        opacity: 0.85;
+    }
+    .calc-option, .calc-checkbox-item {
+        padding: 0.75rem 1rem !important;
     }
 }
 

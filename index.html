@@ -492,7 +492,10 @@
                     
                     <!-- Parameter 1: Project Type -->
                     <div class="calc-group">
-                        <label class="calc-label" data-i18n="calculator.labels.type">Тип проекта</label>
+                        <label class="calc-label">
+                            <span data-i18n="calculator.labels.type">Тип проекта</span>
+                            <span class="calc-preview" id="calc-preview-type"></span>
+                        </label>
                         <div class="calc-options grid-2">
                             <div class="calc-option active" data-type="landing" data-base-price="300" data-base-days="3">
                                 <span data-i18n="calculator.options.landing.title">Landing Page</span>
@@ -515,7 +518,10 @@
 
                     <!-- Parameter 2: Design Option -->
                     <div class="calc-group">
-                        <label class="calc-label" data-i18n="calculator.labels.style">Стиль и дизайн</label>
+                        <label class="calc-label">
+                            <span data-i18n="calculator.labels.style">Стиль и дизайн</span>
+                            <span class="calc-preview" id="calc-preview-style"></span>
+                        </label>
                         <div class="calc-options grid-3">
                             <div class="calc-option active" data-design="standard" data-multiplier="1.0">
                                 <span data-i18n="calculator.options.style1.title">Минимализм</span>
@@ -534,7 +540,10 @@
 
                     <!-- Parameter 3: Integrations (Checkbox list) -->
                     <div class="calc-group">
-                        <label class="calc-label" data-i18n="calculator.labels.extra">Дополнительные опции</label>
+                        <label class="calc-label">
+                            <span data-i18n="calculator.labels.extra">Дополнительные опции</span>
+                            <span class="calc-preview" id="calc-preview-extra"></span>
+                        </label>
                         <div class="calc-checkboxes">
                             <label class="calc-checkbox-item">
                                 <input type="checkbox" value="150" class="calc-feature" data-days="2">

@@ -1502,6 +1502,27 @@ document.addEventListener('DOMContentLoaded', () => {
         // Trigger micro-scale animation
         triggerResultAnimation();
 
+        // Update accordion previews for mobile
+        const previewType = document.getElementById('calc-preview-type');
+        const previewStyle = document.getElementById('calc-preview-style');
+        const previewExtra = document.getElementById('calc-preview-extra');
+
+        if (previewType) {
+            const typeName = activeType.querySelector('span') ? activeType.querySelector('span').textContent : '';
+            previewType.textContent = typeName ? `(${typeName})` : '';
+        }
+        if (previewStyle) {
+            const styleName = activeDesign.querySelector('span') ? activeDesign.querySelector('span').textContent : '';
+            previewStyle.textContent = styleName ? `(${styleName})` : '';
+        }
+        if (previewExtra) {
+            if (selectedOptions.length > 0) {
+                previewExtra.textContent = `(+${selectedOptions.length})`;
+            } else {
+                previewExtra.textContent = '';
+            }
+        }
+
         // Calculate Complexity Progress Bar
         let complexityPercent = 20;
         if (activeType) {
@@ -1575,6 +1596,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize first calculation
     calculateCost();
+
+    // Interactive Calculator Accordion on Mobile (Collapse/Expand)
+    document.querySelectorAll('.calc-group').forEach((group) => {
+        const label = group.querySelector('.calc-label');
+        if (label) {
+            label.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    const isExpanded = group.classList.contains('expanded');
+                    
+                    // Close other groups
+                    document.querySelectorAll('.calc-group').forEach(otherGroup => {
+                        if (otherGroup !== group) {
+                            otherGroup.classList.remove('expanded');
+                        }
+                    });
+                    
+                    if (isExpanded) {
+                        group.classList.remove('expanded');
+                    } else {
+                        group.classList.add('expanded');
+                    }
+                }
+            });
+        }
+    });
+
+    // Expand the first group by default on mobile viewports
+    if (window.innerWidth <= 768) {
+        const firstGroup = document.querySelector('.calc-group');
+        if (firstGroup) {
+            firstGroup.classList.add('expanded');
+        }
+    }
 
     // "Order by quote" handler (T6/T5)
     if (btnOrderCalc) {
