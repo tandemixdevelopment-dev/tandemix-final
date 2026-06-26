@@ -3104,6 +3104,34 @@ a * {
 }
 
 @media (max-width: 768px) {
+    .footer-container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 2.5rem !important;
+        text-align: center !important;
+        align-items: center !important;
+    }
+    
+    .footer-brand, .footer-nav, .footer-contacts {
+        align-items: center !important;
+        text-align: center !important;
+    }
+    
+    .footer-brand .logo-link {
+        justify-content: center !important;
+    }
+    
+    .footer-socials {
+        justify-content: center !important;
+    }
+    
+    .footer-bottom-bar {
+        flex-direction: column !important;
+        gap: 1rem !important;
+        text-align: center !important;
+        align-items: center !important;
+    }
+
     .hero-title {
         font-size: clamp(1.8rem, 7vw, 2.6rem);
         letter-spacing: -0.03em;
@@ -3983,6 +4011,49 @@ body.menu-open {
 
 /* 480px: Actions and metrics adjustments */
 @media (max-width: 480px) {
+    .container {
+        padding: 0 1rem !important;
+    }
+
+    /* Header layout compact overrides */
+    .main-header .logo-accent {
+        display: none !important;
+    }
+    .main-header .logo-text {
+        font-size: 1.05rem !important;
+    }
+    .main-header .logo-link {
+        gap: 0.4rem !important;
+    }
+    .main-header .logo-img {
+        height: 32px !important;
+        width: 32px !important;
+    }
+    .main-header .header-actions {
+        gap: 0.4rem !important;
+    }
+    .main-header .lang-switcher {
+        gap: 0.15rem !important;
+    }
+    .main-header .lang-btn {
+        padding: 0.1rem 0.2rem !important;
+        font-size: 0.7rem !important;
+    }
+    .main-header .lang-sep {
+        font-size: 0.6rem !important;
+    }
+    .main-header .header-actions .btn {
+        padding: 0.45rem 0.85rem !important;
+        font-size: 0.72rem !important;
+        min-height: auto !important;
+        height: auto !important;
+    }
+    .main-header .mobile-nav-toggle {
+        width: 24px !important;
+        height: 18px !important;
+        gap: 4px !important;
+    }
+
     .hero-actions {
         flex-direction: column !important;
         width: 100%;
