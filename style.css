@@ -3065,6 +3065,10 @@ a * {
         text-align: center;
     }
     
+    .hero-terminal-container {
+        display: none !important;
+    }
+    
     .badge {
         align-self: center;
     }
