@@ -831,11 +831,6 @@ function setLanguage(lang) {
     if (typeof window.calculateCost === 'function') {
         window.calculateCost();
     }
-
-    // Update terminal language statically
-    if (typeof window.initTerminalStatic === 'function') {
-        window.initTerminalStatic();
-    }
 }
 
 // Hook up setLanguage globally
@@ -1132,13 +1127,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // A1: Parallax for Ambient Glows
     // ==========================================
-    const glow1 = document.querySelector('.bg-glow-1');
-    const glow2 = document.querySelector('.bg-glow-2');
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
+        const glow1 = document.querySelector('.bg-glow-1');
+        const glow2 = document.querySelector('.bg-glow-2');
         if (glow1) glow1.style.transform = 'translateY(' + (scrollY * 0.1) + 'px) translateZ(0)';
         if (glow2) glow2.style.transform = 'translateY(' + (scrollY * -0.05) + 'px) translateZ(0)';
-    }, { passive: true });
+    });
 
     // ==========================================
     // A2: Magnetic Buttons
@@ -1205,57 +1200,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================
-    // [V1] Animated Particle Background (Highly Optimized)
+    // [V1] Animated Particle Background
     // ==========================================
     const canvas = document.getElementById('hero-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let particles = [];
-        let numParticles = window.innerWidth < 768 ? 10 : 30;
+        let numParticles = window.innerWidth < 768 ? 30 : 90;
         let mouseX = -1000, mouseY = -1000;
         let animId = null;
-        let isAnimating = false;
-        let isPageVisible = !document.hidden;
-        let isIntersecting = false;
+        let isAnimating = true;
 
         const colors = ['#00d4ff', '#8a2be2'];
 
-        // Get parent element for mouse events and intersection observation
-        const heroSection = document.getElementById('hero') || canvas.parentElement;
-
-        // Cache canvas coordinate bounds relative to document to avoid getBoundingClientRect layout thrashing on mousemove
-        let canvasLeft = 0;
-        let canvasTop = 0;
-        
-        function updateCanvasBounds() {
-            if (canvas) {
-                const rect = canvas.getBoundingClientRect();
-                const scrollX = window.scrollX !== undefined ? window.scrollX : window.pageXOffset;
-                const scrollY = window.scrollY !== undefined ? window.scrollY : window.pageYOffset;
-                canvasLeft = rect.left + scrollX;
-                canvasTop = rect.top + scrollY;
-            }
-        }
-
-        if (heroSection) {
-            heroSection.addEventListener('mousemove', (e) => {
-                mouseX = e.pageX - canvasLeft;
-                mouseY = e.pageY - canvasTop;
-            });
-            heroSection.addEventListener('mouseleave', () => {
-                mouseX = -1000;
-                mouseY = -1000;
-            });
-        }
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            mouseY = e.clientY - rect.top;
+        });
+        canvas.addEventListener('mouseleave', () => {
+            mouseX = -1000;
+            mouseY = -1000;
+        });
 
         function initCanvas() {
-            const parent = canvas.parentElement;
-            if (parent) {
-                canvas.width = parent.offsetWidth;
-                canvas.height = parent.offsetHeight;
-            }
-            numParticles = window.innerWidth < 768 ? 10 : 30;
-            updateCanvasBounds();
+            canvas.width = canvas.parentElement.offsetWidth;
+            canvas.height = canvas.parentElement.offsetHeight;
+            numParticles = window.innerWidth < 768 ? 30 : 90;
         }
 
         class Particle {
@@ -1267,14 +1238,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.type = Math.random() > 0.5 ? 'stellar' : 'normal';
                 
                 if (this.type === 'stellar') {
-                    this.radius = Math.random() * 2 + 1.5;
+                    this.radius = Math.random() * 2 + 1.5; // stellar are a bit larger/brighter
                     this.pulseSpeed = 0.02 + Math.random() * 0.03;
                     this.pulseTime = Math.random() * Math.PI * 2;
-                    this.baseOpacity = Math.random() * 0.3 + 0.5;
+                    this.baseOpacity = Math.random() * 0.3 + 0.5; // 0.5 to 0.8
                     this.opacity = this.baseOpacity;
                 } else {
-                    this.radius = Math.random() * 1.5 + 1;
-                    this.opacity = Math.random() * 0.4 + 0.3;
+                    this.radius = Math.random() * 1.5 + 1; // 1 to 2.5px
+                    this.opacity = Math.random() * 0.4 + 0.3; // 0.3 to 0.7
                 }
                 
                 this.color = colors[Math.floor(Math.random() * colors.length)];
@@ -1318,78 +1289,63 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function createParticles() {
-            // Keep/reuse existing particles instead of clearing array to prevent GC thrashing
-            if (particles.length > numParticles) {
-                particles.length = numParticles;
-            } else {
-                while (particles.length < numParticles) {
-                    particles.push(new Particle());
-                }
+            particles = [];
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(new Particle());
             }
-            // Keep particles within new bounds if resized
-            const len = particles.length;
-            for (let i = 0; i < len; i++) {
-                if (particles[i].x > canvas.width) particles[i].x = Math.random() * canvas.width;
-                if (particles[i].y > canvas.height) particles[i].y = Math.random() * canvas.height;
+        }
+
+        function drawLines() {
+            ctx.globalAlpha = 1; // Ensure lines are drawn with correct relative transparency
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = 'rgba(0, 212, 255, ' + ((1 - dist / 100) * 0.15) + ')';
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
             }
         }
 
         function animateParticles() {
             if (!isAnimating) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            const len = particles.length;
-            for (let i = 0; i < len; i++) {
-                particles[i].update();
-                particles[i].draw();
-            }
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            drawLines();
             animId = requestAnimationFrame(animateParticles);
-        }
-
-        function updateAnimationState() {
-            const shouldAnimate = isPageVisible && isIntersecting;
-            if (shouldAnimate) {
-                if (!isAnimating) {
-                    isAnimating = true;
-                    if (animId) cancelAnimationFrame(animId);
-                    animId = requestAnimationFrame(animateParticles);
-                }
-            } else {
-                isAnimating = false;
-                if (animId) {
-                    cancelAnimationFrame(animId);
-                    animId = null;
-                }
-            }
         }
 
         initCanvas();
         createParticles();
+        animateParticles();
 
-        // Listeners defined once outside the animation loops
         window.addEventListener('resize', () => {
             initCanvas();
             createParticles();
         });
 
+        // Visibilitychange handler to stop animation when hidden (T1)
         document.addEventListener('visibilitychange', () => {
-            isPageVisible = !document.hidden;
-            updateAnimationState();
+            if (document.hidden) {
+                isAnimating = false;
+                if (animId) cancelAnimationFrame(animId);
+            } else {
+                if (!isAnimating) {
+                    isAnimating = true;
+                    animateParticles();
+                }
+            }
         });
-
-        // IntersectionObserver to pause/resume animation based on viewport visibility
-        const pageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                isIntersecting = entry.isIntersecting;
-                updateAnimationState();
-            });
-        }, { threshold: 0 });
-
-        if (heroSection) {
-            pageObserver.observe(heroSection);
-        } else {
-            pageObserver.observe(canvas);
-        }
     }
 
 
@@ -1734,57 +1690,128 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
     }
 
-    function initTerminalStatic() {
+    let currentLineIndex = 0;
+    let currentCharIndex = 0;
+    let typingTimer = null;
+
+    function startTerminalAnimation() {
         if (!editorCode || !livePreview) return;
         
-        if (terminalWindow) {
-            terminalWindow.classList.remove('typing-active');
-            terminalWindow.classList.add('compiled');
+        if (typingTimer) {
+            clearTimeout(typingTimer);
+            typingTimer = null;
         }
         
-        const lines = getTerminalCodeLines(currentLang);
-        let html = '';
-        lines.forEach((lineObj, idx) => {
-            const indentStyle = lineObj.indent ? ' style="padding-left: 1.5rem;"' : '';
-            if (lineObj.isComment) {
-                html += `<p class="line-${idx} code-comment"${indentStyle}>${lineObj.text}</p>`;
-            } else if (lineObj.text === '') {
-                html += `<p class="line-${idx} code-text"${indentStyle}><br></p>`;
-            } else {
-                let text = lineObj.text
-                    .replace(/(const|let|var|new|await|return|import|export)/g, '<span class="code-keyword">$1</span>')
-                    .replace(/(console\.log|TandemixStudio|createProject|renderLivePreview)/g, '<span class="code-func">$1</span>')
-                    .replace(/(true|false|"[^"]*")/g, '<span class="code-string">$1</span>');
-                html += `<p class="line-${idx} code-text"${indentStyle}>${text}</p>`;
+        if (terminalWindow) {
+            terminalWindow.classList.remove('compiled');
+        }
+        editorCode.innerHTML = '';
+        const waitingText = window.TRANSLATIONS[currentLang]["hero.terminal.waiting"];
+        livePreview.innerHTML = `<div class="preview-placeholder">${waitingText}</div>`;
+        currentLineIndex = 0;
+        currentCharIndex = 0;
+        
+        typeNextChar();
+    }
+
+    function typeNextChar() {
+        const terminalCodeLines = getTerminalCodeLines(currentLang);
+        if (currentLineIndex >= terminalCodeLines.length) {
+            showLivePreview();
+            return;
+        }
+
+        const currentLineObj = terminalCodeLines[currentLineIndex];
+        const lineText = currentLineObj.text;
+
+        let lineEl = editorCode.querySelector(`.line-${currentLineIndex}`);
+        if (!lineEl) {
+            lineEl = document.createElement('p');
+            lineEl.className = `line-${currentLineIndex}`;
+            
+            if (currentLineObj.indent) {
+                lineEl.style.paddingLeft = '1.5rem';
             }
-        });
-        
-        const successLogText = window.TRANSLATIONS[currentLang]["js.terminal.success"];
-        html += `<p class="line-success"><span class="code-comment" style="color: #27c93f; font-weight: bold;">${successLogText}</span></p>`;
-        
-        editorCode.innerHTML = html;
-        
-        const previewBtnText = window.TRANSLATIONS[currentLang]["js.terminal.preview_btn"];
-        livePreview.innerHTML = `
-            <div class="live-site-sim">
-                <div class="live-site-logo">Tandemix Development</div>
-                <div class="live-site-bar"></div>
-                <div class="live-site-btn">${previewBtnText}</div>
-            </div>
-        `;
-        
-        // Scroll to the bottom
-        const body = editorCode.parentElement;
-        if (body) {
-            body.scrollTop = 10000;
+            
+            if (currentLineObj.isComment) {
+                lineEl.classList.add('code-comment');
+            } else {
+                lineEl.classList.add('code-text');
+            }
+            
+            const oldCursor = editorCode.querySelector('.code-cursor');
+            if (oldCursor) oldCursor.remove();
+            
+            editorCode.appendChild(lineEl);
+            
+            const cursor = document.createElement('span');
+            cursor.className = 'code-cursor';
+            editorCode.appendChild(cursor);
+        }
+
+        if (currentCharIndex < lineText.length) {
+            let char = lineText.charAt(currentCharIndex);
+            lineEl.innerHTML += char;
+            currentCharIndex++;
+            
+            const body = editorCode.parentElement;
+            body.scrollTop = body.scrollHeight;
+
+            typingTimer = setTimeout(typeNextChar, Math.random() * 20 + 10);
+        } else {
+            highlightFinishedLine(lineEl, lineText, currentLineObj.isComment);
+            
+            currentLineIndex++;
+            currentCharIndex = 0;
+            typingTimer = setTimeout(typeNextChar, 300);
         }
     }
 
-    // Expose globally so setLanguage can update the terminal
-    window.initTerminalStatic = initTerminalStatic;
-    
-    // Initial render
-    initTerminalStatic();
+    function highlightFinishedLine(element, text, isComment) {
+        if (isComment) {
+            element.innerHTML = `<span class="code-comment">${text}</span>`;
+            return;
+        }
+        
+        let html = text
+            .replace(/(const|let|var|new|await|return|import|export)/g, '<span class="code-keyword">$1</span>')
+            .replace(/(console\.log|TandemixStudio|createProject|renderLivePreview)/g, '<span class="code-func">$1</span>')
+            .replace(/(true|false|"[^"]*")/g, '<span class="code-string">$1</span>');
+            
+        element.innerHTML = html;
+    }
+
+    function showLivePreview() {
+        if (!livePreview) return;
+        
+        setTimeout(() => {
+            const previewBtnText = window.TRANSLATIONS[currentLang]["js.terminal.preview_btn"];
+            livePreview.innerHTML = `
+                <div class="live-site-sim">
+                    <div class="live-site-logo">Tandemix Development</div>
+                    <div class="live-site-bar"></div>
+                    <div class="live-site-btn">${previewBtnText}</div>
+                </div>
+            `;
+            
+            const successLogText = window.TRANSLATIONS[currentLang]["js.terminal.success"];
+            const finalLog = document.createElement('p');
+            finalLog.innerHTML = `<span class="code-comment" style="color: #27c93f; font-weight: bold;">${successLogText}</span>`;
+            
+            const cursor = editorCode.querySelector('.code-cursor');
+            if (cursor) cursor.remove();
+            editorCode.appendChild(finalLog);
+
+            if (terminalWindow) {
+                terminalWindow.classList.add('compiled');
+            }
+
+            setTimeout(startTerminalAnimation, 8000);
+        }, 600);
+    }
+
+    // Launch terminal loop
+    startTerminalAnimation();
 
 
 
@@ -2470,14 +2497,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Listen to scroll events
         body.addEventListener('scroll', updateScrollbar);
         
-        // Also listen to MutationObserver to update when new lines are added
+        // Also listen to MutationObserver to update when new content is added
         const observer = new MutationObserver(updateScrollbar);
-        const editorCodeEl = document.getElementById('editor-code');
-        if (editorCodeEl) {
-            observer.observe(editorCodeEl, { childList: true, subtree: false });
-        } else {
-            observer.observe(body, { childList: true, subtree: false });
-        }
+        observer.observe(body, { childList: true, subtree: true });
         
         // Window resize handle
         window.addEventListener('resize', updateScrollbar);
