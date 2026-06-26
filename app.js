@@ -2214,6 +2214,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
+    // Stats Bar Metrics Count-Up Animation
+    // ==========================================
+    document.querySelectorAll('.stats-val').forEach(el => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const text = el.textContent.trim();
+                    const match = text.match(/^(\d+)(.*)$/);
+                    if (match) {
+                        const target = parseInt(match[1]);
+                        const suffix = match[2];
+                        let current = 0;
+                        const increment = target / 60;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                            }
+                            el.textContent = Math.floor(current) + suffix;
+                        }, 16);
+                    }
+                    observer.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+        observer.observe(el);
+    });
+
+    // ==========================================
     // [P6] Process Line Animation on Scroll
     // ==========================================
     const processLine = document.querySelector('.process-line');
