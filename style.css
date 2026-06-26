@@ -3210,8 +3210,25 @@ a * {
     }
     
     .process-steps {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem 1rem !important;
+        margin-top: 2.5rem !important;
+        margin-bottom: 3rem !important;
+    }
+    .process-step {
+        gap: 0.5rem !important;
+    }
+    .process-step .step-number {
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 1rem !important;
+    }
+    .process-step h4 {
+        font-size: 0.95rem !important;
+    }
+    .process-step p {
+        font-size: 0.72rem !important;
+        line-height: 1.35 !important;
     }
     .testimonials-grid {
         grid-template-columns: 1fr;
