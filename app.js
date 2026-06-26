@@ -2719,4 +2719,52 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     })();
 
+    // =========================================================================
+    // Mobile Cost Calculator & Portfolio Cards Enhancements
+    // =========================================================================
+    function arrangeMobileCalculator() {
+        const isMobile = window.innerWidth <= 768;
+        const calcGroups = document.querySelectorAll('.calc-group');
+        const resultsCard = document.querySelector('.results-card');
+        const calcForm = document.querySelector('.calculator-form');
+        const resultsTitle = document.querySelector('.results-title');
+
+        if (!resultsCard || !calcForm || calcGroups.length === 0) return;
+
+        if (isMobile) {
+            // Move calcGroups inside resultsCard, right after the title
+            let lastInserted = resultsTitle;
+            calcGroups.forEach(group => {
+                if (lastInserted) {
+                    lastInserted.after(group);
+                    lastInserted = group;
+                }
+            });
+        } else {
+            // Move calcGroups back to calcForm
+            calcGroups.forEach(group => {
+                calcForm.appendChild(group);
+            });
+        }
+    }
+
+    // Run arrangeMobileCalculator on load and resize
+    window.addEventListener('resize', arrangeMobileCalculator);
+    arrangeMobileCalculator();
+
+    // Mobile click behavior for portfolio cards
+    document.querySelectorAll('.portfolio-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (!e.target.closest('.btn, button, a')) {
+                    const discussBtn = card.querySelector('[data-i18n="portfolio.hover.discuss"]');
+                    if (discussBtn) {
+                        discussBtn.click();
+                    }
+                }
+            }
+        });
+    });
+
 });
+
