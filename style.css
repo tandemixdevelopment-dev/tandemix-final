@@ -4115,14 +4115,47 @@ body.menu-open {
         text-align: center;
     }
     .hero-metrics {
-        flex-wrap: wrap !important;
-        gap: 1.25rem;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1rem 1.5rem !important;
+        padding-top: 1.5rem !important;
+        margin-top: 1.25rem !important;
     }
     .hero-metrics .metric-item {
-        flex: 1 1 40%;
+        align-items: center !important;
+        text-align: center !important;
+        flex: none !important;
     }
+    .hero-metrics .metric-val {
+        font-size: 1.6rem !important;
+    }
+    .hero-metrics .metric-lbl {
+        font-size: 0.75rem !important;
+    }
+    
+    .tech-stack-badges {
+        justify-content: center !important;
+        gap: 0.4rem !important;
+        margin-top: 1.25rem !important;
+    }
+    .tech-badge {
+        font-size: 0.68rem !important;
+        padding: 0.2rem 0.45rem !important;
+    }
+
     .stats-bar-inner {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1rem !important;
+        padding: 1rem !important;
+    }
+    .stats-bar-inner .stats-item {
+        gap: 0.15rem !important;
+    }
+    .stats-bar-inner .stats-val {
+        font-size: 1.35rem !important;
+    }
+    .stats-bar-inner .stats-lbl {
+        font-size: 0.72rem !important;
     }
     .testimonials-action {
         margin-top: 4.5rem;
