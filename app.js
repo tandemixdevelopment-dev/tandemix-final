@@ -1127,13 +1127,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // A1: Parallax for Ambient Glows
     // ==========================================
+    const glow1 = document.querySelector('.bg-glow-1');
+    const glow2 = document.querySelector('.bg-glow-2');
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
-        const glow1 = document.querySelector('.bg-glow-1');
-        const glow2 = document.querySelector('.bg-glow-2');
         if (glow1) glow1.style.transform = 'translateY(' + (scrollY * 0.1) + 'px) translateZ(0)';
         if (glow2) glow2.style.transform = 'translateY(' + (scrollY * -0.05) + 'px) translateZ(0)';
-    });
+    }, { passive: true });
 
     // ==========================================
     // A2: Magnetic Buttons
@@ -1200,33 +1200,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================
-    // [V1] Animated Particle Background
+    // [V1] Animated Particle Background (Highly Optimized)
     // ==========================================
     const canvas = document.getElementById('hero-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let particles = [];
-        let numParticles = window.innerWidth < 768 ? 30 : 90;
+        let numParticles = window.innerWidth < 768 ? 10 : 35;
         let mouseX = -1000, mouseY = -1000;
         let animId = null;
-        let isAnimating = true;
+        let isAnimating = false;
+        let isPageVisible = !document.hidden;
+        let isIntersecting = false;
 
         const colors = ['#00d4ff', '#8a2be2'];
 
-        canvas.addEventListener('mousemove', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            mouseX = e.clientX - rect.left;
-            mouseY = e.clientY - rect.top;
-        });
-        canvas.addEventListener('mouseleave', () => {
-            mouseX = -1000;
-            mouseY = -1000;
-        });
+        // Get parent element for mouse events and intersection observation
+        const heroSection = document.getElementById('hero') || canvas.parentElement;
+
+        // Cache canvas coordinate bounds relative to document to avoid getBoundingClientRect layout thrashing on mousemove
+        let canvasLeft = 0;
+        let canvasTop = 0;
+        
+        function updateCanvasBounds() {
+            if (canvas) {
+                const rect = canvas.getBoundingClientRect();
+                const scrollX = window.scrollX !== undefined ? window.scrollX : window.pageXOffset;
+                const scrollY = window.scrollY !== undefined ? window.scrollY : window.pageYOffset;
+                canvasLeft = rect.left + scrollX;
+                canvasTop = rect.top + scrollY;
+            }
+        }
+
+        if (heroSection) {
+            heroSection.addEventListener('mousemove', (e) => {
+                mouseX = e.pageX - canvasLeft;
+                mouseY = e.pageY - canvasTop;
+            });
+            heroSection.addEventListener('mouseleave', () => {
+                mouseX = -1000;
+                mouseY = -1000;
+            });
+        }
 
         function initCanvas() {
-            canvas.width = canvas.parentElement.offsetWidth;
-            canvas.height = canvas.parentElement.offsetHeight;
-            numParticles = window.innerWidth < 768 ? 30 : 90;
+            const parent = canvas.parentElement;
+            if (parent) {
+                canvas.width = parent.offsetWidth;
+                canvas.height = parent.offsetHeight;
+            }
+            numParticles = window.innerWidth < 768 ? 10 : 35;
+            updateCanvasBounds();
         }
 
         class Particle {
@@ -1238,14 +1262,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.type = Math.random() > 0.5 ? 'stellar' : 'normal';
                 
                 if (this.type === 'stellar') {
-                    this.radius = Math.random() * 2 + 1.5; // stellar are a bit larger/brighter
+                    this.radius = Math.random() * 2 + 1.5;
                     this.pulseSpeed = 0.02 + Math.random() * 0.03;
                     this.pulseTime = Math.random() * Math.PI * 2;
-                    this.baseOpacity = Math.random() * 0.3 + 0.5; // 0.5 to 0.8
+                    this.baseOpacity = Math.random() * 0.3 + 0.5;
                     this.opacity = this.baseOpacity;
                 } else {
-                    this.radius = Math.random() * 1.5 + 1; // 1 to 2.5px
-                    this.opacity = Math.random() * 0.4 + 0.3; // 0.3 to 0.7
+                    this.radius = Math.random() * 1.5 + 1;
+                    this.opacity = Math.random() * 0.4 + 0.3;
                 }
                 
                 this.color = colors[Math.floor(Math.random() * colors.length)];
@@ -1289,25 +1313,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function createParticles() {
-            particles = [];
-            for (let i = 0; i < numParticles; i++) {
-                particles.push(new Particle());
+            // Keep/reuse existing particles instead of clearing array to prevent GC thrashing
+            if (particles.length > numParticles) {
+                particles.length = numParticles;
+            } else {
+                while (particles.length < numParticles) {
+                    particles.push(new Particle());
+                }
+            }
+            // Keep particles within new bounds if resized
+            const len = particles.length;
+            for (let i = 0; i < len; i++) {
+                if (particles[i].x > canvas.width) particles[i].x = Math.random() * canvas.width;
+                if (particles[i].y > canvas.height) particles[i].y = Math.random() * canvas.height;
             }
         }
 
         function drawLines() {
-            ctx.globalAlpha = 1; // Ensure lines are drawn with correct relative transparency
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
+            ctx.strokeStyle = '#00d4ff';
+            const len = particles.length;
+            for (let i = 0; i < len; i++) {
+                const p1 = particles[i];
+                for (let j = i + 1; j < len; j++) {
+                    const p2 = particles[j];
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < 100) {
                         ctx.beginPath();
-                        ctx.strokeStyle = 'rgba(0, 212, 255, ' + ((1 - dist / 100) * 0.15) + ')';
+                        ctx.globalAlpha = (1 - dist / 100) * 0.15;
                         ctx.lineWidth = 0.5;
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
                         ctx.stroke();
                     }
                 }
@@ -1317,35 +1354,60 @@ document.addEventListener('DOMContentLoaded', () => {
         function animateParticles() {
             if (!isAnimating) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
+            
+            const len = particles.length;
+            for (let i = 0; i < len; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
             drawLines();
             animId = requestAnimationFrame(animateParticles);
         }
 
+        function updateAnimationState() {
+            const shouldAnimate = isPageVisible && isIntersecting;
+            if (shouldAnimate) {
+                if (!isAnimating) {
+                    isAnimating = true;
+                    if (animId) cancelAnimationFrame(animId);
+                    animId = requestAnimationFrame(animateParticles);
+                }
+            } else {
+                isAnimating = false;
+                if (animId) {
+                    cancelAnimationFrame(animId);
+                    animId = null;
+                }
+            }
+        }
+
         initCanvas();
         createParticles();
-        animateParticles();
 
+        // Listeners defined once outside the animation loops
         window.addEventListener('resize', () => {
             initCanvas();
             createParticles();
         });
 
-        // Visibilitychange handler to stop animation when hidden (T1)
         document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                isAnimating = false;
-                if (animId) cancelAnimationFrame(animId);
-            } else {
-                if (!isAnimating) {
-                    isAnimating = true;
-                    animateParticles();
-                }
-            }
+            isPageVisible = !document.hidden;
+            updateAnimationState();
         });
+
+        // IntersectionObserver to pause/resume animation based on viewport visibility
+        const pageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                isIntersecting = entry.isIntersecting;
+                updateAnimationState();
+            });
+        }, { threshold: 0 });
+
+        if (heroSection) {
+            pageObserver.observe(heroSection);
+        } else {
+            pageObserver.observe(canvas);
+        }
     }
 
 
