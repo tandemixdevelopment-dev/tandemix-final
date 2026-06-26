@@ -831,6 +831,11 @@ function setLanguage(lang) {
     if (typeof window.calculateCost === 'function') {
         window.calculateCost();
     }
+
+    // Update terminal language statically
+    if (typeof window.initTerminalStatic === 'function') {
+        window.initTerminalStatic();
+    }
 }
 
 // Hook up setLanguage globally
@@ -1206,7 +1211,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let particles = [];
-        let numParticles = window.innerWidth < 768 ? 10 : 35;
+        let numParticles = window.innerWidth < 768 ? 10 : 30;
         let mouseX = -1000, mouseY = -1000;
         let animId = null;
         let isAnimating = false;
@@ -1249,7 +1254,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 canvas.width = parent.offsetWidth;
                 canvas.height = parent.offsetHeight;
             }
-            numParticles = window.innerWidth < 768 ? 10 : 35;
+            numParticles = window.innerWidth < 768 ? 10 : 30;
             updateCanvasBounds();
         }
 
@@ -1329,28 +1334,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        function drawLines() {
-            ctx.strokeStyle = '#00d4ff';
-            const len = particles.length;
-            for (let i = 0; i < len; i++) {
-                const p1 = particles[i];
-                for (let j = i + 1; j < len; j++) {
-                    const p2 = particles[j];
-                    const dx = p1.x - p2.x;
-                    const dy = p1.y - p2.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 100) {
-                        ctx.beginPath();
-                        ctx.globalAlpha = (1 - dist / 100) * 0.15;
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
         function animateParticles() {
             if (!isAnimating) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1360,7 +1343,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 particles[i].update();
                 particles[i].draw();
             }
-            drawLines();
             animId = requestAnimationFrame(animateParticles);
         }
 
@@ -1752,216 +1734,57 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
     }
 
-    let currentLineIndex = 0;
-    let currentCharIndex = 0;
-    let isTerminalFinished = false;
-    let isTerminalAnimating = false; // Controlled by IntersectionObserver
-    let isTerminalPageVisible = !document.hidden;
-    let isTerminalIntersecting = false;
-    
-    let typingTimer = null;
-    let terminalStateTimeout = null;
-
-    function pauseTerminalAnimation() {
-        if (typingTimer) {
-            clearTimeout(typingTimer);
-            typingTimer = null;
-        }
-        if (terminalStateTimeout) {
-            clearTimeout(terminalStateTimeout);
-            terminalStateTimeout = null;
-        }
-    }
-
-    function resumeTerminalAnimation() {
-        pauseTerminalAnimation();
-        
-        if (isTerminalFinished) {
-            terminalStateTimeout = setTimeout(() => {
-                isTerminalFinished = false;
-                startTerminalAnimation();
-            }, 8000);
-        } else {
-            typeNextChar();
-        }
-    }
-
-    function updateTerminalState() {
-        const shouldAnimate = isTerminalPageVisible && isTerminalIntersecting;
-        if (shouldAnimate) {
-            if (!isTerminalAnimating) {
-                isTerminalAnimating = true;
-                if (terminalWindow) {
-                    terminalWindow.classList.add('typing-active');
-                }
-                resumeTerminalAnimation();
-            }
-        } else {
-            if (isTerminalAnimating) {
-                isTerminalAnimating = false;
-                if (terminalWindow) {
-                    terminalWindow.classList.remove('typing-active');
-                }
-                pauseTerminalAnimation();
-            }
-        }
-    }
-
-    function startTerminalAnimation() {
+    function initTerminalStatic() {
         if (!editorCode || !livePreview) return;
-        
-        pauseTerminalAnimation();
-        
-        if (terminalWindow) {
-            terminalWindow.classList.remove('compiled');
-            if (isTerminalAnimating) {
-                terminalWindow.classList.add('typing-active');
-            }
-        }
-        editorCode.innerHTML = '';
-        const waitingText = window.TRANSLATIONS[currentLang]["hero.terminal.waiting"];
-        livePreview.innerHTML = `<div class="preview-placeholder">${waitingText}</div>`;
-        currentLineIndex = 0;
-        currentCharIndex = 0;
-        isTerminalFinished = false;
-        
-        if (isTerminalAnimating) {
-            typeNextChar();
-        }
-    }
-
-    function typeNextChar() {
-        if (!isTerminalAnimating) return;
-
-        const terminalCodeLines = getTerminalCodeLines(currentLang);
-        if (currentLineIndex >= terminalCodeLines.length) {
-            showLivePreview();
-            return;
-        }
-
-        const currentLineObj = terminalCodeLines[currentLineIndex];
-        const lineText = currentLineObj.text;
-
-        let lineEl = editorCode.querySelector(`.line-${currentLineIndex}`);
-        if (!lineEl) {
-            lineEl = document.createElement('p');
-            lineEl.className = `line-${currentLineIndex}`;
-            
-            if (currentLineObj.indent) {
-                lineEl.style.paddingLeft = '1.5rem';
-            }
-            
-            if (currentLineObj.isComment) {
-                lineEl.classList.add('code-comment');
-            } else {
-                lineEl.classList.add('code-text');
-            }
-            
-            const oldCursor = editorCode.querySelector('.code-cursor');
-            if (oldCursor) oldCursor.remove();
-            
-            editorCode.appendChild(lineEl);
-            
-            const cursor = document.createElement('span');
-            cursor.className = 'code-cursor';
-            editorCode.appendChild(cursor);
-        }
-
-        if (currentCharIndex < lineText.length) {
-            let char = lineText.charAt(currentCharIndex);
-            // Append a TextNode instead of innerHTML modification to avoid triggering Layout Reflow
-            lineEl.appendChild(document.createTextNode(char));
-            currentCharIndex++;
-            
-            const body = editorCode.parentElement;
-            if (body) {
-                // Prevent layout thrashing by setting scrollTop directly to a large value without reading scrollHeight
-                body.scrollTop = 10000;
-            }
-
-            typingTimer = setTimeout(typeNextChar, Math.random() * 20 + 10);
-        } else {
-            highlightFinishedLine(lineEl, lineText, currentLineObj.isComment);
-            
-            currentLineIndex++;
-            currentCharIndex = 0;
-            typingTimer = setTimeout(typeNextChar, 300);
-        }
-    }
-
-    function highlightFinishedLine(element, text, isComment) {
-        if (isComment) {
-            element.innerHTML = `<span class="code-comment">${text}</span>`;
-            return;
-        }
-        
-        let html = text
-            .replace(/(const|let|var|new|await|return|import|export)/g, '<span class="code-keyword">$1</span>')
-            .replace(/(console\.log|TandemixStudio|createProject|renderLivePreview)/g, '<span class="code-func">$1</span>')
-            .replace(/(true|false|"[^"]*")/g, '<span class="code-string">$1</span>');
-            
-        element.innerHTML = html;
-    }
-
-    function showLivePreview() {
-        if (!livePreview) return;
         
         if (terminalWindow) {
             terminalWindow.classList.remove('typing-active');
+            terminalWindow.classList.add('compiled');
         }
         
-        terminalStateTimeout = setTimeout(() => {
-            const previewBtnText = window.TRANSLATIONS[currentLang]["js.terminal.preview_btn"];
-            livePreview.innerHTML = `
-                <div class="live-site-sim">
-                    <div class="live-site-logo">Tandemix Development</div>
-                    <div class="live-site-bar"></div>
-                    <div class="live-site-btn">${previewBtnText}</div>
-                </div>
-            `;
-            
-            const successLogText = window.TRANSLATIONS[currentLang]["js.terminal.success"];
-            const finalLog = document.createElement('p');
-            finalLog.innerHTML = `<span class="code-comment" style="color: #27c93f; font-weight: bold;">${successLogText}</span>`;
-            
-            const cursor = editorCode.querySelector('.code-cursor');
-            if (cursor) cursor.remove();
-            editorCode.appendChild(finalLog);
-
-            if (terminalWindow) {
-                terminalWindow.classList.add('compiled');
+        const lines = getTerminalCodeLines(currentLang);
+        let html = '';
+        lines.forEach((lineObj, idx) => {
+            const indentStyle = lineObj.indent ? ' style="padding-left: 1.5rem;"' : '';
+            if (lineObj.isComment) {
+                html += `<p class="line-${idx} code-comment"${indentStyle}>${lineObj.text}</p>`;
+            } else if (lineObj.text === '') {
+                html += `<p class="line-${idx} code-text"${indentStyle}><br></p>`;
+            } else {
+                let text = lineObj.text
+                    .replace(/(const|let|var|new|await|return|import|export)/g, '<span class="code-keyword">$1</span>')
+                    .replace(/(console\.log|TandemixStudio|createProject|renderLivePreview)/g, '<span class="code-func">$1</span>')
+                    .replace(/(true|false|"[^"]*")/g, '<span class="code-string">$1</span>');
+                html += `<p class="line-${idx} code-text"${indentStyle}>${text}</p>`;
             }
-
-            isTerminalFinished = true;
-            if (isTerminalAnimating) {
-                terminalStateTimeout = setTimeout(() => {
-                    isTerminalFinished = false;
-                    startTerminalAnimation();
-                }, 8000);
-            }
-        }, 600);
+        });
+        
+        const successLogText = window.TRANSLATIONS[currentLang]["js.terminal.success"];
+        html += `<p class="line-success"><span class="code-comment" style="color: #27c93f; font-weight: bold;">${successLogText}</span></p>`;
+        
+        editorCode.innerHTML = html;
+        
+        const previewBtnText = window.TRANSLATIONS[currentLang]["js.terminal.preview_btn"];
+        livePreview.innerHTML = `
+            <div class="live-site-sim">
+                <div class="live-site-logo">Tandemix Development</div>
+                <div class="live-site-bar"></div>
+                <div class="live-site-btn">${previewBtnText}</div>
+            </div>
+        `;
+        
+        // Scroll to the bottom
+        const body = editorCode.parentElement;
+        if (body) {
+            body.scrollTop = 10000;
+        }
     }
 
-    // Set up viewport IntersectionObserver for the terminal to pause/resume execution
-    const terminalContainer = document.querySelector('.hero-terminal-container');
-    if (terminalContainer) {
-        const terminalObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                isTerminalIntersecting = entry.isIntersecting;
-                updateTerminalState();
-            });
-        }, { threshold: 0.1 });
-        terminalObserver.observe(terminalContainer);
-    } else {
-        isTerminalIntersecting = true;
-        isTerminalAnimating = true;
-        startTerminalAnimation();
-    }
-
-    document.addEventListener('visibilitychange', () => {
-        isTerminalPageVisible = !document.hidden;
-        updateTerminalState();
-    });
+    // Expose globally so setLanguage can update the terminal
+    window.initTerminalStatic = initTerminalStatic;
+    
+    // Initial render
+    initTerminalStatic();
 
 
 

@@ -319,9 +319,7 @@ p {
     left: 0;
     width: 100%;
     z-index: 100;
-    background: var(--bg-dark-glass);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: #030814;
     border-bottom: 1px solid var(--border-color);
     transition: var(--transition-smooth);
 }
@@ -563,21 +561,20 @@ p {
 }
 
 .terminal-window {
-    background: rgba(3, 10, 22, 0.85);
+    background: #030a16;
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(var(--accent-cyan-rgb), 0.05);
+    box-shadow: none;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     height: 480px;
-    backdrop-filter: blur(10px);
     transition: var(--transition-smooth);
 }
 
 .terminal-window:hover {
     border-color: rgba(var(--accent-cyan-rgb), 0.3);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 50px rgba(var(--accent-cyan-rgb), 0.1);
+    box-shadow: none;
 }
 
 .terminal-window.typing-active {
@@ -851,7 +848,6 @@ p {
     transition: var(--transition-smooth);
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(8px);
 }
 
 .concept-card::before {
@@ -998,7 +994,6 @@ p {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    backdrop-filter: blur(8px);
 }
 
 .service-decor {
@@ -1221,16 +1216,11 @@ p {
 }
 
 .results-card {
-    background: rgba(5, 20, 50, 0.6);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(0, 212, 255, 0.12);
+    background: #051432;
+    border: 1px solid rgba(0, 212, 255, 0.22);
     padding: 3rem 2.5rem;
     border-radius: 16px;
-    box-shadow:
-        0 0 0 1px rgba(0, 212, 255, 0.05),
-        0 20px 60px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    box-shadow: none;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -2099,7 +2089,7 @@ p {
     z-index: 5;
 }
 .terminal-window.compiled {
-    box-shadow: 0 0 60px rgba(39, 201, 63, 0.2), 0 0 100px rgba(39, 201, 63, 0.05) !important;
+    box-shadow: none !important;
     border-color: rgba(39, 201, 63, 0.4) !important;
 }
 
@@ -2558,7 +2548,6 @@ p {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 2rem;
-    backdrop-filter: blur(8px);
     transition: var(--transition-smooth);
     min-width: calc(50% - 1rem);
     box-sizing: border-box;
@@ -2697,10 +2686,8 @@ p {
 
 /* [I2] Shrink Header */
 .main-header.scrolled {
-    background: rgba(4, 12, 24, 0.85);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    background: #030814;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 .main-header.scrolled .header-container {
     height: 60px;
