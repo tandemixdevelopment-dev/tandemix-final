@@ -1754,29 +1754,85 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentLineIndex = 0;
     let currentCharIndex = 0;
+    let isTerminalFinished = false;
+    let isTerminalAnimating = false; // Controlled by IntersectionObserver
+    let isTerminalPageVisible = !document.hidden;
+    let isTerminalIntersecting = false;
+    
     let typingTimer = null;
+    let terminalStateTimeout = null;
 
-    function startTerminalAnimation() {
-        if (!editorCode || !livePreview) return;
-        
+    function pauseTerminalAnimation() {
         if (typingTimer) {
             clearTimeout(typingTimer);
             typingTimer = null;
         }
+        if (terminalStateTimeout) {
+            clearTimeout(terminalStateTimeout);
+            terminalStateTimeout = null;
+        }
+    }
+
+    function resumeTerminalAnimation() {
+        pauseTerminalAnimation();
+        
+        if (isTerminalFinished) {
+            terminalStateTimeout = setTimeout(() => {
+                isTerminalFinished = false;
+                startTerminalAnimation();
+            }, 8000);
+        } else {
+            typeNextChar();
+        }
+    }
+
+    function updateTerminalState() {
+        const shouldAnimate = isTerminalPageVisible && isTerminalIntersecting;
+        if (shouldAnimate) {
+            if (!isTerminalAnimating) {
+                isTerminalAnimating = true;
+                if (terminalWindow) {
+                    terminalWindow.classList.add('typing-active');
+                }
+                resumeTerminalAnimation();
+            }
+        } else {
+            if (isTerminalAnimating) {
+                isTerminalAnimating = false;
+                if (terminalWindow) {
+                    terminalWindow.classList.remove('typing-active');
+                }
+                pauseTerminalAnimation();
+            }
+        }
+    }
+
+    function startTerminalAnimation() {
+        if (!editorCode || !livePreview) return;
+        
+        pauseTerminalAnimation();
         
         if (terminalWindow) {
             terminalWindow.classList.remove('compiled');
+            if (isTerminalAnimating) {
+                terminalWindow.classList.add('typing-active');
+            }
         }
         editorCode.innerHTML = '';
         const waitingText = window.TRANSLATIONS[currentLang]["hero.terminal.waiting"];
         livePreview.innerHTML = `<div class="preview-placeholder">${waitingText}</div>`;
         currentLineIndex = 0;
         currentCharIndex = 0;
+        isTerminalFinished = false;
         
-        typeNextChar();
+        if (isTerminalAnimating) {
+            typeNextChar();
+        }
     }
 
     function typeNextChar() {
+        if (!isTerminalAnimating) return;
+
         const terminalCodeLines = getTerminalCodeLines(currentLang);
         if (currentLineIndex >= terminalCodeLines.length) {
             showLivePreview();
@@ -1813,11 +1869,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (currentCharIndex < lineText.length) {
             let char = lineText.charAt(currentCharIndex);
-            lineEl.innerHTML += char;
+            // Append a TextNode instead of innerHTML modification to avoid triggering Layout Reflow
+            lineEl.appendChild(document.createTextNode(char));
             currentCharIndex++;
             
             const body = editorCode.parentElement;
-            body.scrollTop = body.scrollHeight;
+            if (body) {
+                // Prevent layout thrashing by setting scrollTop directly to a large value without reading scrollHeight
+                body.scrollTop = 10000;
+            }
 
             typingTimer = setTimeout(typeNextChar, Math.random() * 20 + 10);
         } else {
@@ -1846,7 +1906,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function showLivePreview() {
         if (!livePreview) return;
         
-        setTimeout(() => {
+        if (terminalWindow) {
+            terminalWindow.classList.remove('typing-active');
+        }
+        
+        terminalStateTimeout = setTimeout(() => {
             const previewBtnText = window.TRANSLATIONS[currentLang]["js.terminal.preview_btn"];
             livePreview.innerHTML = `
                 <div class="live-site-sim">
@@ -1868,12 +1932,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 terminalWindow.classList.add('compiled');
             }
 
-            setTimeout(startTerminalAnimation, 8000);
+            isTerminalFinished = true;
+            if (isTerminalAnimating) {
+                terminalStateTimeout = setTimeout(() => {
+                    isTerminalFinished = false;
+                    startTerminalAnimation();
+                }, 8000);
+            }
         }, 600);
     }
 
-    // Launch terminal loop
-    startTerminalAnimation();
+    // Set up viewport IntersectionObserver for the terminal to pause/resume execution
+    const terminalContainer = document.querySelector('.hero-terminal-container');
+    if (terminalContainer) {
+        const terminalObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                isTerminalIntersecting = entry.isIntersecting;
+                updateTerminalState();
+            });
+        }, { threshold: 0.1 });
+        terminalObserver.observe(terminalContainer);
+    } else {
+        isTerminalIntersecting = true;
+        isTerminalAnimating = true;
+        startTerminalAnimation();
+    }
+
+    document.addEventListener('visibilitychange', () => {
+        isTerminalPageVisible = !document.hidden;
+        updateTerminalState();
+    });
 
 
 
@@ -2559,9 +2647,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Listen to scroll events
         body.addEventListener('scroll', updateScrollbar);
         
-        // Also listen to MutationObserver to update when new content is added
+        // Also listen to MutationObserver to update when new lines are added
         const observer = new MutationObserver(updateScrollbar);
-        observer.observe(body, { childList: true, subtree: true });
+        const editorCodeEl = document.getElementById('editor-code');
+        if (editorCodeEl) {
+            observer.observe(editorCodeEl, { childList: true, subtree: false });
+        } else {
+            observer.observe(body, { childList: true, subtree: false });
+        }
         
         // Window resize handle
         window.addEventListener('resize', updateScrollbar);

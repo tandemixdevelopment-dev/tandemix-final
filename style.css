@@ -580,6 +580,17 @@ p {
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 50px rgba(var(--accent-cyan-rgb), 0.1);
 }
 
+.terminal-window.typing-active {
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    background: #030a16 !important;
+    will-change: transform, opacity;
+}
+
+.terminal-body {
+    will-change: scroll-position;
+}
+
 .terminal-header {
     background: #040f20;
     padding: 0.75rem 1rem;
