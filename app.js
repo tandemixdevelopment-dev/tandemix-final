@@ -1630,6 +1630,35 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', arrangeMobileCalculator);
     arrangeMobileCalculator();
 
+    // Dynamic Portfolio Tags Cloner (Mobile vs Desktop)
+    function arrangeMobilePortfolioTags() {
+        const isMobile = window.innerWidth <= 768;
+        document.querySelectorAll('.portfolio-card').forEach(card => {
+            const details = card.querySelector('.portfolio-details');
+            const hoverTags = card.querySelector('.portfolio-hover-info .hover-tags');
+            
+            if (!details || !hoverTags) return;
+            
+            let mobileTags = details.querySelector('.mobile-portfolio-tags');
+            
+            if (isMobile) {
+                if (!mobileTags) {
+                    mobileTags = hoverTags.cloneNode(true);
+                    mobileTags.classList.add('mobile-portfolio-tags');
+                    details.appendChild(mobileTags);
+                }
+            } else {
+                if (mobileTags) {
+                    mobileTags.remove();
+                }
+            }
+        });
+    }
+
+    // Call portfolio tags cloner on resize and load
+    window.addEventListener('resize', arrangeMobilePortfolioTags);
+    arrangeMobilePortfolioTags();
+
     // Interactive Calculator Accordion on Mobile (Collapse/Expand)
     document.querySelectorAll('.calc-group').forEach((group) => {
         const label = group.querySelector('.calc-label');
