@@ -4109,10 +4109,11 @@ body.menu-open {
     }
 
     .portfolio-mockup {
-        width: 150% !important;
-        height: 150% !important;
-        transform: scale(0.667) !important;
-        transform-origin: center !important;
+        width: 100% !important;
+        height: 100% !important;
+        transform: none !important;
+        border-radius: 0 !important;
+        border: none !important;
     }
 
     .portfolio-hover-info {
