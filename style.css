@@ -4104,6 +4104,49 @@ body.menu-open {
         height: 120px !important;
     }
 
+    .portfolio-mockup {
+        width: 150% !important;
+        height: 150% !important;
+        transform: scale(0.667) !important;
+        transform-origin: top left !important;
+    }
+
+    .portfolio-hover-info {
+        transform: translateY(101%) !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease !important;
+        padding: 0.5rem !important;
+        background: rgba(2, 6, 14, 0.95) !important;
+    }
+
+    .portfolio-card:hover .portfolio-hover-info {
+        transform: translateY(0) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    .hover-content {
+        gap: 0.5rem !important;
+    }
+
+    .hover-tags {
+        gap: 0.25rem !important;
+    }
+
+    .tech-tag {
+        font-size: 0.55rem !important;
+        padding: 0.1rem 0.3rem !important;
+    }
+
+    .portfolio-hover-info .btn {
+        font-size: 0.65rem !important;
+        padding: 0.35rem 0.6rem !important;
+        width: 90% !important;
+        margin: 0 auto !important;
+        white-space: nowrap !important;
+    }
+
     .portfolio-details {
         padding: 1rem !important;
         gap: 0.25rem !important;
