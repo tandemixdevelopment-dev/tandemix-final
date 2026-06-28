@@ -2144,26 +2144,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 formStatus.style.display = 'block';
             };
 
-            // [T3] EmailJS Sending logic
-            if (typeof emailjs !== 'undefined' && emailjs.send) {
-                // Если настроены настоящие SERVICE_ID, TEMPLATE_ID в EmailJS, выполнится отправка.
-                // В противном случае сработает резервный режим имитации.
-                emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-                    from_name: name,
+            // Send request to FormSubmit to route email directly to tandemixdevelopment@gmail.com
+            fetch("https://formsubmit.co/ajax/tandemixdevelopment@gmail.com", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    name: name,
                     contact: contact,
                     project_type: type,
-                    message: message
+                    message: message,
+                    _subject: "Новая заявка с сайта Tandemix"
                 })
-                .then(handleSuccess)
-                .catch((err) => {
-                    console.error("EmailJS Error: ", err);
-                    // Имитируем успешную отправку, если ключи по умолчанию не заменены (для демонстрации)
-                    setTimeout(handleSuccess, 1000);
-                });
-            } else {
-                // Fallback simulation if script is blocked or not loaded
-                setTimeout(handleSuccess, 1500);
-            }
+            })
+            .then(response => {
+                if (response.ok) {
+                    handleSuccess();
+                } else {
+                    handleError();
+                }
+            })
+            .catch(err => {
+                console.error("FormSubmit Error: ", err);
+                handleError();
+            });
         });
     }
 
