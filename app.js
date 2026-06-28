@@ -2421,30 +2421,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tblBads.forEach(el => bounceObserver.observe(el));
     }
 
-    // ==========================================
-    // [C3] FAQ Accordion Logic
-    // ==========================================
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-        const trigger = item.querySelector('.faq-trigger');
-        if (trigger) {
-            trigger.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-                
-                // Close all items
-                faqItems.forEach(otherItem => {
-                    otherItem.classList.remove('active');
-                    otherItem.querySelector('.faq-trigger')?.setAttribute('aria-expanded', 'false');
-                });
-                
-                // If it wasn't active, open it
-                if (!isActive) {
-                    item.classList.add('active');
-                    trigger.setAttribute('aria-expanded', 'true');
-                }
-            });
-        }
-    });
+
 
     // ==========================================
     // Portfolio "Discuss Similar Project" Click Handler
