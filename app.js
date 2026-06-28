@@ -1935,7 +1935,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Check scroll position immediately on load
     const checkScrollPosition = () => {
-        const scrolledAway = window.scrollY > 50;
+        const heroSection = document.getElementById('hero');
+        const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+        const scrolledAway = window.scrollY > heroHeight * 0.8;
         if (scrolledAway) {
             isHeroVisible = false;
             isAnimating = false;
@@ -1956,7 +1958,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Instantly pause/resume hero animations on scroll
     window.addEventListener('scroll', () => {
-        const scrolledAway = window.scrollY > 50; // Pause as soon as they scroll down 50px
+        const heroSection = document.getElementById('hero');
+        const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+        const scrolledAway = window.scrollY > heroHeight * 0.8; // Pause as soon as they scroll past 80% of the first screen
         
         if (scrolledAway) {
             isHeroVisible = false;
