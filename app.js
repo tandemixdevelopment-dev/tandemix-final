@@ -1947,6 +1947,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearTimeout(typingTimer);
                 typingTimer = null;
             }
+            if (terminalWindow) {
+                terminalWindow.classList.add('paused-animation');
+            }
         } else {
             // Resume particle canvas when returning to top
             if (canvas && !isAnimating) {
@@ -1956,6 +1959,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Resume terminal typewriter when returning to top
             if (editorCode && !typingTimer) {
                 startTerminalAnimation();
+            }
+            if (terminalWindow) {
+                terminalWindow.classList.remove('paused-animation');
             }
         }
     }, { passive: true });

@@ -704,6 +704,11 @@ p {
     animation: cursorBlink 0.8s infinite;
 }
 
+.terminal-window.paused-animation .code-cursor {
+    animation: none !important;
+    opacity: 1 !important;
+}
+
 /* Terminal Preview Pane */
 .terminal-preview-pane {
     background: #030814;
