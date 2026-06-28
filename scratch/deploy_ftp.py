@@ -8,7 +8,7 @@ password = 'T9e6O6D-.5Fanc'
 remote_dir = 'public_html'
 local_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-files_to_upload = ['app.js', 'style.css', 'index.html', 'assets/maxim.jpg']
+files_to_upload = ['app.js', 'style.css', 'index.html', 'assets/maxim.jpg', 'assets/vitya.png']
 
 try:
     print("Connecting to FTP...")
