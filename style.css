@@ -4483,8 +4483,8 @@ body.menu-open {
 .energy-bar.bar-5 { height: 22px; background: var(--accent-purple); }
 
 /* Revert all custom cursor none overrides to default browser native cursors */
-html, body {
-    cursor: default !important;
+html, body, * {
+    cursor: auto !important;
 }
 .btn,
 button,
