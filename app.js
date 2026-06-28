@@ -2201,116 +2201,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // [P2] Custom Cursor Logic
+    // [P2] Textarea Resizer dragging script
     // ==========================================
-    const cursor = document.getElementById('custom-cursor');
-    const trail = document.getElementById('cursor-trail');
-    let trailX = 0, trailY = 0;
-    let isResizing = false;
-    
-    if (cursor && trail) {
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
+    (function initTextareaResizer() {
+        const textarea = document.getElementById('form-message');
+        const resizer = document.getElementById('textarea-resizer');
+        if (!textarea || !resizer) return;
+        
+        let startY = 0;
+        let startHeight = 0;
+        
+        resizer.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            startY = e.clientY;
+            startHeight = textarea.offsetHeight;
+            
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
         });
         
-        // Trail follows with lerp
-        function animateCursorTrail() {
-            const cursorLeft = parseFloat(cursor.style.left) || 0;
-            const cursorTop = parseFloat(cursor.style.top) || 0;
-            trailX += (cursorLeft - trailX) * 0.15;
-            trailY += (cursorTop - trailY) * 0.15;
-            trail.style.left = trailX + 'px';
-            trail.style.top = trailY + 'px';
-            requestAnimationFrame(animateCursorTrail);
+        function handleMouseMove(e) {
+            const dy = e.clientY - startY;
+            const newHeight = Math.max(100, Math.min(400, startHeight + dy));
+            textarea.style.height = newHeight + 'px';
         }
-        animateCursorTrail();
         
-        // Global Hover Logic via Event Delegation
-        document.addEventListener('mouseover', (e) => {
-            if (isResizing) return;
-            const target = e.target;
-            if (!target) return;
-            
-            const isResize = target.closest('.textarea-resizer');
-            const isText = target.closest('input[type="text"], input[type="email"], input[type="tel"], textarea:not(.textarea-resizer)');
-            const isPointer = target.closest('.btn, button, .testimonial-prev, .testimonial-next, .testimonial-dot, .faq-trigger, .scroll-top-btn, .filter-btn, .lang-btn, .mobile-nav-toggle, .calc-option, .calc-checkbox-item, .custom-select, .custom-option, a, .terminal-scrollbar-thumb, .terminal-scrollbar-track, .main-scrollbar-thumb, .main-scrollbar-track');
-            const isGrow = target.closest('select, .portfolio-card, .service-card');
-            
-            cursor.classList.remove('hover-text', 'hover-pointer', 'hover-grow', 'hover-resize');
-            
-            if (isResize) {
-                cursor.classList.add('hover-resize');
-            } else if (isText) {
-                cursor.classList.add('hover-text');
-            } else if (isPointer) {
-                cursor.classList.add('hover-pointer');
-            } else if (isGrow) {
-                cursor.classList.add('hover-grow');
-            }
-        });
-        
-        document.addEventListener('mouseout', (e) => {
-            if (isResizing) return;
-            const related = e.relatedTarget;
-            if (!related) {
-                cursor.classList.remove('hover-text', 'hover-pointer', 'hover-grow', 'hover-resize');
-                return;
-            }
-            
-            const isToResize = related.closest('.textarea-resizer');
-            const isToText = related.closest('input[type="text"], input[type="email"], input[type="tel"], textarea:not(.textarea-resizer)');
-            const isToPointer = related.closest('.btn, button, .testimonial-prev, .testimonial-next, .testimonial-dot, .faq-trigger, .scroll-top-btn, .filter-btn, .lang-btn, .mobile-nav-toggle, .calc-option, .calc-checkbox-item, .custom-select, .custom-option, a, .terminal-scrollbar-thumb, .terminal-scrollbar-track, .main-scrollbar-thumb, .main-scrollbar-track');
-            const isToGrow = related.closest('select, .portfolio-card, .service-card');
-            
-            if (!isToResize && !isToText && !isToPointer && !isToGrow) {
-                cursor.classList.remove('hover-text', 'hover-pointer', 'hover-grow', 'hover-resize');
-            }
-        });
-        
-        // Hide on mobile:
-        if (window.innerWidth < 768) {
-            cursor.style.display = 'none';
-            trail.style.display = 'none';
-            document.body.style.cursor = 'auto';
+        function handleMouseUp() {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
         }
-
-        // Custom Textarea Resizer dragging script
-        (function initTextareaResizer() {
-            const textarea = document.getElementById('form-message');
-            const resizer = document.getElementById('textarea-resizer');
-            if (!textarea || !resizer) return;
-            
-            let startY = 0;
-            let startHeight = 0;
-            
-            resizer.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                isResizing = true;
-                cursor.classList.remove('hover-text', 'hover-pointer', 'hover-grow');
-                cursor.classList.add('hover-resize');
-                
-                startY = e.clientY;
-                startHeight = textarea.offsetHeight;
-                
-                document.addEventListener('mousemove', handleMouseMove);
-                document.addEventListener('mouseup', handleMouseUp);
-            });
-            
-            function handleMouseMove(e) {
-                const dy = e.clientY - startY;
-                const newHeight = Math.max(100, Math.min(400, startHeight + dy));
-                textarea.style.height = newHeight + 'px';
-            }
-            
-            function handleMouseUp() {
-                isResizing = false;
-                document.removeEventListener('mousemove', handleMouseMove);
-                document.removeEventListener('mouseup', handleMouseUp);
-                cursor.classList.remove('hover-resize');
-            }
-        })();
-    }
+    })();
 
     // ==========================================
     // [P3] 3D Mouse-Tilt Logic

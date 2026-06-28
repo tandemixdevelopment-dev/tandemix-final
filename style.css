@@ -4481,3 +4481,46 @@ body.menu-open {
 .energy-bar.bar-3 { height: 25px; background: var(--accent-purple); }
 .energy-bar.bar-4 { height: 15px; background: var(--accent-cyan); }
 .energy-bar.bar-5 { height: 22px; background: var(--accent-purple); }
+
+/* Revert all custom cursor none overrides to default browser native cursors */
+html, body {
+    cursor: default !important;
+}
+.btn,
+button,
+input[type="submit"],
+input[type="button"],
+.testimonial-prev,
+.testimonial-next,
+.testimonial-dot,
+.faq-trigger,
+.scroll-top-btn,
+.filter-btn,
+.lang-btn,
+.calc-option,
+.calc-checkbox-item,
+.custom-select,
+.custom-select-trigger,
+.custom-option,
+.textarea-resizer,
+.terminal-scrollbar-thumb,
+.terminal-scrollbar-track,
+.main-scrollbar-thumb,
+.main-scrollbar-track,
+a,
+a * {
+    cursor: pointer !important;
+}
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+    cursor: text !important;
+}
+.textarea-resizer {
+    cursor: ns-resize !important;
+}
+.custom-cursor,
+.custom-cursor-trail {
+    display: none !important;
+}
