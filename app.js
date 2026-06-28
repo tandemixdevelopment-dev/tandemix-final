@@ -1857,6 +1857,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Expose renderStaticTerminal globally so setLanguage can trigger it
     window.renderStaticTerminal = renderStaticTerminal;
+    renderStaticTerminal();
 
     // Check scroll position immediately on load for canvas
     const checkScrollPosition = () => {
