@@ -1900,7 +1900,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showLivePreview() {
         if (!livePreview) return;
         
-        setTimeout(() => {
+        typingTimer = setTimeout(() => {
             const previewBtnText = window.TRANSLATIONS[currentLang]["js.terminal.preview_btn"];
             livePreview.innerHTML = `
                 <div class="live-site-sim">
@@ -1922,12 +1922,50 @@ document.addEventListener('DOMContentLoaded', () => {
                 terminalWindow.classList.add('compiled');
             }
 
-            setTimeout(startTerminalAnimation, 8000);
+            typingTimer = setTimeout(startTerminalAnimation, 8000);
         }, 600);
     }
 
     // Launch terminal loop
     startTerminalAnimation();
+
+    // IntersectionObserver to pause/resume hero animations on scroll
+    const heroSection = document.getElementById('hero');
+    if (heroSection) {
+        let heroObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Resume particle canvas animation
+                    if (canvas && !isAnimating) {
+                        isAnimating = true;
+                        animateParticles();
+                    }
+                    // Resume terminal typing loop if it was stopped
+                    if (editorCode && !typingTimer) {
+                        startTerminalAnimation();
+                    }
+                } else {
+                    // Pause particle canvas animation
+                    if (canvas && isAnimating) {
+                        isAnimating = false;
+                        if (animId) {
+                            cancelAnimationFrame(animId);
+                            animId = null;
+                        }
+                    }
+                    // Pause terminal typing loop
+                    if (typingTimer) {
+                        clearTimeout(typingTimer);
+                        typingTimer = null;
+                    }
+                }
+            });
+        }, {
+            threshold: 0.05
+        });
+        
+        heroObserver.observe(heroSection);
+    }
 
 
 
