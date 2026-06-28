@@ -1153,24 +1153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ==========================================
-    // A4: Cursor Click Ripple
-    // ==========================================
-    window.addEventListener('click', (e) => {
-        const ripple = document.createElement('div');
-        ripple.className = 'click-ripple';
-        ripple.style.left = `${e.clientX}px`;
-        ripple.style.top = `${e.clientY}px`;
-        document.body.appendChild(ripple);
-        
-        const cleanup = () => {
-            if (ripple.parentNode) {
-                ripple.parentNode.removeChild(ripple);
-            }
-        };
-        ripple.addEventListener('animationend', cleanup);
-        setTimeout(cleanup, 1000);
-    });
+
 
     // ==========================================
     // V14: Footer Polish Columns Reveal & Years
