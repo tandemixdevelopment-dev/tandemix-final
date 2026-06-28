@@ -831,6 +831,11 @@ function setLanguage(lang) {
     if (typeof window.calculateCost === 'function') {
         window.calculateCost();
     }
+
+    // Update static terminal language
+    if (typeof window.renderStaticTerminal === 'function') {
+        window.renderStaticTerminal();
+    }
 }
 
 // Hook up setLanguage globally
@@ -876,10 +881,6 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', (e) => {
             const targetLang = e.target.getAttribute('data-lang');
             window.setLanguage(targetLang);
-            // Restart terminal animation in new language
-            if (typeof startTerminalAnimation === 'function') {
-                startTerminalAnimation();
-            }
         });
     });
 
@@ -1806,164 +1807,75 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
     }
 
-    let currentLineIndex = 0;
-    let currentCharIndex = 0;
-    let typingTimer = null;
-    let isHeroVisible = true;
-
-    function startTerminalAnimation() {
-        if (!isHeroVisible) return;
+    function renderStaticTerminal() {
         if (!editorCode || !livePreview) return;
         
-        if (typingTimer) {
-            clearTimeout(typingTimer);
-            typingTimer = null;
-        }
-        
-        if (terminalWindow) {
-            terminalWindow.classList.remove('compiled');
-        }
-        editorCode.innerHTML = '';
-        const waitingText = window.TRANSLATIONS[currentLang]["hero.terminal.waiting"];
-        livePreview.innerHTML = `<div class="preview-placeholder">${waitingText}</div>`;
-        currentLineIndex = 0;
-        currentCharIndex = 0;
-        
-        typeNextChar();
-    }
+        // 1. Highlight helper
+        const highlightLine = (text, isComment) => {
+            if (isComment) {
+                return `<span class="code-comment">${text}</span>`;
+            }
+            return text
+                .replace(/(const|let|var|new|await|return|import|export)/g, '<span class="code-keyword">$1</span>')
+                .replace(/(console\.log|TandemixStudio|createProject|renderLivePreview)/g, '<span class="code-func">$1</span>')
+                .replace(/(true|false|"[^"]*")/g, '<span class="code-string">$1</span>');
+        };
 
-    function typeNextChar() {
-        if (!isHeroVisible) return;
+        // 2. Generate lines
         const terminalCodeLines = getTerminalCodeLines(currentLang);
-        if (currentLineIndex >= terminalCodeLines.length) {
-            showLivePreview();
-            return;
-        }
-
-        const currentLineObj = terminalCodeLines[currentLineIndex];
-        const lineText = currentLineObj.text;
-
-        let lineEl = editorCode.querySelector(`.line-${currentLineIndex}`);
-        if (!lineEl) {
-            lineEl = document.createElement('p');
-            lineEl.className = `line-${currentLineIndex}`;
-            
-            if (currentLineObj.indent) {
-                lineEl.style.paddingLeft = '1.5rem';
-            }
-            
-            if (currentLineObj.isComment) {
-                lineEl.classList.add('code-comment');
-            } else {
-                lineEl.classList.add('code-text');
-            }
-            
-            const oldCursor = editorCode.querySelector('.code-cursor');
-            if (oldCursor) oldCursor.remove();
-            
-            editorCode.appendChild(lineEl);
-            
-            const cursor = document.createElement('span');
-            cursor.className = 'code-cursor';
-            editorCode.appendChild(cursor);
-        }
-
-        if (currentCharIndex < lineText.length) {
-            let char = lineText.charAt(currentCharIndex);
-            lineEl.innerHTML += char;
-            currentCharIndex++;
-            
-            const body = editorCode.parentElement;
-            body.scrollTop = body.scrollHeight;
-
-            typingTimer = setTimeout(typeNextChar, Math.random() * 20 + 10);
-        } else {
-            highlightFinishedLine(lineEl, lineText, currentLineObj.isComment);
-            
-            currentLineIndex++;
-            currentCharIndex = 0;
-            typingTimer = setTimeout(typeNextChar, 300);
-        }
-    }
-
-    function highlightFinishedLine(element, text, isComment) {
-        if (isComment) {
-            element.innerHTML = `<span class="code-comment">${text}</span>`;
-            return;
-        }
+        let editorHTML = '';
         
-        let html = text
-            .replace(/(const|let|var|new|await|return|import|export)/g, '<span class="code-keyword">$1</span>')
-            .replace(/(console\.log|TandemixStudio|createProject|renderLivePreview)/g, '<span class="code-func">$1</span>')
-            .replace(/(true|false|"[^"]*")/g, '<span class="code-string">$1</span>');
+        terminalCodeLines.forEach((lineObj, idx) => {
+            const indentStyle = lineObj.indent ? ' style="padding-left: 1.5rem;"' : '';
+            const lineClass = lineObj.isComment ? 'code-comment' : 'code-text';
+            const highlighted = highlightLine(lineObj.text, lineObj.isComment);
             
-        element.innerHTML = html;
+            editorHTML += `<p class="line-${idx} ${lineClass}"${indentStyle}>${highlighted}</p>`;
+        });
+
+        // 3. Append Success Log Line
+        const successLogText = window.TRANSLATIONS[currentLang]["js.terminal.success"];
+        editorHTML += `<p class="line-success"><span class="code-comment" style="color: #27c93f; font-weight: bold;">${successLogText}</span></p>`;
+
+        editorCode.innerHTML = editorHTML;
+
+        // 4. Render Live Preview Simulation
+        const previewBtnText = window.TRANSLATIONS[currentLang]["js.terminal.preview_btn"];
+        livePreview.innerHTML = `
+            <div class="live-site-sim">
+                <div class="live-site-logo">Tandemix Development</div>
+                <div class="live-site-bar"></div>
+                <div class="live-site-btn">${previewBtnText}</div>
+            </div>
+        `;
+
+        // 5. Add Compiled Class for Green Glow
+        if (terminalWindow) {
+            terminalWindow.classList.add('compiled');
+        }
     }
 
-    function showLivePreview() {
-        if (!isHeroVisible) return;
-        if (!livePreview) return;
-        
-        typingTimer = setTimeout(() => {
-            const previewBtnText = window.TRANSLATIONS[currentLang]["js.terminal.preview_btn"];
-            livePreview.innerHTML = `
-                <div class="live-site-sim">
-                    <div class="live-site-logo">Tandemix Development</div>
-                    <div class="live-site-bar"></div>
-                    <div class="live-site-btn">${previewBtnText}</div>
-                </div>
-            `;
-            
-            const successLogText = window.TRANSLATIONS[currentLang]["js.terminal.success"];
-            const finalLog = document.createElement('p');
-            finalLog.innerHTML = `<span class="code-comment" style="color: #27c93f; font-weight: bold;">${successLogText}</span>`;
-            
-            const cursor = editorCode.querySelector('.code-cursor');
-            if (cursor) cursor.remove();
-            editorCode.appendChild(finalLog);
+    // Expose renderStaticTerminal globally so setLanguage can trigger it
+    window.renderStaticTerminal = renderStaticTerminal;
 
-            if (terminalWindow) {
-                terminalWindow.classList.add('compiled');
-            }
-
-            typingTimer = setTimeout(startTerminalAnimation, 8000);
-        }, 600);
-    }
-
-    // Launch terminal loop
-    startTerminalAnimation();
-
-    // Check scroll position immediately on load
+    // Check scroll position immediately on load for canvas
     const checkScrollPosition = () => {
-        const heroSection = document.getElementById('hero');
-        const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
-        const scrolledAway = window.scrollY > heroHeight * 0.8;
+        const scrolledAway = window.scrollY > window.innerHeight * 0.8;
         if (scrolledAway) {
-            isHeroVisible = false;
             isAnimating = false;
             if (animId) {
                 cancelAnimationFrame(animId);
                 animId = null;
             }
-            if (typingTimer) {
-                clearTimeout(typingTimer);
-                typingTimer = null;
-            }
-            if (terminalWindow) {
-                terminalWindow.classList.add('paused-animation');
-            }
         }
     };
     checkScrollPosition();
 
-    // Instantly pause/resume hero animations on scroll
+    // Instantly pause/resume particle canvas on scroll
     window.addEventListener('scroll', () => {
-        const heroSection = document.getElementById('hero');
-        const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
-        const scrolledAway = window.scrollY > heroHeight * 0.8; // Pause as soon as they scroll past 80% of the first screen
+        const scrolledAway = window.scrollY > window.innerHeight * 0.8;
         
         if (scrolledAway) {
-            isHeroVisible = false;
             // Instantly pause particle canvas
             if (canvas && isAnimating) {
                 isAnimating = false;
@@ -1972,27 +1884,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     animId = null;
                 }
             }
-            // Instantly pause terminal typewriter
-            if (typingTimer) {
-                clearTimeout(typingTimer);
-                typingTimer = null;
-            }
-            if (terminalWindow) {
-                terminalWindow.classList.add('paused-animation');
-            }
         } else {
-            isHeroVisible = true;
             // Resume particle canvas when returning to top
             if (canvas && !isAnimating) {
                 isAnimating = true;
                 animateParticles();
-            }
-            // Resume terminal typewriter when returning to top
-            if (editorCode && !typingTimer) {
-                typeNextChar();
-            }
-            if (terminalWindow) {
-                terminalWindow.classList.remove('paused-animation');
             }
         }
     }, { passive: true });
