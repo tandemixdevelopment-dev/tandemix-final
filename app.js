@@ -2578,16 +2578,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Custom Scrollbar for Main Viewport
     // ==========================================
     (function initMainScrollbar() {
-        if (window.innerWidth < 768) return;
-        
         const track = document.querySelector('.main-scrollbar-track');
         const thumb = document.querySelector('.main-scrollbar-thumb');
         if (!track || !thumb) return;
         
         function updateScrollbar() {
+            if (window.innerWidth < 768) {
+                track.style.display = 'none';
+                return;
+            }
+            
             const height = window.innerHeight;
-            const scrollHeight = document.documentElement.scrollHeight;
-            const scrollTop = window.scrollY;
+            const scrollHeight = Math.max(
+                document.body.scrollHeight, 
+                document.documentElement.scrollHeight,
+                document.body.offsetHeight, 
+                document.documentElement.offsetHeight,
+                document.body.clientHeight, 
+                document.documentElement.clientHeight
+            );
+            const scrollTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
             
             if (scrollHeight <= height) {
                 track.style.display = 'none';
@@ -2606,20 +2616,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Listen to scroll events
-        window.addEventListener('scroll', updateScrollbar);
+        window.addEventListener('scroll', updateScrollbar, { passive: true });
         
         // Listen to MutationObserver to update when DOM height changes dynamically
         const observer = new MutationObserver(updateScrollbar);
         observer.observe(document.body, { childList: true, subtree: true });
         
         // Resize events
-        window.addEventListener('resize', () => {
-            if (window.innerWidth < 768) {
-                track.style.display = 'none';
-            } else {
-                updateScrollbar();
-            }
-        });
+        window.addEventListener('resize', updateScrollbar);
         
         // Initial call
         updateScrollbar();
@@ -2633,7 +2637,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             isDragging = true;
             startY = e.clientY;
-            startScrollTop = window.scrollY;
+            startScrollTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
             document.body.style.userSelect = 'none';
             thumb.style.background = 'var(--accent-cyan)';
         });
@@ -2642,7 +2646,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isDragging) return;
             const deltaY = e.clientY - startY;
             const height = window.innerHeight;
-            const scrollHeight = document.documentElement.scrollHeight;
+            const scrollHeight = Math.max(
+                document.body.scrollHeight, 
+                document.documentElement.scrollHeight,
+                document.body.offsetHeight, 
+                document.documentElement.offsetHeight,
+                document.body.clientHeight, 
+                document.documentElement.clientHeight
+            );
             const thumbHeight = parseFloat(thumb.style.height) || 50;
             const maxScrollTop = scrollHeight - height;
             const maxThumbTop = height - thumbHeight - 8;
