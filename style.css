@@ -4507,6 +4507,8 @@ input[type="button"],
 .terminal-scrollbar-track,
 .main-scrollbar-thumb,
 .main-scrollbar-track,
+.nav-link,
+.logo,
 a,
 a * {
     cursor: pointer !important;
