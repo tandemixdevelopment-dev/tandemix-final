@@ -1809,8 +1809,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentLineIndex = 0;
     let currentCharIndex = 0;
     let typingTimer = null;
+    let isHeroVisible = true;
 
     function startTerminalAnimation() {
+        if (!isHeroVisible) return;
         if (!editorCode || !livePreview) return;
         
         if (typingTimer) {
@@ -1831,6 +1833,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function typeNextChar() {
+        if (!isHeroVisible) return;
         const terminalCodeLines = getTerminalCodeLines(currentLang);
         if (currentLineIndex >= terminalCodeLines.length) {
             showLivePreview();
@@ -1898,6 +1901,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showLivePreview() {
+        if (!isHeroVisible) return;
         if (!livePreview) return;
         
         typingTimer = setTimeout(() => {
@@ -1929,11 +1933,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // Launch terminal loop
     startTerminalAnimation();
 
+    // Check scroll position immediately on load
+    const checkScrollPosition = () => {
+        const scrolledAway = window.scrollY > 50;
+        if (scrolledAway) {
+            isHeroVisible = false;
+            isAnimating = false;
+            if (animId) {
+                cancelAnimationFrame(animId);
+                animId = null;
+            }
+            if (typingTimer) {
+                clearTimeout(typingTimer);
+                typingTimer = null;
+            }
+            if (terminalWindow) {
+                terminalWindow.classList.add('paused-animation');
+            }
+        }
+    };
+    checkScrollPosition();
+
     // Instantly pause/resume hero animations on scroll
     window.addEventListener('scroll', () => {
-        const scrolledAway = window.scrollY > 100; // Pause as soon as they scroll down 100px
+        const scrolledAway = window.scrollY > 50; // Pause as soon as they scroll down 50px
         
         if (scrolledAway) {
+            isHeroVisible = false;
             // Instantly pause particle canvas
             if (canvas && isAnimating) {
                 isAnimating = false;
@@ -1951,6 +1977,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 terminalWindow.classList.add('paused-animation');
             }
         } else {
+            isHeroVisible = true;
             // Resume particle canvas when returning to top
             if (canvas && !isAnimating) {
                 isAnimating = true;
