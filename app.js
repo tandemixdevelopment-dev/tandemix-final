@@ -1989,7 +1989,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             // Resume terminal typewriter when returning to top
             if (editorCode && !typingTimer) {
-                startTerminalAnimation();
+                typeNextChar();
             }
             if (terminalWindow) {
                 terminalWindow.classList.remove('paused-animation');
