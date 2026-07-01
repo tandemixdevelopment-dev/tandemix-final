@@ -31,10 +31,19 @@
     <link rel="icon" type="image/jpeg" href="assets/logo_square.jpg">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css?v=fresh_v40">
+    <link rel="stylesheet" href="style.css?v=fresh_v42">
 
     <!-- EmailJS Integration -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
+    <script>
+        window.addEventListener('error', function(e) {
+            console.error(e.error);
+            const errDiv = document.createElement('div');
+            errDiv.style = 'position:fixed;top:10px;left:10px;right:10px;background:rgba(255,0,0,0.95);color:#fff;padding:15px;z-index:999999;border-radius:8px;font-family:sans-serif;font-size:14px;line-height:1.4;box-shadow:0 5px 15px rgba(0,0,0,0.5);';
+            errDiv.innerHTML = '<strong>JS Error:</strong> ' + e.message + '<br><small>' + e.filename + ':' + e.lineno + ':' + e.colno + '</small>';
+            document.body.appendChild(errDiv);
+        });
+    </script>
 </head>
 <body>
 
@@ -1467,6 +1476,6 @@
     </svg>
 
     <!-- Custom JS -->
-    <script src="app.js?v=fresh_v40" defer></script>
+    <script src="app.js?v=fresh_v42" defer></script>
 </body>
 </html>

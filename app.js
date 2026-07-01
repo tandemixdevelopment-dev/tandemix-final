@@ -1230,14 +1230,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // [V1] Animated Particle Background
     // ==========================================
+    let animId = null;
+    let isAnimating = true;
     const canvas = document.getElementById('hero-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let particles = [];
         let numParticles = window.innerWidth < 768 ? 30 : 90;
         let mouseX = -1000, mouseY = -1000;
-        let animId = null;
-        let isAnimating = true;
+        animId = null;
+        isAnimating = true;
 
         const colors = ['#00d4ff', '#8a2be2'];
 
