@@ -2834,38 +2834,91 @@ document.addEventListener('DOMContentLoaded', () => {
         function updateStars(rating) {
             stars.forEach(star => {
                 const val = parseInt(star.getAttribute('data-rating'));
+                const svg = star.querySelector('svg');
+                if (!svg) return;
+                
                 if (val <= rating) {
                     star.classList.add('active');
+                    star.classList.remove('half');
+                    svg.style.fill = '#ffb800';
+                } else if (val - 0.5 === rating) {
+                    star.classList.add('active', 'half');
+                    svg.style.fill = 'url(#half-star-grad)';
                 } else {
-                    star.classList.remove('active');
+                    star.classList.remove('active', 'half');
+                    svg.style.fill = 'rgba(255, 255, 255, 0.18)';
+                }
+            });
+        }
+        
+        function previewStars(rating) {
+            stars.forEach(star => {
+                const val = parseInt(star.getAttribute('data-rating'));
+                const svg = star.querySelector('svg');
+                if (!svg) return;
+                
+                if (val <= rating) {
+                    star.classList.add('hovered');
+                    star.classList.remove('hovered-half');
+                    svg.style.fill = '#ffb800';
+                } else if (val - 0.5 === rating) {
+                    star.classList.add('hovered', 'hovered-half');
+                    svg.style.fill = 'url(#half-star-grad)';
+                } else {
+                    star.classList.remove('hovered', 'hovered-half');
+                    // Revert to active lock state
+                    const isStarred = star.classList.contains('active');
+                    const isHalfStarred = star.classList.contains('half');
+                    if (isStarred) {
+                        svg.style.fill = isHalfStarred ? 'url(#half-star-grad)' : '#ffb800';
+                    } else {
+                        svg.style.fill = 'rgba(255, 255, 255, 0.18)';
+                    }
                 }
             });
         }
         
         stars.forEach(star => {
-            // Click to lock rating value
-            star.addEventListener('click', () => {
-                const val = parseInt(star.getAttribute('data-rating'));
+            // Click to lock rating value (supports half stars)
+            star.addEventListener('click', (e) => {
+                const rect = star.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const isHalf = clickX < rect.width / 2;
+                
+                const baseVal = parseInt(star.getAttribute('data-rating'));
+                const val = isHalf ? (baseVal - 0.5) : baseVal;
+                
                 ratingValueInput.value = val;
                 updateStars(val);
             });
             
-            // Hover to preview stars highlight
-            star.addEventListener('mouseenter', () => {
-                const hoverVal = parseInt(star.getAttribute('data-rating'));
-                stars.forEach(s => {
-                    const val = parseInt(s.getAttribute('data-rating'));
-                    if (val <= hoverVal) {
-                        s.classList.add('hovered');
-                    } else {
-                        s.classList.remove('hovered');
-                    }
-                });
+            // Hover movement to preview half stars
+            star.addEventListener('mousemove', (e) => {
+                const rect = star.getBoundingClientRect();
+                const hoverX = e.clientX - rect.left;
+                const isHalf = hoverX < rect.width / 2;
+                
+                const baseVal = parseInt(star.getAttribute('data-rating'));
+                const hoverVal = isHalf ? (baseVal - 0.5) : baseVal;
+                
+                previewStars(hoverVal);
             });
         });
         
         ratingStarsInput.addEventListener('mouseleave', () => {
-            stars.forEach(s => s.classList.remove('hovered'));
+            stars.forEach(star => {
+                star.classList.remove('hovered', 'hovered-half');
+                const svg = star.querySelector('svg');
+                if (svg) {
+                    const isStarred = star.classList.contains('active');
+                    const isHalfStarred = star.classList.contains('half');
+                    if (isStarred) {
+                        svg.style.fill = isHalfStarred ? 'url(#half-star-grad)' : '#ffb800';
+                    } else {
+                        svg.style.fill = 'rgba(255, 255, 255, 0.18)';
+                    }
+                }
+            });
         });
         
         // 2. Submit form behavior
@@ -2884,10 +2937,17 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const name = nameInput ? nameInput.value.trim() : '';
             const company = companyInput ? companyInput.value.trim() : '';
-            const rating = parseInt(ratingValueInput.value) || 5;
+            const rating = parseFloat(ratingValueInput.value) || 0;
             const text = textInput ? textInput.value.trim() : '';
             
             if (!name || !company || !text) return;
+            
+            if (rating <= 0) {
+                reviewStatusMsg.textContent = currentLang === 'ru' ? "Пожалуйста, выберите оценку." : (currentLang === 'ro' ? "Vă rugăm să selectați o evaluare." : "Please select a rating.");
+                reviewStatusMsg.className = 'form-status error';
+                reviewStatusMsg.style.display = 'block';
+                return;
+            }
             
             submitBtn.disabled = true;
             submitBtn.classList.add('loading');
@@ -2924,8 +2984,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Reset form state
                 reviewForm.reset();
-                ratingValueInput.value = 5;
-                updateStars(5);
+                ratingValueInput.value = 0;
+                updateStars(0);
                 
                 // Autoclose modal after 2.5s
                 setTimeout(() => {
