@@ -31,7 +31,7 @@
     <link rel="icon" type="image/jpeg" href="assets/logo_square.jpg">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css?v=fresh_v26">
+    <link rel="stylesheet" href="style.css?v=fresh_v27">
 
     <!-- EmailJS Integration -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
@@ -71,7 +71,7 @@
                     <button class="lang-btn" data-lang="en">EN</button>
                 </div>
                 <a href="#contacts" class="btn btn-glow" data-i18n="nav.btn.contact">Связаться</a>
-                <button class="btn btn-faq" id="faq-btn">FAQ</button>
+                <button class="btn btn-faq" id="faq-btn" onclick="document.getElementById('faq-modal-overlay').classList.add('active'); document.body.style.overflow = 'hidden';">FAQ</button>
                 <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Открыть меню" aria-expanded="false">
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -1225,9 +1225,9 @@
     </footer>
 
     <!-- FAQ Modal (C3) -->
-    <div class="faq-modal-overlay" id="faq-modal-overlay">
+    <div class="faq-modal-overlay" id="faq-modal-overlay" onclick="if (event.target === this) { this.classList.remove('active'); document.body.style.overflow = ''; }">
         <div class="faq-modal" role="dialog" aria-labelledby="faq-modal-title" aria-modal="true">
-            <button class="faq-modal-close" id="faq-modal-close" aria-label="Закрыть модальное окно">
+            <button class="faq-modal-close" id="faq-modal-close" onclick="document.getElementById('faq-modal-overlay').classList.remove('active'); document.body.style.overflow = '';" aria-label="Закрыть модальное окно">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -1317,6 +1317,6 @@
     </div>
 
     <!-- Custom JS -->
-    <script src="app.js?v=fresh_v26" defer></script>
+    <script src="app.js?v=fresh_v27" defer></script>
 </body>
 </html>
