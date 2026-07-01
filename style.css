@@ -4722,15 +4722,18 @@ textarea {
     line-height: 1.4;
 }
 
-.faq-icon-arrow {
+.faq-modal-icon {
     position: relative;
     width: 18px;
     height: 18px;
     transition: transform 0.3s ease;
     flex-shrink: 0;
+    margin-right: 0; /* reset margin-right from old chevron */
+    border: none !important; /* clear chevron border styles */
+    transform: none; /* clear chevron transform rotation */
 }
 
-.faq-icon-arrow::before, .faq-icon-arrow::after {
+.faq-modal-icon::before, .faq-modal-icon::after {
     content: '';
     position: absolute;
     background: currentColor;
@@ -4738,25 +4741,25 @@ textarea {
     transition: all 0.3s ease;
 }
 
-.faq-icon-arrow::before {
+.faq-modal-icon::before {
     top: 8px;
     left: 2px;
     width: 14px;
     height: 2px;
 }
 
-.faq-icon-arrow::after {
+.faq-modal-icon::after {
     top: 2px;
     left: 8px;
     width: 2px;
     height: 14px;
 }
 
-.faq-item.active .faq-icon-arrow {
+.faq-item.active .faq-modal-icon {
     transform: rotate(180deg);
 }
 
-.faq-item.active .faq-icon-arrow::after {
+.faq-item.active .faq-modal-icon::after {
     transform: scaleY(0);
     opacity: 0;
 }
