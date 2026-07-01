@@ -8,7 +8,7 @@ password = 'T9e6O6D-.5Fanc'
 remote_dir = 'public_html'
 local_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-files_to_upload = ['app.js', 'style.css', 'index.html', 'assets/maxim.jpg', 'assets/vitya.jpg']
+files_to_upload = ['app.js', 'style.css', 'index.html', 'save_review.php', 'assets/maxim.jpg', 'assets/vitya.jpg']
 
 try:
     print("Connecting to FTP...")
@@ -19,6 +19,14 @@ try:
     # Change directory to remote_dir
     ftp.cwd(remote_dir)
     print(f"Changed remote directory to {remote_dir}")
+    
+    # Safely initialize reviews.json if it doesn't exist
+    remote_files = ftp.nlst()
+    if 'reviews.json' not in remote_files:
+        files_to_upload.append('reviews.json')
+        print("reviews.json not found on remote server. Will initialize.")
+    else:
+        print("reviews.json already exists on remote server. Skipping initialization to preserve database.")
     
     for filename in files_to_upload:
         local_path = os.path.join(local_dir, filename)

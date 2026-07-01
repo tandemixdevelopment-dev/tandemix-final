@@ -2328,9 +2328,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const initials = authorName.trim().split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'U';
             
             let starsHTML = '';
-            for (let i = 0; i < 5; i++) {
-                const opacity = i < rating ? '1' : '0.2';
-                starsHTML += `<svg class="star-icon" width="16" height="16" viewBox="0 0 24 24" style="opacity: ${opacity};"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    starsHTML += `<svg class="star-icon" width="16" height="16" viewBox="0 0 24 24" style="fill: #ffb800;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
+                } else if (i - 0.5 === rating) {
+                    starsHTML += `<svg class="star-icon" width="16" height="16" viewBox="0 0 24 24" style="fill: url(#half-star-grad);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
+                } else {
+                    starsHTML += `<svg class="star-icon" width="16" height="16" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 0.18);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
+                }
             }
             
             card.innerHTML = `
@@ -2355,6 +2360,51 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         
         rebuildDots();
+
+        // Fetch dynamically saved reviews from server
+        fetch('reviews.json')
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    data.forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = 'testimonial-card';
+                        
+                        const initials = item.name.trim().split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'U';
+                        
+                        let starsHTML = '';
+                        for (let i = 1; i <= 5; i++) {
+                            if (i <= item.rating) {
+                                starsHTML += `<svg class="star-icon" width="16" height="16" viewBox="0 0 24 24" style="fill: #ffb800;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
+                            } else if (i - 0.5 === item.rating) {
+                                starsHTML += `<svg class="star-icon" width="16" height="16" viewBox="0 0 24 24" style="fill: url(#half-star-grad);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
+                            } else {
+                                starsHTML += `<svg class="star-icon" width="16" height="16" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 0.18);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
+                            }
+                        }
+                        
+                        card.innerHTML = `
+                            <div class="testimonial-header">
+                                <div class="testimonial-avatar" style="background: var(--gradient-primary); font-weight: 700; color: #fff; display: flex; align-items: center; justify-content: center;">${initials}</div>
+                                <div class="testimonial-meta">
+                                    <h4>${item.name}</h4>
+                                    <span>${item.company}</span>
+                                </div>
+                                <div class="testimonial-stars">
+                                    ${starsHTML}
+                                </div>
+                            </div>
+                            <p class="testimonial-text">"${item.message}"</p>
+                        `;
+                        track.appendChild(card);
+                        cards.push(card);
+                    });
+                    
+                    rebuildDots();
+                    goTo(0);
+                }
+            })
+            .catch(err => console.log('No reviews database found or loaded.'));
         
         document.getElementById('t-prev')?.addEventListener('click', () => goTo(currentIndex - 1));
         document.getElementById('t-next')?.addEventListener('click', () => goTo(currentIndex + 1));
@@ -2952,23 +3002,37 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
             submitBtn.classList.add('loading');
             
-            // Send details using FormSubmit ajax
-            fetch("https://formsubmit.co/ajax/tandemixdevelopment@gmail.com", {
+            // Save to local database via PHP first
+            fetch("save_review.php", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    _subject: "Новый отзыв о Tandemix Dev",
-                    "Имя клиента": name,
-                    "Компания / Сайт": company,
-                    "Оценка (звезд)": rating,
-                    "Текст отзыва": text
+                    name: name,
+                    company: company,
+                    rating: rating,
+                    message: text
                 })
             })
             .then(res => res.json())
-            .then(data => {
+            .then(phpData => {
+                // Send email notification in the background
+                fetch("https://formsubmit.co/ajax/tandemixdevelopment@gmail.com", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        _subject: "Новый отзыв о Tandemix Dev",
+                        "Имя клиента": name,
+                        "Компания / Сайт": company,
+                        "Оценка (звезд)": rating,
+                        "Текст отзыва": text
+                    })
+                }).catch(e => console.log("Email notification failed."));
+
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('loading');
                 
@@ -2985,7 +3049,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Reset form state
                 reviewForm.reset();
                 ratingValueInput.value = 0;
-                updateStars(0);
+                
+                // Reset inline star elements display
+                if (typeof updateStarDisplay === 'function') {
+                    updateStarDisplay(0);
+                } else {
+                    updateStars(0);
+                }
                 
                 // Autoclose modal after 2.5s
                 setTimeout(() => {
