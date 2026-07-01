@@ -21,19 +21,19 @@ $messages = [
     'ru' => [
         'spam' => 'Обнаружена спам-активность.',
         'invalid' => 'Некорректно заполнены поля формы.',
-        'links' => 'Отзывы не могут содержать активные ссылки (http/https).',
+        'links' => 'Отзывы не могут содержать ссылки или адреса сайтов.',
         'rate_limit' => 'Вы отправляете отзывы слишком часто. Пожалуйста, подождите 3 минуты.'
     ],
     'en' => [
         'spam' => 'Spam activity detected.',
         'invalid' => 'Invalid form input data.',
-        'links' => 'Reviews cannot contain active HTTP/HTTPS links.',
+        'links' => 'Reviews cannot contain website links or domain names.',
         'rate_limit' => 'You are posting reviews too fast. Please wait 3 minutes.'
     ],
     'ro' => [
         'spam' => 'Activitate de spam detectată.',
         'invalid' => 'Date de intrare nevalide.',
-        'links' => 'Recenziile nu pot conține linkuri active (http/https).',
+        'links' => 'Recenziile nu pot conține link-uri sau nume de domenii web.',
         'rate_limit' => 'Trimiteți recenzii prea repede. Vă rugăm să așteptați 3 minute.'
     ]
 ];
@@ -58,10 +58,13 @@ if (empty($name) || empty($company) || empty($message) || $rating <= 0 || $ratin
     exit;
 }
 
-// 2. Link blocking (only blocks active http/https/ftp links, allowing plain text domain names like vector-agency.com)
+// 2. Link blocking (anti-spam link injection - complete ban on any web links/domains ending with common extensions)
 $hasLinks = preg_match('/https?:\/\//i', $message) || 
              preg_match('/https?:\/\//i', $name) ||
              preg_match('/https?:\/\//i', $company) ||
+             preg_match('/\b[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}\b/i', $message) ||
+             preg_match('/\b[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}\b/i', $name) ||
+             preg_match('/\b[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}\b/i', $company) ||
              strpos($message, '<a') !== false ||
              strpos($message, '[url') !== false;
 if ($hasLinks) {
