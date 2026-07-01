@@ -2989,6 +2989,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const company = companyInput ? companyInput.value.trim() : '';
             const rating = parseFloat(ratingValueInput.value) || 0;
             const text = textInput ? textInput.value.trim() : '';
+            const honeypotInput = document.getElementById('review-honeypot');
+            const honeypot = honeypotInput ? honeypotInput.value : '';
             
             if (!name || !company || !text) return;
             
@@ -3012,10 +3014,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     name: name,
                     company: company,
                     rating: rating,
-                    message: text
+                    message: text,
+                    honeypot: honeypot
                 })
             })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    return res.json().then(data => { throw new Error(data.error || "Error saving review"); });
+                }
+                return res.json();
+            })
             .then(phpData => {
                 // Send email notification in the background
                 fetch("https://formsubmit.co/ajax/tandemixdevelopment@gmail.com", {
@@ -3068,7 +3076,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('loading');
                 
-                reviewStatusMsg.textContent = window.TRANSLATIONS[currentLang]["testimonials.form.error"];
+                reviewStatusMsg.textContent = err.message || window.TRANSLATIONS[currentLang]["testimonials.form.error"];
                 reviewStatusMsg.className = 'form-status error';
                 reviewStatusMsg.style.display = 'block';
             });

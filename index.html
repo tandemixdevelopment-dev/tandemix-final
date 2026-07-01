@@ -31,7 +31,7 @@
     <link rel="icon" type="image/jpeg" href="assets/logo_square.jpg">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css?v=fresh_v33">
+    <link rel="stylesheet" href="style.css?v=fresh_v34">
 
     <!-- EmailJS Integration -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
@@ -1240,6 +1240,10 @@
             </div>
             
             <form id="review-form" class="tandemix-contact-form" style="padding: 0; background: transparent; border: none; box-shadow: none; margin-top: 1.5rem;">
+                <!-- Honeypot anti-spam field -->
+                <div style="display: none;">
+                    <input type="text" id="review-honeypot" tabindex="-1" autocomplete="off">
+                </div>
                 <div class="form-group">
                     <label for="review-name" class="form-label" data-i18n="testimonials.form.name">Ваше имя</label>
                     <input type="text" id="review-name" class="form-input" required placeholder="Иван Иванов">
@@ -1463,6 +1467,6 @@
     </svg>
 
     <!-- Custom JS -->
-    <script src="app.js?v=fresh_v33" defer></script>
+    <script src="app.js?v=fresh_v34" defer></script>
 </body>
 </html>
