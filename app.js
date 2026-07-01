@@ -2369,11 +2369,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="testimonial-text">"${text}"</p>
             `;
             
-            track.appendChild(card);
-            cards.push(card);
+            // Insert at the beginning of the track (newest first!)
+            track.insertBefore(card, track.firstChild);
+            cards.unshift(card);
             
             rebuildDots();
-            goTo(cards.length - 1);
+            goTo(0);
         };
         
         rebuildDots();
@@ -2382,8 +2383,20 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch('reviews.json?t=' + Date.now())
             .then(res => res.json())
             .then(data => {
-                if (Array.isArray(data)) {
-                    data.forEach(item => {
+                if (Array.isArray(data) && data.length > 0) {
+                    // Save static cards
+                    const staticCards = Array.from(track.children);
+                    
+                    // Clear track
+                    track.innerHTML = '';
+                    
+                    // Reset cards array
+                    cards.length = 0;
+                    
+                    // Add new reviews first (newest first, which is the end of the array, so we reverse it)
+                    const reversedData = [...data].reverse();
+                    
+                    reversedData.forEach(item => {
                         const card = document.createElement('div');
                         card.className = 'testimonial-card';
                         
@@ -2413,6 +2426,12 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                             <p class="testimonial-text">"${item.message}"</p>
                         `;
+                        track.appendChild(card);
+                        cards.push(card);
+                    });
+                    
+                    // Add static cards back
+                    staticCards.forEach(card => {
                         track.appendChild(card);
                         cards.push(card);
                     });
