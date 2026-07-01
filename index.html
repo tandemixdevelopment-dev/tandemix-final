@@ -31,7 +31,7 @@
     <link rel="icon" type="image/jpeg" href="assets/logo_square.jpg">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css?v=fresh_v25">
+    <link rel="stylesheet" href="style.css?v=fresh_v26">
 
     <!-- EmailJS Integration -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
@@ -71,6 +71,7 @@
                     <button class="lang-btn" data-lang="en">EN</button>
                 </div>
                 <a href="#contacts" class="btn btn-glow" data-i18n="nav.btn.contact">Связаться</a>
+                <button class="btn btn-faq" id="faq-btn">FAQ</button>
                 <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Открыть меню" aria-expanded="false">
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -1223,6 +1224,85 @@
         </div>
     </footer>
 
+    <!-- FAQ Modal (C3) -->
+    <div class="faq-modal-overlay" id="faq-modal-overlay">
+        <div class="faq-modal" role="dialog" aria-labelledby="faq-modal-title" aria-modal="true">
+            <button class="faq-modal-close" id="faq-modal-close" aria-label="Закрыть модальное окно">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="faq-modal-header">
+                <h2 class="faq-modal-title" id="faq-modal-title" data-i18n="faq.title">Часто задаваемые вопросы</h2>
+                <p class="faq-modal-subtitle" data-i18n="faq.subtitle">Ответы на популярные вопросы о процессе разработки, стоимости и наших гарантиях.</p>
+                <div class="section-glow-line" style="margin: 1.5rem auto 0 auto; width: 80px; height: 2px; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));"></div>
+            </div>
+            <div class="faq-accordion">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item">
+                    <button class="faq-trigger" aria-expanded="false">
+                        <span class="faq-question" data-i18n="faq.q1">Сколько стоит разработка?</span>
+                        <span class="faq-icon-arrow"></span>
+                    </button>
+                    <div class="faq-content">
+                        <div class="faq-content-inner">
+                            <p data-i18n="faq.a1">Стоимость рассчитывается индивидуально. Вы можете использовать наш интерактивный калькулятор для предварительной оценки — проекты начинаются от $250.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ Item 2 -->
+                <div class="faq-item">
+                    <button class="faq-trigger" aria-expanded="false">
+                        <span class="faq-question" data-i18n="faq.q2">Какие гарантии вы предоставляете?</span>
+                        <span class="faq-icon-arrow"></span>
+                    </button>
+                    <div class="faq-content">
+                        <div class="faq-content-inner">
+                            <p data-i18n="faq.a2">Мы гарантируем высокое качество кода и предоставляем 30 дней бесплатной технической поддержки после запуска проекта.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ Item 3 -->
+                <div class="faq-item">
+                    <button class="faq-trigger" aria-expanded="false">
+                        <span class="faq-question" data-i18n="faq.q3">Работаете ли вы с иностранными клиентами?</span>
+                        <span class="faq-icon-arrow"></span>
+                    </button>
+                    <div class="faq-content">
+                        <div class="faq-content-inner">
+                            <p data-i18n="faq.a3">Да, мы работаем удаленно с клиентами по всему миру. Все коммуникации и договоры могут быть оформлены на русском, румынском или английском языках.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ Item 4 -->
+                <div class="faq-item">
+                    <button class="faq-trigger" aria-expanded="false">
+                        <span class="faq-question" data-i18n="faq.q4">Как происходит оплата?</span>
+                        <span class="faq-icon-arrow"></span>
+                    </button>
+                    <div class="faq-content">
+                        <div class="faq-content-inner">
+                            <p data-i18n="faq.a4">Обычно мы работаем по схеме: 50% предоплата перед началом проектирования и дизайна, и оставшиеся 50% после полной сдачи и тестирования проекта.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ Item 5 -->
+                <div class="faq-item">
+                    <button class="faq-trigger" aria-expanded="false">
+                        <span class="faq-question" data-i18n="faq.q5">Что такое Vibe Coding?</span>
+                        <span class="faq-icon-arrow"></span>
+                    </button>
+                    <div class="faq-content">
+                        <div class="faq-content-inner">
+                            <p data-i18n="faq.a5">Vibe Coding — это современный метод разработки, сочетающий мощь искусственного интеллекта и экспертизу опытного инженера. Мы формулируем требования голосом или текстом, AI генерирует чистый код, а разработчик дорабатывает интерфейс до идеала.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scroll To Top Button -->
     <button class="scroll-top-btn" id="scroll-top" aria-label="Наверх">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1237,6 +1317,6 @@
     </div>
 
     <!-- Custom JS -->
-    <script src="app.js?v=fresh_v25" defer></script>
+    <script src="app.js?v=fresh_v26" defer></script>
 </body>
 </html>

@@ -2673,4 +2673,87 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     })();
 
+    // ==========================================
+    // [C3] FAQ Modal & Accordion Logic
+    // ==========================================
+    (function initFaqModal() {
+        const faqBtn = document.getElementById('faq-btn');
+        const faqModalOverlay = document.getElementById('faq-modal-overlay');
+        const faqModalClose = document.getElementById('faq-modal-close');
+        
+        if (!faqBtn || !faqModalOverlay || !faqModalClose) return;
+        
+        function openModal() {
+            faqModalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            faqModalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Close all active accordion items inside modal when closed
+            const faqItems = faqModalOverlay.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                item.classList.remove('active');
+                item.querySelector('.faq-trigger')?.setAttribute('aria-expanded', 'false');
+                const content = item.querySelector('.faq-content');
+                if (content) content.style.maxHeight = null;
+            });
+        }
+        
+        faqBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal();
+        });
+        
+        faqModalClose.addEventListener('click', closeModal);
+        
+        faqModalOverlay.addEventListener('click', (e) => {
+            if (e.target === faqModalOverlay) {
+                closeModal();
+            }
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && faqModalOverlay.classList.contains('active')) {
+                closeModal();
+            }
+        });
+        
+        // Accordion logic inside modal
+        const faqItems = faqModalOverlay.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const trigger = item.querySelector('.faq-trigger');
+            const content = item.querySelector('.faq-content');
+            
+            if (trigger && content) {
+                trigger.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                            otherItem.querySelector('.faq-trigger')?.setAttribute('aria-expanded', 'false');
+                            const otherContent = otherItem.querySelector('.faq-content');
+                            if (otherContent) otherContent.style.maxHeight = null;
+                        }
+                    });
+                    
+                    // Toggle current item
+                    if (isActive) {
+                        item.classList.remove('active');
+                        trigger.setAttribute('aria-expanded', 'false');
+                        content.style.maxHeight = null;
+                    } else {
+                        item.classList.add('active');
+                        trigger.setAttribute('aria-expanded', 'true');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            }
+        });
+    })();
+
 });
