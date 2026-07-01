@@ -258,7 +258,16 @@ window.TRANSLATIONS = {
     "portfolio.card6.mockup.livingroom": "Гостиная",
     "portfolio.card6.mockup.bedroom": "Спальня",
     "portfolio.card6.mockup.on": "Вкл",
-    "portfolio.card6.mockup.off": "Выкл"
+    "portfolio.card6.mockup.off": "Выкл",
+    "testimonials.modal.title": "Оставить отзыв",
+    "testimonials.modal.subtitle": "Поделитесь вашим мнением о нашей работе",
+    "testimonials.form.name": "Ваше имя",
+    "testimonials.form.company": "Компания / Название сайта",
+    "testimonials.form.rating": "Ваша оценка",
+    "testimonials.form.text": "Текст отзыва",
+    "testimonials.form.submit": "Отправить отзыв",
+    "testimonials.form.success": "Спасибо! Ваш отзыв успешно опубликован на сайте.",
+    "testimonials.form.error": "Ошибка при отправке отзыва. Пожалуйста, попробуйте еще раз."
   },
   en: {
     "nav.concept": "Concept",
@@ -514,7 +523,16 @@ window.TRANSLATIONS = {
     "portfolio.card6.mockup.livingroom": "Living Room",
     "portfolio.card6.mockup.bedroom": "Bedroom",
     "portfolio.card6.mockup.on": "ON",
-    "portfolio.card6.mockup.off": "OFF"
+    "portfolio.card6.mockup.off": "OFF",
+    "testimonials.modal.title": "Leave a Review",
+    "testimonials.modal.subtitle": "Share your opinion about our work",
+    "testimonials.form.name": "Your Name",
+    "testimonials.form.company": "Company / Website Name",
+    "testimonials.form.rating": "Your Rating",
+    "testimonials.form.text": "Review Text",
+    "testimonials.form.submit": "Submit Review",
+    "testimonials.form.success": "Thank you! Your review has been successfully published on the site.",
+    "testimonials.form.error": "Error submitting review. Please try again."
   },
   ro: {
     "nav.concept": "Concept",
@@ -770,7 +788,16 @@ window.TRANSLATIONS = {
     "portfolio.card6.mockup.livingroom": "Living",
     "portfolio.card6.mockup.bedroom": "Dormitor",
     "portfolio.card6.mockup.on": "Pornit",
-    "portfolio.card6.mockup.off": "Oprit"
+    "portfolio.card6.mockup.off": "Oprit",
+    "testimonials.modal.title": "Lasă o recenzie",
+    "testimonials.modal.subtitle": "Împărtășește-ți opinia despre munca noastră",
+    "testimonials.form.name": "Numele tău",
+    "testimonials.form.company": "Companie / Numele site-ului",
+    "testimonials.form.rating": "Evaluarea ta",
+    "testimonials.form.text": "Textul recenziei",
+    "testimonials.form.submit": "Trimite recenzia",
+    "testimonials.form.success": "Vă mulțumim! Recenzia dvs. a fost publicată cu succes pe site.",
+    "testimonials.form.error": "Eroare la trimiterea recenziei. Vă rugăm să încercați din nou."
   }
 };
 
@@ -2294,6 +2321,39 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
+        window.addTestimonial = function(authorName, roleText, rating, text) {
+            const card = document.createElement('div');
+            card.className = 'testimonial-card';
+            
+            const initials = authorName.trim().split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'U';
+            
+            let starsHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const opacity = i < rating ? '1' : '0.2';
+                starsHTML += `<svg class="star-icon" width="16" height="16" viewBox="0 0 24 24" style="opacity: ${opacity};"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
+            }
+            
+            card.innerHTML = `
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar" style="background: var(--gradient-primary); font-weight: 700; color: #fff; display: flex; align-items: center; justify-content: center;">${initials}</div>
+                    <div class="testimonial-meta">
+                        <h4>${authorName}</h4>
+                        <span>${roleText}</span>
+                    </div>
+                    <div class="testimonial-stars">
+                        ${starsHTML}
+                    </div>
+                </div>
+                <p class="testimonial-text">"${text}"</p>
+            `;
+            
+            track.appendChild(card);
+            cards.push(card);
+            
+            rebuildDots();
+            goTo(cards.length - 1);
+        };
+        
         rebuildDots();
         
         document.getElementById('t-prev')?.addEventListener('click', () => goTo(currentIndex - 1));
@@ -2752,6 +2812,143 @@ document.addEventListener('DOMContentLoaded', () => {
                         content.style.maxHeight = content.scrollHeight + 'px';
                     }
                 });
+            }
+        });
+    })();
+
+    // ==========================================
+    // [C3] Review Modal & Form Submission Logic
+    // ==========================================
+    (function initReviewModal() {
+        const reviewModalOverlay = document.getElementById('review-modal-overlay');
+        const reviewForm = document.getElementById('review-form');
+        const ratingStarsInput = document.getElementById('rating-stars-input');
+        const ratingValueInput = document.getElementById('review-rating-value');
+        const reviewStatusMsg = document.getElementById('review-status-msg');
+        
+        if (!reviewModalOverlay || !reviewForm || !ratingStarsInput || !ratingValueInput) return;
+        
+        // 1. Interactive Star Rating selector logic
+        const stars = ratingStarsInput.querySelectorAll('.rating-star');
+        
+        function updateStars(rating) {
+            stars.forEach(star => {
+                const val = parseInt(star.getAttribute('data-rating'));
+                if (val <= rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+        
+        stars.forEach(star => {
+            // Click to lock rating value
+            star.addEventListener('click', () => {
+                const val = parseInt(star.getAttribute('data-rating'));
+                ratingValueInput.value = val;
+                updateStars(val);
+            });
+            
+            // Hover to preview stars highlight
+            star.addEventListener('mouseenter', () => {
+                const hoverVal = parseInt(star.getAttribute('data-rating'));
+                stars.forEach(s => {
+                    const val = parseInt(s.getAttribute('data-rating'));
+                    if (val <= hoverVal) {
+                        s.classList.add('hovered');
+                    } else {
+                        s.classList.remove('hovered');
+                    }
+                });
+            });
+        });
+        
+        ratingStarsInput.addEventListener('mouseleave', () => {
+            stars.forEach(s => s.classList.remove('hovered'));
+        });
+        
+        // 2. Submit form behavior
+        reviewForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            reviewStatusMsg.style.display = 'none';
+            reviewStatusMsg.className = 'form-status';
+            
+            const submitBtn = reviewForm.querySelector('button[type="submit"]');
+            if (!submitBtn) return;
+            
+            const nameInput = document.getElementById('review-name');
+            const companyInput = document.getElementById('review-company');
+            const textInput = document.getElementById('review-text');
+            
+            const name = nameInput ? nameInput.value.trim() : '';
+            const company = companyInput ? companyInput.value.trim() : '';
+            const rating = parseInt(ratingValueInput.value) || 5;
+            const text = textInput ? textInput.value.trim() : '';
+            
+            if (!name || !company || !text) return;
+            
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
+            
+            // Send details using FormSubmit ajax
+            fetch("https://formsubmit.co/ajax/tandemixdevelopment@gmail.com", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    _subject: "Новый отзыв о Tandemix Dev",
+                    "Имя клиента": name,
+                    "Компания / Сайт": company,
+                    "Оценка (звезд)": rating,
+                    "Текст отзыва": text
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+                
+                // Add dynamically to local slider track!
+                if (typeof window.addTestimonial === 'function') {
+                    window.addTestimonial(name, company, rating, text);
+                }
+                
+                // Show success status msg
+                reviewStatusMsg.textContent = window.TRANSLATIONS[currentLang]["testimonials.form.success"];
+                reviewStatusMsg.className = 'form-status success';
+                reviewStatusMsg.style.display = 'block';
+                
+                // Reset form state
+                reviewForm.reset();
+                ratingValueInput.value = 5;
+                updateStars(5);
+                
+                // Autoclose modal after 2.5s
+                setTimeout(() => {
+                    reviewModalOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                    reviewStatusMsg.style.display = 'none';
+                }, 2500);
+            })
+            .catch(err => {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+                
+                reviewStatusMsg.textContent = window.TRANSLATIONS[currentLang]["testimonials.form.error"];
+                reviewStatusMsg.className = 'form-status error';
+                reviewStatusMsg.style.display = 'block';
+            });
+        });
+        
+        // Escape key to close review modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && reviewModalOverlay.classList.contains('active')) {
+                reviewModalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
             }
         });
     })();
