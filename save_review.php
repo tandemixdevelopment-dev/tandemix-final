@@ -9,7 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$input = json_decode(file_get_contents('php://input'), true);
+$rawInput = file_get_contents('php://input');
+file_put_contents('debug_log.txt', date('Y-m-d H:i:s') . " - Input: " . $rawInput . "\n", FILE_APPEND);
+$input = json_decode($rawInput, true);
 
 $lang = isset($input['lang']) ? trim($input['lang']) : 'ru';
 if ($lang !== 'ru' && $lang !== 'en' && $lang !== 'ro') {

@@ -2378,8 +2378,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         rebuildDots();
 
-        // Fetch dynamically saved reviews from server
-        fetch('reviews.json')
+        // Fetch dynamically saved reviews from server (using cache buster)
+        fetch('reviews.json?t=' + Date.now())
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data)) {
