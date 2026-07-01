@@ -267,7 +267,10 @@ window.TRANSLATIONS = {
     "testimonials.form.text": "Текст отзыва",
     "testimonials.form.submit": "Отправить отзыв",
     "testimonials.form.success": "Спасибо! Ваш отзыв успешно опубликован на сайте.",
-    "testimonials.form.error": "Ошибка при отправке отзыва. Пожалуйста, попробуйте еще раз."
+    "testimonials.form.error": "Ошибка при отправке отзыва. Пожалуйста, попробуйте еще раз.",
+    "testimonials.form.name.placeholder": "Иван Иванов",
+    "testimonials.form.company.placeholder": "ООО 'Вектор'",
+    "testimonials.form.text.placeholder": "Напишите ваши впечатления о сотрудничестве..."
   },
   en: {
     "nav.concept": "Concept",
@@ -532,7 +535,10 @@ window.TRANSLATIONS = {
     "testimonials.form.text": "Review Text",
     "testimonials.form.submit": "Submit Review",
     "testimonials.form.success": "Thank you! Your review has been successfully published on the site.",
-    "testimonials.form.error": "Error submitting review. Please try again."
+    "testimonials.form.error": "Error submitting review. Please try again.",
+    "testimonials.form.name.placeholder": "John Doe",
+    "testimonials.form.company.placeholder": "Vector LLC",
+    "testimonials.form.text.placeholder": "Write your feedback about working with us..."
   },
   ro: {
     "nav.concept": "Concept",
@@ -797,7 +803,10 @@ window.TRANSLATIONS = {
     "testimonials.form.text": "Textul recenziei",
     "testimonials.form.submit": "Trimite recenzia",
     "testimonials.form.success": "Vă mulțumim! Recenzia dvs. a fost publicată cu succes pe site.",
-    "testimonials.form.error": "Eroare la trimiterea recenziei. Vă rugăm să încercați din nou."
+    "testimonials.form.error": "Eroare la trimiterea recenziei. Vă rugăm să încercați din nou.",
+    "testimonials.form.name.placeholder": "Ion Ionescu",
+    "testimonials.form.company.placeholder": "SRL 'Vector'",
+    "testimonials.form.text.placeholder": "Scrieți impresiile dumneavoastră despre colaborare..."
   }
 };
 
@@ -837,6 +846,14 @@ function setLanguage(lang) {
         const key = el.getAttribute('data-i18n');
         if (window.TRANSLATIONS[lang][key]) {
             el.innerHTML = window.TRANSLATIONS[lang][key];
+        }
+    });
+
+    // Translate placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (window.TRANSLATIONS[lang][key]) {
+            el.setAttribute('placeholder', window.TRANSLATIONS[lang][key]);
         }
     });
 

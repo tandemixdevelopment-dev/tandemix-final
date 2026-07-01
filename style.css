@@ -4807,3 +4807,7 @@ textarea {
     color: #ffb800 !important;
     filter: drop-shadow(0 0 5px rgba(255, 184, 0, 0.4));
 }
+
+#review-form .form-input::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+}
