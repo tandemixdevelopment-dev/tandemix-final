@@ -31,7 +31,7 @@
     <link rel="icon" type="image/jpeg" href="assets/logo_square.jpg">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css?v=fresh_v31">
+    <link rel="stylesheet" href="style.css?v=fresh_v32">
 
     <!-- EmailJS Integration -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
@@ -1250,12 +1250,99 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" data-i18n="testimonials.form.rating">Ваша оценка</label>
-                    <div class="star-rating-selector" id="rating-stars-input">
-                        <span class="rating-star" data-rating="1"><svg width="28" height="28" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 0.18);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>
-                        <span class="rating-star" data-rating="2"><svg width="28" height="28" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 0.18);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>
-                        <span class="rating-star" data-rating="3"><svg width="28" height="28" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 0.18);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>
-                        <span class="rating-star" data-rating="4"><svg width="28" height="28" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 0.18);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>
-                        <span class="rating-star" data-rating="5"><svg width="28" height="28" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 0.18);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>
+                    <script>
+                        function setFormRating(star, event, type) {
+                            const ratingStarsInput = document.getElementById('rating-stars-input');
+                            const ratingValueInput = document.getElementById('review-rating-value');
+                            if (!ratingStarsInput || !ratingValueInput) return;
+                            
+                            const rect = star.getBoundingClientRect();
+                            const clientX = event.clientX || (event.touches && event.touches[0] ? event.touches[0].clientX : rect.left + rect.width);
+                            const clickX = clientX - rect.left;
+                            const isHalf = clickX < rect.width / 2;
+                            
+                            const baseVal = parseInt(star.getAttribute('data-rating'));
+                            const val = isHalf ? (baseVal - 0.5) : baseVal;
+                            
+                            if (type === 'click') {
+                                ratingValueInput.value = val;
+                                updateStarDisplay(val);
+                            } else if (type === 'hover') {
+                                previewStarDisplay(val);
+                            }
+                        }
+                        
+                        function updateStarDisplay(rating) {
+                            const stars = document.querySelectorAll('#rating-stars-input .rating-star');
+                            stars.forEach(star => {
+                                const val = parseInt(star.getAttribute('data-rating'));
+                                const svg = star.querySelector('svg');
+                                if (!svg) return;
+                                
+                                if (val <= rating) {
+                                    star.classList.add('active');
+                                    star.classList.remove('half');
+                                    svg.style.fill = '#ffb800';
+                                } else if (val - 0.5 === rating) {
+                                    star.classList.add('active', 'half');
+                                    svg.style.fill = 'url(#half-star-grad)';
+                                } else {
+                                    star.classList.remove('active', 'half');
+                                    svg.style.fill = 'rgba(255, 255, 255, 0.18)';
+                                }
+                            });
+                        }
+                        
+                        function previewStarDisplay(rating) {
+                            const stars = document.querySelectorAll('#rating-stars-input .rating-star');
+                            stars.forEach(star => {
+                                const val = parseInt(star.getAttribute('data-rating'));
+                                const svg = star.querySelector('svg');
+                                if (!svg) return;
+                                
+                                if (val <= rating) {
+                                    star.classList.add('hovered');
+                                    star.classList.remove('hovered-half');
+                                    svg.style.fill = '#ffb800';
+                                } else if (val - 0.5 === rating) {
+                                    star.classList.add('hovered', 'hovered-half');
+                                    svg.style.fill = 'url(#half-star-grad)';
+                                } else {
+                                    star.classList.remove('hovered', 'hovered-half');
+                                    const isStarred = star.classList.contains('active');
+                                    const isHalfStarred = star.classList.contains('half');
+                                    if (isStarred) {
+                                        svg.style.fill = isHalfStarred ? 'url(#half-star-grad)' : '#ffb800';
+                                    } else {
+                                        svg.style.fill = 'rgba(255, 255, 255, 0.18)';
+                                    }
+                                }
+                            });
+                        }
+                        
+                        function clearStarHover() {
+                            const stars = document.querySelectorAll('#rating-stars-input .rating-star');
+                            stars.forEach(star => {
+                                star.classList.remove('hovered', 'hovered-half');
+                                const svg = star.querySelector('svg');
+                                if (svg) {
+                                    const isStarred = star.classList.contains('active');
+                                    const isHalfStarred = star.classList.contains('half');
+                                    if (isStarred) {
+                                        svg.style.fill = isHalfStarred ? 'url(#half-star-grad)' : '#ffb800';
+                                    } else {
+                                        svg.style.fill = 'rgba(255, 255, 255, 0.18)';
+                                    }
+                                }
+                            });
+                        }
+                    </script>
+                    <div class="star-rating-selector" id="rating-stars-input" onmouseleave="clearStarHover()">
+                        <span class="rating-star" data-rating="1" onclick="setFormRating(this, event, 'click')" onmousemove="setFormRating(this, event, 'hover')" ontouchstart="setFormRating(this, event, 'click')"><svg width="28" height="28" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 0.18);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>
+                        <span class="rating-star" data-rating="2" onclick="setFormRating(this, event, 'click')" onmousemove="setFormRating(this, event, 'hover')" ontouchstart="setFormRating(this, event, 'click')"><svg width="28" height="28" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 0.18);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>
+                        <span class="rating-star" data-rating="3" onclick="setFormRating(this, event, 'click')" onmousemove="setFormRating(this, event, 'hover')" ontouchstart="setFormRating(this, event, 'click')"><svg width="28" height="28" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 0.18);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>
+                        <span class="rating-star" data-rating="4" onclick="setFormRating(this, event, 'click')" onmousemove="setFormRating(this, event, 'hover')" ontouchstart="setFormRating(this, event, 'click')"><svg width="28" height="28" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 0.18);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>
+                        <span class="rating-star" data-rating="5" onclick="setFormRating(this, event, 'click')" onmousemove="setFormRating(this, event, 'hover')" ontouchstart="setFormRating(this, event, 'click')"><svg width="28" height="28" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 0.18);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>
                     </div>
                     <input type="hidden" id="review-rating-value" value="0">
                 </div>
@@ -1376,6 +1463,6 @@
     </svg>
 
     <!-- Custom JS -->
-    <script src="app.js?v=fresh_v31" defer></script>
+    <script src="app.js?v=fresh_v32" defer></script>
 </body>
 </html>
