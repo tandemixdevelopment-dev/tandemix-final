@@ -3015,7 +3015,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     company: company,
                     rating: rating,
                     message: text,
-                    honeypot: honeypot
+                    honeypot: honeypot,
+                    lang: currentLang
                 })
             })
             .then(res => {

@@ -11,11 +11,38 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $input = json_decode(file_get_contents('php://input'), true);
 
+$lang = isset($input['lang']) ? trim($input['lang']) : 'ru';
+if ($lang !== 'ru' && $lang !== 'en' && $lang !== 'ro') {
+    $lang = 'ru';
+}
+
+// Localized messages helper
+$messages = [
+    'ru' => [
+        'spam' => 'Обнаружена спам-активность.',
+        'invalid' => 'Некорректно заполнены поля формы.',
+        'links' => 'Отзывы не могут содержать активные ссылки (http/https).',
+        'rate_limit' => 'Вы отправляете отзывы слишком часто. Пожалуйста, подождите 3 минуты.'
+    ],
+    'en' => [
+        'spam' => 'Spam activity detected.',
+        'invalid' => 'Invalid form input data.',
+        'links' => 'Reviews cannot contain active HTTP/HTTPS links.',
+        'rate_limit' => 'You are posting reviews too fast. Please wait 3 minutes.'
+    ],
+    'ro' => [
+        'spam' => 'Activitate de spam detectată.',
+        'invalid' => 'Date de intrare nevalide.',
+        'links' => 'Recenziile nu pot conține linkuri active (http/https).',
+        'rate_limit' => 'Trimiteți recenzii prea repede. Vă rugăm să așteptați 3 minute.'
+    ]
+];
+
 // 1. Honeypot check (anti-bot)
 $honeypot = isset($input['honeypot']) ? trim($input['honeypot']) : '';
 if (!empty($honeypot)) {
     http_response_code(400);
-    echo json_encode(["error" => "Spam detected."]);
+    echo json_encode(["error" => $messages[$lang]['spam']]);
     exit;
 }
 
@@ -27,16 +54,19 @@ $message = isset($input['message']) ? trim($input['message']) : '';
 // Validation
 if (empty($name) || empty($company) || empty($message) || $rating <= 0 || $rating > 5) {
     http_response_code(400);
-    echo json_encode(["error" => "Invalid input data."]);
+    echo json_encode(["error" => $messages[$lang]['invalid']]);
     exit;
 }
 
-// 2. Link blocking (anti-spam link injection)
-$hasLinks = preg_match('/https?:\/\/[^\s]+|www\.[^\s]+|\b[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}\b/i', $message) || 
-             preg_match('/https?:\/\/[^\s]+|www\.[^\s]+/i', $name);
+// 2. Link blocking (only blocks active http/https/ftp links, allowing plain text domain names like vector-agency.com)
+$hasLinks = preg_match('/https?:\/\//i', $message) || 
+             preg_match('/https?:\/\//i', $name) ||
+             preg_match('/https?:\/\//i', $company) ||
+             strpos($message, '<a') !== false ||
+             strpos($message, '[url') !== false;
 if ($hasLinks) {
     http_response_code(400);
-    echo json_encode(["error" => "Reviews cannot contain website links."]);
+    echo json_encode(["error" => $messages[$lang]['links']]);
     exit;
 }
 
@@ -66,7 +96,7 @@ foreach ($reviews as $rev) {
         $timeDiff = $currentTime - $rev['timestamp'];
         if ($timeDiff < $cooldownSeconds) {
             http_response_code(429);
-            echo json_encode(["error" => "You are posting too fast. Please wait a few minutes."]);
+            echo json_encode(["error" => $messages[$lang]['rate_limit']]);
             exit;
         }
     }
